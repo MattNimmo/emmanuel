@@ -287,7 +287,7 @@
 
     <div class="loc-card" data-loc="SLP">
       <div class="loc-name" style="color:var(--slp)">SLP</div>
-      <div class="loc-label">St. Louis Park · 9am & 11am</div>
+      <div class="loc-label">Spring Lake Park · 9am & 11am</div>
       <div class="loc-stat" id="slp-avg">+0:36</div>
       <div class="loc-stat-label">avg mid-service variance</div>
       <div class="loc-badges">
@@ -306,9 +306,9 @@
       <div class="chart-subtitle">Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points</div>
       <div class="toggle-row">
         <span class="toggle-label">Service:</span>
-        <button class="toggle-btn on" id="btn-9am" onclick="setService('9am')">9am</button>
+        <button class="toggle-btn" id="btn-9am" onclick="setService('9am')">9am</button>
         <button class="toggle-btn" id="btn-11am" onclick="setService('11am')">11am</button>
-        <button class="toggle-btn" id="btn-avg"  onclick="setService('avg')">Average</button>
+        <button class="toggle-btn on" id="btn-avg"  onclick="setService('avg')">Average</button>
       </div>
       <div class="chart-wrap-tall">
         <canvas id="trendChart"></canvas>
@@ -479,7 +479,7 @@
     </div>
 
     <div class="el-card">
-      <div class="el-card-title" style="color:var(--slp)">SLP · St. Louis Park</div>
+      <div class="el-card-title" style="color:var(--slp)">SLP · Spring Lake Park</div>
       <div class="el-row">
         <div class="el-item">
           <div class="el-item-head">
@@ -685,7 +685,7 @@ function avg(arr) {
 
 // ── Trend Chart ──────────────────────────────────────────────
 let trendChart;
-let currentService = '9am';
+let currentService = 'avg';
 
 function buildTrendData(service) {
   return ['ELK','LV','MG','SLP'].map(loc => {
@@ -729,7 +729,7 @@ function initTrendChart() {
     type: 'line',
     data: {
       labels: WEEKS,
-      datasets: buildTrendData('9am')
+      datasets: buildTrendData('avg')
     },
     options: {
       responsive: true, maintainAspectRatio: false,
