@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECC Service Times — Mid-Service Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --elk: #4F86C6;
+    --lv:  #F4A261;
+    --mg:  #2EC4B6;
+    --slp: #E76F51;
+    --bg:  #F8F5F0;
+    --card: #FFFFFF;
+    --text: #2D2D2D;
+    --muted: #888;
+    --green: #27AE60;
+    --red: #E74C3C;
+    --yellow: #F39C12;
+    --radius: 16px;
+    --shadow: 0 2px 16px rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ─────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #2D2D2D 0%, #1a1a2e 100%);
+    color: white;
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(79,134,198,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+  .header-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    margin-bottom: 10px;
+  }
+  header h1 { font-size: 32px; font-weight: 700; margin-bottom: 6px; }
+  header p  { font-size: 15px; color: rgba(255,255,255,0.65); }
+
+  .week-pills {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
+  }
+  .week-pill {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 4px 14px; font-size: 12px; color: rgba(255,255,255,0.8);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .week-pill:hover { background: rgba(255,255,255,0.22); }
+  .week-pill.active { background: white; color: #2D2D2D; font-weight: 600; }
+
+  /* ── Main layout ─────────────────────────────── */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* ── Location cards ──────────────────────────── */
+  .location-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 700px) { .location-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .loc-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 18px 16px;
+    border-top: 4px solid transparent;
+    transition: transform 0.15s;
+  }
+  .loc-card:hover { transform: translateY(-2px); }
+  .loc-card[data-loc="ELK"] { border-color: var(--elk); }
+  .loc-card[data-loc="LV"]  { border-color: var(--lv); }
+  .loc-card[data-loc="MG"]  { border-color: var(--mg); }
+  .loc-card[data-loc="SLP"] { border-color: var(--slp); }
+
+  .loc-name {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 4px;
+    opacity: 0.85;
+  }
+  .loc-label { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+  .loc-stat { font-size: 30px; font-weight: 800; line-height: 1; }
+  .loc-stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .loc-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+  .badge {
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px;
+  }
+  .badge-over { background: #FDECEA; color: #C0392B; }
+  .badge-under { background: #EAF6EE; color: #1E8449; }
+  .badge-watch { background: #FEF9E7; color: #B7770D; }
+
+  /* ── Chart cards ─────────────────────────────── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 800px) { .charts-grid { grid-template-columns: 1fr; } }
+
+  .chart-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+  .chart-card.full-width { grid-column: 1 / -1; }
+
+  .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .chart-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap-tall { position: relative; height: 360px; }
+
+  /* ── Service toggle ──────────────────────────── */
+  .toggle-row {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 18px;
+  }
+  .toggle-btn {
+    padding: 5px 14px; border-radius: 20px; border: 1.5px solid #ddd;
+    background: white; font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; color: var(--text);
+  }
+  .toggle-btn.on { background: var(--text); color: white; border-color: var(--text); }
+  .toggle-label { font-size: 12px; color: var(--muted); }
+
+  /* ── Trends section ──────────────────────────── */
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+  .trends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+  @media (max-width: 700px) { .trends-grid { grid-template-columns: 1fr; } }
+
+  .trend-item {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    border-left: 4px solid transparent;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .trend-item.confirmed { border-color: var(--red); }
+  .trend-item.emerging  { border-color: var(--yellow); }
+  .trend-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .trend-content {}
+  .trend-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px; text-transform: uppercase; margin-bottom: 5px;
+  }
+  .trend-item.confirmed .trend-badge { background: #FDECEA; color: #C0392B; }
+  .trend-item.emerging  .trend-badge { background: #FEF9E7; color: #B7770D; }
+  .trend-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .trend-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── Weekly data table ───────────────────────── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--muted); padding: 10px 12px;
+    border-bottom: 1px solid #eee; white-space: nowrap;
+  }
+  td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  .loc-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 6px;
+  }
+  .moment-row td { background: rgba(243,156,18,0.05); }
+
+  .var-chip {
+    display: inline-block; padding: 2px 9px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .var-pos  { background: #FDECEA; color: #C0392B; }
+  .var-neg  { background: #EAF6EE; color: #1E8449; }
+  .var-zero { background: #f5f5f5; color: #666; }
+
+  .moment-chip {
+    font-size: 10px; color: var(--yellow); font-weight: 700;
+    margin-left: 4px;
+  }
+
+  /* ── Element bar section ─────────────────────── */
+  .el-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  @media (max-width: 800px) { .el-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .el-grid { grid-template-columns: 1fr; } }
+
+  .el-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 18px;
+  }
+  .el-card-title {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); margin-bottom: 14px;
+  }
+  .el-row { display: flex; flex-direction: column; gap: 9px; }
+  .el-item {}
+  .el-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .el-item-name { font-size: 12px; color: var(--text); }
+  .el-item-val  { font-size: 12px; font-weight: 700; }
+  .el-bar-track { height: 5px; background: #F0F0F0; border-radius: 3px; overflow: hidden; }
+  .el-bar-fill  { height: 100%; border-radius: 3px; }
+  .el-bar-fill.pos  { background: var(--red); }
+  .el-bar-fill.neg  { background: var(--green); }
+
+  /* ── Footer ──────────────────────────────────── */
+  footer {
+    text-align: center; font-size: 12px; color: var(--muted);
+    padding: 24px; border-top: 1px solid #eee; margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-eyebrow">Emmanuel Christian Center · Production</div>
+    <h1>Service Times Dashboard</h1>
+    <p>Mid-service variance tracking across all 4 campuses · 6 weeks of data</p>
+    <div class="week-pills">
+      <div class="week-pill active">All Weeks</div>
+      <div class="week-pill">Mar 15</div>
+      <div class="week-pill">Mar 22</div>
+      <div class="week-pill">Mar 29</div>
+      <div class="week-pill">Apr 12</div>
+      <div class="week-pill">Apr 19</div>
+      <div class="week-pill">Apr 26</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Location Summary Cards -->
+  <div class="location-grid" id="loc-cards">
+
+    <div class="loc-card" data-loc="ELK">
+      <div class="loc-name" style="color:var(--elk)">ELK</div>
+      <div class="loc-label">Elk River · 9am & 11am</div>
+      <div class="loc-stat" id="elk-avg">+0:47</div>
+      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-badges">
+        <span class="badge badge-watch">Announcements ↑</span>
+        <span class="badge badge-under">Offering ↓</span>
+      </div>
+    </div>
+
+    <div class="loc-card" data-loc="LV">
+      <div class="loc-name" style="color:var(--lv)">LV</div>
+      <div class="loc-label">Lakeville · 10am only</div>
+      <div class="loc-stat" id="lv-avg">+0:18</div>
+      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-badges">
+        <span class="badge badge-over">Offering (campaign)</span>
+        <span class="badge badge-under">Close Worship ↓</span>
+      </div>
+    </div>
+
+    <div class="loc-card" data-loc="MG">
+      <div class="loc-name" style="color:var(--mg)">MG</div>
+      <div class="loc-label">Maple Grove · 9am & ~10am</div>
+      <div class="loc-stat" id="mg-avg">+1:17</div>
+      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-badges">
+        <span class="badge badge-over">Close Worship ↑</span>
+        <span class="badge badge-over">Hosted Moment ↑</span>
+      </div>
+    </div>
+
+    <div class="loc-card" data-loc="SLP">
+      <div class="loc-name" style="color:var(--slp)">SLP</div>
+      <div class="loc-label">St. Louis Park · 9am & 11am</div>
+      <div class="loc-stat" id="slp-avg">+0:36</div>
+      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-badges">
+        <span class="badge badge-watch">KB Moment ↑</span>
+        <span class="badge badge-over">Offering +</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-grid">
+
+    <div class="chart-card full-width">
+      <div class="chart-title">Mid-Service Variance by Week</div>
+      <div class="chart-subtitle">Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points</div>
+      <div class="toggle-row">
+        <span class="toggle-label">Service:</span>
+        <button class="toggle-btn on" id="btn-9am" onclick="setService('9am')">9am</button>
+        <button class="toggle-btn" id="btn-11am" onclick="setService('11am')">11am</button>
+        <button class="toggle-btn" id="btn-avg"  onclick="setService('avg')">Average</button>
+      </div>
+      <div class="chart-wrap-tall">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Average Mid-Service Variance</div>
+      <div class="chart-subtitle">By location (non-moment services, all 6 weeks)</div>
+      <div class="chart-wrap">
+        <canvas id="avgChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Message Length — Plan vs Actual</div>
+      <div class="chart-subtitle">Series-type matters: Q&A format ≈ on plan; standard series runs 4–11 min over</div>
+      <div class="chart-wrap">
+        <canvas id="msgChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Per-Element Breakdown -->
+  <div class="section-title">Per-Element Avg Variance (Mid-Service)</div>
+  <div class="el-grid">
+
+    <div class="el-card">
+      <div class="el-card-title" style="color:var(--elk)">ELK · Elk River</div>
+      <div class="el-row">
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Close Worship</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:07</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:7%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Meet & Greet</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:13</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:13%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Announcements</span>
+            <span class="el-item-val" style="color:var(--red)">+0:48</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:80%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Campaign Video</span>
+            <span class="el-item-val" style="color:#666">≈0:00</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:1%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Offering</span>
+            <span class="el-item-val" style="color:var(--green)">−0:22</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:37%"></div></div>
+        </div>
+        <div class="el-item" style="border-top:1px solid #f0f0f0; padding-top:9px; margin-top:2px;">
+          <div class="el-item-head">
+            <span class="el-item-name" style="font-weight:700">Mid Total</span>
+            <span class="el-item-val" style="color:var(--yellow); font-size:14px">+0:47</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-card-title" style="color:var(--lv)">LV · Lakeville</div>
+      <div class="el-row">
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Close Worship</span>
+            <span class="el-item-val" style="color:var(--green)">−0:28</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:47%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Meet & Greet</span>
+            <span class="el-item-val" style="color:var(--green)">−0:05</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:8%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Announcements</span>
+            <span class="el-item-val" style="color:var(--green)">−0:02</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:3%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">5 Spot (LV-only)</span>
+            <span class="el-item-val" style="color:#666">+0:03</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:5%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Offering</span>
+            <span class="el-item-val" style="color:var(--red)">+0:54</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:90%"></div></div>
+        </div>
+        <div class="el-item" style="border-top:1px solid #f0f0f0; padding-top:9px; margin-top:2px;">
+          <div class="el-item-head">
+            <span class="el-item-name" style="font-weight:700">Mid Total</span>
+            <span class="el-item-val" style="color:var(--green); font-size:14px">+0:18</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-card-title" style="color:var(--mg)">MG · Maple Grove</div>
+      <div class="el-row">
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Close Worship</span>
+            <span class="el-item-val" style="color:var(--red)">+0:49</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:82%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Meet & Greet</span>
+            <span class="el-item-val" style="color:#666">+0:03</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:5%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Hosted Moment</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:24</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:40%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Campaign Video</span>
+            <span class="el-item-val" style="color:var(--green)">−0:03</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:5%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Offering</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:15</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:25%"></div></div>
+        </div>
+        <div class="el-item" style="border-top:1px solid #f0f0f0; padding-top:9px; margin-top:2px;">
+          <div class="el-item-head">
+            <span class="el-item-name" style="font-weight:700">Mid Total</span>
+            <span class="el-item-val" style="color:var(--red); font-size:14px">+1:17</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="el-card">
+      <div class="el-card-title" style="color:var(--slp)">SLP · St. Louis Park</div>
+      <div class="el-row">
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Host Pastor / NG</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:09</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:15%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Greet & Seat</span>
+            <span class="el-item-val" style="color:var(--green)">−0:05</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill neg" style="width:8%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Announcements</span>
+            <span class="el-item-val" style="color:var(--muted)">variable</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:30%; opacity:0.4"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">KB Video / Moment</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:15</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:25%"></div></div>
+        </div>
+        <div class="el-item">
+          <div class="el-item-head">
+            <span class="el-item-name">Offering</span>
+            <span class="el-item-val" style="color:var(--yellow)">+0:21</span>
+          </div>
+          <div class="el-bar-track"><div class="el-bar-fill pos" style="width:35%"></div></div>
+        </div>
+        <div class="el-item" style="border-top:1px solid #f0f0f0; padding-top:9px; margin-top:2px;">
+          <div class="el-item-head">
+            <span class="el-item-name" style="font-weight:700">Mid Total</span>
+            <span class="el-item-val" style="color:var(--yellow); font-size:14px">+0:36</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Trends -->
+  <div class="section-title">Confirmed & Emerging Patterns</div>
+  <div class="trends-grid">
+
+    <div class="trend-item confirmed">
+      <div class="trend-icon">🎵</div>
+      <div class="trend-content">
+        <span class="trend-badge">Confirmed</span>
+        <div class="trend-name">MG Close Worship always over</div>
+        <div class="trend-desc">Planned 0:45 — averaging +0:49 across 9 services. Range: 0:33 – 2:21. Needs recalibration to 1:30–2:00.</div>
+      </div>
+    </div>
+
+    <div class="trend-item confirmed">
+      <div class="trend-icon">📢</div>
+      <div class="trend-content">
+        <span class="trend-badge">Confirmed</span>
+        <div class="trend-name">Series type drives message length</div>
+        <div class="trend-desc">Q&A "What About" format ≈ 38:00 plan. Standard sermon series runs 42–49 min (+4–11 over). Plan is correct for Q&A — wrong for standard.</div>
+      </div>
+    </div>
+
+    <div class="trend-item confirmed">
+      <div class="trend-icon">🕙</div>
+      <div class="trend-content">
+        <span class="trend-badge">Confirmed</span>
+        <div class="trend-name">11am always runs longer than 9am</div>
+        <div class="trend-desc">Standard series gap: 4–8 min. Gap narrows to ~0 on Q&A weeks. Preacher-dependent, not structural. Factor into 11am buffer planning.</div>
+      </div>
+    </div>
+
+    <div class="trend-item confirmed">
+      <div class="trend-icon">📈</div>
+      <div class="trend-content">
+        <span class="trend-badge">Confirmed</span>
+        <div class="trend-name">MG Hosted Moment creeping up</div>
+        <div class="trend-desc">Planned 2:30 — now +0:24 avg. Apr 19 peaked at 3:34–3:45 (+1:15). More content added each week. Likely needs plan update if not corrected.</div>
+      </div>
+    </div>
+
+    <div class="trend-item emerging">
+      <div class="trend-icon">⚠️</div>
+      <div class="trend-content">
+        <span class="trend-badge">Emerging</span>
+        <div class="trend-name">MG mid-service compounding</div>
+        <div class="trend-desc">Close Worship + Hosted Moment + campaign offering = +3:25–3:47 on Apr 19. Worst overrun in dataset. MG campus running 9–10 min vs 6:30 plan.</div>
+      </div>
+    </div>
+
+    <div class="trend-item emerging">
+      <div class="trend-icon">💰</div>
+      <div class="trend-content">
+        <span class="trend-badge">Emerging</span>
+        <div class="trend-name">LV Offering spikes on campaign weeks</div>
+        <div class="trend-desc">Apr 12 (+1:35), Apr 19 (+1:29), Apr 26 (+2:31) — all campaign weeks. Non-campaign weeks near plan. Pattern is predictable — use campaign calendar to plan buffer.</div>
+      </div>
+    </div>
+
+    <div class="trend-item emerging">
+      <div class="trend-icon">📣</div>
+      <div class="trend-content">
+        <span class="trend-badge">Emerging</span>
+        <div class="trend-name">SLP KB Video block always over</div>
+        <div class="trend-desc">Runs 3:03–3:17 vs planned 2:00 (+1:03–+1:17) every tracked occurrence. Plan is wrong. Update to 3:00–3:30 or discipline the block.</div>
+      </div>
+    </div>
+
+    <div class="trend-item emerging">
+      <div class="trend-icon">🎸</div>
+      <div class="trend-content">
+        <span class="trend-badge">Emerging</span>
+        <div class="trend-name">SLP Worship Response runs over</div>
+        <div class="trend-desc">Apr 19 Dwell: 5:41/5:39 vs planned 4:00 (+1:41). Planned 4:00 appears too short for response songs. Watch at week 9+.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Weekly Table -->
+  <div class="section-title">Weekly Mid-Service Data</div>
+  <div class="chart-card" style="margin-bottom:0; padding:0;">
+    <div class="table-wrap">
+      <table id="weeklyTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Campus</th>
+            <th>9am / 10am Mid</th>
+            <th>vs Plan</th>
+            <th>11am Mid</th>
+            <th>vs Plan</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  ECC Production · Service Times Tracking · Updated Apr 30, 2026 · 6 weeks of data · Mar 15 – Apr 26
+</footer>
+
+<script>
+// ── Data ────────────────────────────────────────────────────
+const WEEKS = ['Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26'];
+const WEEKS_FULL = ['2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26'];
+
+// variance in seconds, null = no data/unusable
+// [9am, 11am]
+const DATA = {
+  ELK: {
+    '9am':  [null,  -71,   18,  182,  118,   41],
+    '11am': [-71,   78,    6,   57,  101,   56]
+  },
+  LV: {
+    '9am':  [-188,  -56,   26,   32,  101,  193],
+    '11am': [null, null, null, null, null, null]
+  },
+  MG: {
+    '9am':  [null,  -69,   51,  107,  227,  -25],
+    '11am': [null,   52,  -21,   47,  205,   54]
+  },
+  SLP: {
+    '9am':  [42,    24,   26,    3,   64,   -9],
+    '11am': [42,    42,   46,   27,   86,   50]
+  }
+};
+
+// moment flags (weeks 0-5) — true = moment, should be flagged visually
+const MOMENTS = {
+  ELK: [false, true, true, true, false, false],
+  LV:  [false, false, true, true, false, false],
+  MG:  [false, false, true, true, false, false],
+  SLP: [true, false, true, true, false, false]
+};
+
+const COLORS = { ELK: '#4F86C6', LV: '#F4A261', MG: '#2EC4B6', SLP: '#E76F51' };
+
+function secToStr(s) {
+  if (s === null) return '—';
+  const abs = Math.abs(s);
+  const m = Math.floor(abs / 60);
+  const sec = abs % 60;
+  const sign = s >= 0 ? '+' : '−';
+  return `${sign}${m}:${sec.toString().padStart(2,'0')}`;
+}
+
+function avg(arr) {
+  const valid = arr.filter(v => v !== null);
+  if (!valid.length) return null;
+  return valid.reduce((a,b) => a+b, 0) / valid.length;
+}
+
+// ── Trend Chart ──────────────────────────────────────────────
+let trendChart;
+let currentService = '9am';
+
+function buildTrendData(service) {
+  return ['ELK','LV','MG','SLP'].map(loc => {
+    const color = COLORS[loc];
+    let vals;
+    if (service === 'avg') {
+      vals = WEEKS.map((_, i) => {
+        const a = DATA[loc]['9am'][i];
+        const b = DATA[loc]['11am'][i];
+        if (a === null && b === null) return null;
+        if (a === null) return b;
+        if (b === null) return a;
+        return (a + b) / 2;
+      });
+    } else {
+      vals = DATA[loc][service];
+    }
+
+    // Split into moment and non-moment segments for styling
+    return {
+      label: loc,
+      data: vals,
+      borderColor: color,
+      backgroundColor: color + '22',
+      borderWidth: 2.5,
+      pointRadius: vals.map((v, i) => v !== null ? 5 : 0),
+      pointBackgroundColor: vals.map((v, i) =>
+        MOMENTS[loc][i] ? 'white' : color
+      ),
+      pointBorderColor: color,
+      pointBorderWidth: vals.map((v, i) => MOMENTS[loc][i] ? 2 : 0),
+      tension: 0.35,
+      spanGaps: true
+    };
+  });
+}
+
+function initTrendChart() {
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: WEEKS,
+      datasets: buildTrendData('9am')
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { boxWidth: 12, padding: 16, font: { size: 12, weight: '600' } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const s = ctx.raw;
+              if (s === null) return ` ${ctx.dataset.label}: —`;
+              const abs = Math.abs(s);
+              const m = Math.floor(abs/60), sec = abs%60;
+              const sign = s >= 0 ? '+' : '−';
+              const moment = MOMENTS[ctx.dataset.label][ctx.dataIndex] ? ' (M)' : '';
+              return ` ${ctx.dataset.label}: ${sign}${m}:${sec.toString().padStart(2,'0')}${moment}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          border: { dash: [4,4] },
+          ticks: {
+            callback: v => {
+              const abs = Math.abs(v);
+              const m = Math.floor(abs/60), s = abs%60;
+              return (v>=0?'+':'−') + m + ':' + s.toString().padStart(2,'0');
+            },
+            font: { size: 11 }
+          }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 12 } }
+        }
+      }
+    }
+  });
+
+  // Zero line
+  trendChart.options.plugins.annotation = {};
+}
+
+function setService(svc) {
+  currentService = svc;
+  document.getElementById('btn-9am').className  = 'toggle-btn' + (svc==='9am'  ? ' on' : '');
+  document.getElementById('btn-11am').className = 'toggle-btn' + (svc==='11am' ? ' on' : '');
+  document.getElementById('btn-avg').className  = 'toggle-btn' + (svc==='avg'  ? ' on' : '');
+  trendChart.data.datasets = buildTrendData(svc);
+  trendChart.update();
+}
+
+// ── Avg Bar Chart ────────────────────────────────────────────
+function initAvgChart() {
+  const ctx = document.getElementById('avgChart').getContext('2d');
+  const avgs = {
+    ELK: 47, LV: 18, MG: 77, SLP: 36
+  };
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['ELK','LV','MG','SLP'],
+      datasets: [{
+        label: 'Avg Mid Variance (sec)',
+        data: [47, 18, 77, 36],
+        backgroundColor: [
+          COLORS.ELK + 'cc', COLORS.LV + 'cc',
+          COLORS.MG + 'cc', COLORS.SLP + 'cc'
+        ],
+        borderColor: [COLORS.ELK, COLORS.LV, COLORS.MG, COLORS.SLP],
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const s = ctx.raw;
+              const m = Math.floor(s/60), sec = s%60;
+              return ` +${m}:${sec.toString().padStart(2,'0')} over plan`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: {
+            callback: v => {
+              const m = Math.floor(v/60), s = v%60;
+              return '+' + m + ':' + s.toString().padStart(2,'0');
+            },
+            font: { size: 11 }
+          }
+        },
+        x: { grid: { display: false }, ticks: { font: { size: 13, weight: '700' } } }
+      }
+    }
+  });
+}
+
+// ── Message Chart ────────────────────────────────────────────
+function initMsgChart() {
+  const ctx = document.getElementById('msgChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Mar 15\nStd', 'Mar 22\nStd', 'Mar 29\nStd', 'Apr 12\nStd', 'Apr 19\nQ&A', 'Apr 26\nQ&A'],
+      datasets: [
+        {
+          label: 'Planned',
+          data: [38, 38, 38, 38, 38, 38],
+          backgroundColor: '#e8e8e8',
+          borderRadius: 6,
+          borderSkipped: false
+        },
+        {
+          label: 'ELK 9am',
+          data: [null, 42.37, null, 42.08, 38.67, 39.75],
+          backgroundColor: COLORS.ELK + '99',
+          borderColor: COLORS.ELK,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          borderSkipped: false
+        },
+        {
+          label: 'SLP 9am',
+          data: [null, 42.48, null, 42.58, 38.65, null],
+          backgroundColor: COLORS.SLP + '99',
+          borderColor: COLORS.SLP,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          borderSkipped: false
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { boxWidth: 10, padding: 12, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.raw === null) return null;
+              const m = Math.floor(ctx.raw);
+              const s = Math.round((ctx.raw - m) * 60);
+              return ` ${ctx.dataset.label}: ${m}:${s.toString().padStart(2,'0')}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          min: 35, max: 52,
+          grid: { color: '#f0f0f0' },
+          ticks: { callback: v => v + ' min', font: { size: 11 } }
+        },
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// ── Weekly Table ─────────────────────────────────────────────
+const TABLE_DATA = [
+  { date:'Mar 15', loc:'ELK', m9:'5:49',  p9:'-1:11', m11:'—',    p11:'—',    notes:'11am only tracked', moment:false },
+  { date:'Mar 15', loc:'LV',  m9:'3:52',  p9:'-3:08', m11:'—',    p11:'—',    notes:'', moment:false },
+  { date:'Mar 15', loc:'MG',  m9:'—',     p9:'—',     m11:'—',    p11:'—',    notes:'Data unusable', moment:false },
+  { date:'Mar 15', loc:'SLP', m9:'5:29',  p9:'+0:42', m11:'5:29', p11:'+0:42',notes:'Host Pastor moment (M)', moment:true },
+  { date:'Mar 22', loc:'ELK', m9:'5:49',  p9:'-1:11', m11:'8:18', p11:'+1:18',notes:'ELK 9am worship response (M)', moment:true },
+  { date:'Mar 22', loc:'LV',  m9:'11:24', p9:'-0:56', m11:'—',    p11:'—',    notes:'Incl. 5 Spot', moment:false },
+  { date:'Mar 22', loc:'MG',  m9:'5:21',  p9:'-1:09', m11:'7:22', p11:'+0:52',notes:'7:45am service', moment:false },
+  { date:'Mar 22', loc:'SLP', m9:'5:39',  p9:'+0:24', m11:'5:57', p11:'+0:42',notes:'', moment:false },
+  { date:'Mar 29', loc:'ELK', m9:'7:18',  p9:'+0:18', m11:'~7:06',p11:'~+0:06',notes:'Palm Sunday (M)', moment:true },
+  { date:'Mar 29', loc:'LV',  m9:'7:46',  p9:'+0:26', m11:'—',    p11:'—',    notes:'Palm Sunday (M)', moment:true },
+  { date:'Mar 29', loc:'MG',  m9:'7:21',  p9:'+0:51', m11:'6:09', p11:'-0:21',notes:'Partial data (M)', moment:true },
+  { date:'Mar 29', loc:'SLP', m9:'5:41',  p9:'+0:26', m11:'6:01', p11:'+0:46',notes:'Palm Sunday (M)', moment:true },
+  { date:'Apr 12', loc:'ELK', m9:'10:02', p9:'+3:02', m11:'7:57', p11:'+0:57',notes:'9am Announce spike (5:52)', moment:false },
+  { date:'Apr 12', loc:'LV',  m9:'7:32',  p9:'+0:32', m11:'—',    p11:'—',    notes:'Water Baptism (M)', moment:true },
+  { date:'Apr 12', loc:'MG',  m9:'8:17',  p9:'+1:47', m11:'7:17', p11:'+0:47',notes:'Water Baptism (M)', moment:true },
+  { date:'Apr 12', loc:'SLP', m9:'5:18',  p9:'+0:03', m11:'5:42', p11:'+0:27',notes:'Water Baptism (M)', moment:true },
+  { date:'Apr 19', loc:'ELK', m9:'9:50',  p9:'+1:58', m11:'9:33', p11:'+1:41',notes:'ODTFTW campaign offering', moment:false },
+  { date:'Apr 19', loc:'LV',  m9:'8:41',  p9:'+1:41', m11:'—',    p11:'—',    notes:'ODTFTW campaign offering', moment:false },
+  { date:'Apr 19', loc:'MG',  m9:'10:17', p9:'+3:47', m11:'9:55', p11:'+3:25',notes:'Worst MG mid in dataset', moment:false },
+  { date:'Apr 19', loc:'SLP', m9:'7:34',  p9:'+1:04', m11:'7:56', p11:'+1:26',notes:'Two announcement blocks', moment:false },
+  { date:'Apr 26', loc:'ELK', m9:'9:01',  p9:'+0:41', m11:'9:16', p11:'+0:56',notes:'What About #3', moment:false },
+  { date:'Apr 26', loc:'LV',  m9:'10:13', p9:'+3:13', m11:'—',    p11:'—',    notes:'', moment:false },
+  { date:'Apr 26', loc:'MG',  m9:'6:20',  p9:'-0:25', m11:'7:39', p11:'+0:54',notes:'', moment:false },
+  { date:'Apr 26', loc:'SLP', m9:'6:16',  p9:'-0:09', m11:'7:15', p11:'+0:50',notes:'', moment:false },
+];
+
+function varChip(str) {
+  if (str === '—' || str === '') return '<span style="color:#ccc">—</span>';
+  const neg = str.startsWith('-') || str.startsWith('−');
+  const pos = str.startsWith('+');
+  const cls = neg ? 'var-neg' : pos ? 'var-pos' : 'var-zero';
+  return `<span class="var-chip ${cls}">${str}</span>`;
+}
+
+function buildTable() {
+  const tbody = document.getElementById('tableBody');
+  TABLE_DATA.forEach(row => {
+    const tr = document.createElement('tr');
+    if (row.moment) tr.className = 'moment-row';
+    const color = COLORS[row.loc];
+    tr.innerHTML = `
+      <td style="color:var(--muted); font-size:12px">${row.date}</td>
+      <td><span class="loc-dot" style="background:${color}"></span><strong>${row.loc}</strong></td>
+      <td>${row.m9}</td>
+      <td>${varChip(row.p9)}</td>
+      <td>${row.m11}</td>
+      <td>${varChip(row.p11)}</td>
+      <td style="color:var(--muted); font-size:12px">${row.moment ? `<span class="moment-chip">★ Moment</span>` : ''}${row.notes}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Week filter pills ─────────────────────────────────────────
+document.querySelectorAll('.week-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    document.querySelectorAll('.week-pill').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    const selected = this.textContent.trim();
+    const rows = document.querySelectorAll('#tableBody tr');
+    rows.forEach(row => {
+      const dateTd = row.querySelector('td');
+      if (selected === 'All Weeks' || dateTd.textContent.trim() === selected) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+});
+
+// ── Init ──────────────────────────────────────────────────────
+initTrendChart();
+initAvgChart();
+initMsgChart();
+buildTable();
+</script>
+
+</body>
+</html>
