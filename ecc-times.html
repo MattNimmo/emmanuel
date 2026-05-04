@@ -662,22 +662,24 @@ function initAvgChart() {
 
 // ── Message Chart ────────────────────────────────────────────
 function initMsgChart() {
+  const indices = WEEKS.map((_, i) => i).filter(i => MSG_DATA.ELK['9am'][i] !== null);
+  const labels  = indices.map(i => MSG_DATA.series[i] ? WEEKS[i] + '\n' + MSG_DATA.series[i] : WEEKS[i]);
   const ctx = document.getElementById('msgChart').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Mar 15\nStd', 'Mar 22\nStd', 'Mar 29\nStd', 'Apr 12\nStd', 'Apr 19\nQ&A', 'Apr 26\nQ&A'],
+      labels,
       datasets: [
         {
           label: 'Planned',
-          data: [38, 38, 38, 38, 38, 38],
+          data: indices.map(() => MSG_DATA.planned),
           backgroundColor: '#e8e8e8',
           borderRadius: 6,
           borderSkipped: false
         },
         {
           label: 'ELK 9am',
-          data: [null, 42.37, null, 42.08, 38.67, 39.75],
+          data: indices.map(i => MSG_DATA.ELK['9am'][i]),
           backgroundColor: COLORS.ELK + '99',
           borderColor: COLORS.ELK,
           borderWidth: 1.5,
@@ -686,7 +688,7 @@ function initMsgChart() {
         },
         {
           label: 'SLP 9am',
-          data: [null, 42.48, null, 42.58, 38.65, null],
+          data: indices.map(i => MSG_DATA.SLP['9am'][i]),
           backgroundColor: COLORS.SLP + '99',
           borderColor: COLORS.SLP,
           borderWidth: 1.5,
@@ -715,7 +717,7 @@ function initMsgChart() {
       },
       scales: {
         y: {
-          min: 35, max: 52,
+          min: 33, max: 52,
           grid: { color: '#f0f0f0' },
           ticks: { callback: v => v + ' min', font: { size: 11 } }
         },
