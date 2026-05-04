@@ -10,40 +10,40 @@
 //   4. Update EL_AVGS[loc].midTotal and element val fields (seconds, from wiki)
 //   5. Push new TABLE_DATA rows (one per campus per week)
 
-const WEEKS      = ['Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26'];
-const WEEKS_FULL = ['2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26'];
+const WEEKS      = ['Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26','May 3'];
+const WEEKS_FULL = ['2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26','2026-05-03'];
 
 // Mid-service variance in seconds per service. null = no data / unusable.
 // [9am, 11am] per week, aligned to WEEKS index.
 const DATA = {
   ELK: {
     // Feb1: 9am timer bleed → null; 11am clean. Feb8: Super Sunday. Feb15: WB Sunday. Feb22–Mar8: standard/communion.
-    '9am':  [null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41],
-    '11am': [  95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56]
+    '9am':  [null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41,   82],
+    '11am': [  95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56,  157]
   },
   LV: {
     // Feb1: timer bleed → null. Feb8: Super Sunday unreliable → null. Feb15: timer errors → null. Feb22+: usable.
-    '9am':  [null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193],
-    '11am': [null, null, null, null, null, null,  null, null, null, null, null, null]
+    '9am':  [null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193,  -23],
+    '11am': [null, null, null, null, null, null,  null, null, null, null, null, null, null]
   },
   MG: {
     // Feb1: both services usable. Feb8: 9am moment, 11am timer error. Feb15: 9am moment, 11am unusable. Feb22+.
-    '9am':  [  88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25],
-    '11am': [ 146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54]
+    '9am':  [  88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25,  215],
+    '11am': [ 146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54,  212]
   },
   SLP: {
-    '9am':  [ 51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9],
-    '11am': [ 43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50]
+    '9am':  [ 51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9,   17],
+    '11am': [ 43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50,   36]
   }
 };
 
 // Moment flags — true = calendar moment (Category A/B) or data too unreliable to trend.
 // Moment weeks shown as hollow points in the trend chart; excluded from averages.
 const MOMENTS = {
-  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false],
-  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false],
-  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false],
-  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false]
+  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true],
+  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true],
+  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true],
+  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true]
 };
 
 // Per-element averages (seconds). Update midTotal and element val fields each ingest.
@@ -146,4 +146,8 @@ const TABLE_DATA = [
   { date:'Apr 26', loc:'LV',  m9:'10:13', p9:'+3:13', m11:'—',    p11:'—',    notes:'', moment:false },
   { date:'Apr 26', loc:'MG',  m9:'6:20',  p9:'-0:25', m11:'7:39', p11:'+0:54',notes:'', moment:false },
   { date:'Apr 26', loc:'SLP', m9:'6:16',  p9:'-0:09', m11:'7:15', p11:'+0:50',notes:'', moment:false },
+  { date:'May 3',  loc:'ELK', m9:'5:52',  p9:'+1:22', m11:'7:07', p11:'+2:37',notes:'ODTFTW offering in LOCAL; 11am prayer +4:49 (M)', moment:true },
+  { date:'May 3',  loc:'LV',  m9:'3:37',  p9:'-0:23', m11:'—',    p11:'—',    notes:'Close worship 0:07 poss. timer issue; ODTFTW offering +3:16 in LOCAL (M)', moment:true },
+  { date:'May 3',  loc:'MG',  m9:'7:35',  p9:'+3:35', m11:'7:32', p11:'+3:32',notes:'Close worship +3:13/+2:19; 9am bumper/msg timer swap; ODTFTW (M)', moment:true },
+  { date:'May 3',  loc:'SLP', m9:'3:22',  p9:'+0:17', m11:'3:41', p11:'+0:36',notes:'9am bumper/msg timer swap; 9am salvation +3:31; ODTFTW (M)', moment:true },
 ];
