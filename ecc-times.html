@@ -241,22 +241,6 @@
     <div class="header-eyebrow">Emmanuel Christian Center · Production</div>
     <h1>Emmanuel Service Times Dashboard</h1>
     <p>Mid-service variance tracking across all 4 campuses · 13 weeks of data · SLP data from Feb 1</p>
-    <div class="week-pills">
-      <div class="week-pill active">All Weeks</div>
-      <div class="week-pill">Feb 1</div>
-      <div class="week-pill">Feb 8</div>
-      <div class="week-pill">Feb 15</div>
-      <div class="week-pill">Feb 22</div>
-      <div class="week-pill">Mar 1</div>
-      <div class="week-pill">Mar 8</div>
-      <div class="week-pill">Mar 15</div>
-      <div class="week-pill">Mar 22</div>
-      <div class="week-pill">Mar 29</div>
-      <div class="week-pill">Apr 12</div>
-      <div class="week-pill">Apr 19</div>
-      <div class="week-pill">Apr 26</div>
-      <div class="week-pill">May 3</div>
-    </div>
   </div>
 </header>
 
@@ -751,7 +735,7 @@ function varChip(str) {
 
 function buildTable() {
   const tbody = document.getElementById('tableBody');
-  TABLE_DATA.forEach(row => {
+  [...TABLE_DATA].reverse().forEach(row => {
     const tr = document.createElement('tr');
     if (row.moment) tr.className = 'moment-row';
     const color = COLORS[row.loc];
@@ -767,24 +751,6 @@ function buildTable() {
     tbody.appendChild(tr);
   });
 }
-
-// ── Week filter pills ─────────────────────────────────────────
-document.querySelectorAll('.week-pill').forEach(pill => {
-  pill.addEventListener('click', function() {
-    document.querySelectorAll('.week-pill').forEach(p => p.classList.remove('active'));
-    this.classList.add('active');
-    const selected = this.textContent.trim();
-    const rows = document.querySelectorAll('#tableBody tr');
-    rows.forEach(row => {
-      const dateTd = row.querySelector('td');
-      if (selected === 'All Weeks' || dateTd.textContent.trim() === selected) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
-    });
-  });
-});
 
 // ── Init ──────────────────────────────────────────────────────
 buildElementCards();
