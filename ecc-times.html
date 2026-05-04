@@ -240,7 +240,7 @@
   <div class="header-inner">
     <div class="header-eyebrow">Emmanuel Christian Center · Production</div>
     <h1>Emmanuel Service Times Dashboard</h1>
-    <p>Mid-service variance tracking across all 4 campuses · 13 weeks of data · SLP data from Feb 1</p>
+    <p id="header-sub">Mid-service variance tracking across all 4 campuses</p>
   </div>
 </header>
 
@@ -440,9 +440,7 @@
 
 </main>
 
-<footer>
-  ECC Production · Service Times Tracking · Updated May 3, 2026 · 13 weeks of data · Feb 1 – May 3
-</footer>
+<footer id="site-footer"></footer>
 
 <script src="data.js"></script>
 <script>
@@ -755,6 +753,16 @@ function buildTable() {
 }
 
 // ── Init ──────────────────────────────────────────────────────
+(() => {
+  const n     = WEEKS.length;
+  const first = WEEKS[0];
+  const last  = WEEKS[n - 1];
+  const year = WEEKS_FULL[n - 1].slice(0, 4);
+  document.getElementById('header-sub').textContent =
+    `Mid-service variance tracking across all 4 campuses · ${n} weeks of data · ${first} – ${last}`;
+  document.getElementById('site-footer').textContent =
+    `ECC Production · Service Times Tracking · Updated ${last}, ${year} · ${n} weeks of data · ${first} – ${last}`;
+})();
 buildElementCards();
 initTrendChart();
 initAvgChart();
