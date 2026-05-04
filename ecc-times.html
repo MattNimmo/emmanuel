@@ -619,7 +619,7 @@ function initAvgChart() {
       labels: ['ELK','LV','MG','SLP'],
       datasets: [{
         label: 'Avg Mid Variance (sec)',
-        data: [47, 18, 77, 36],
+        data: ['ELK','LV','MG','SLP'].map(loc => EL_AVGS[loc].midTotal),
         backgroundColor: [
           COLORS.ELK + 'cc', COLORS.LV + 'cc',
           COLORS.MG + 'cc', COLORS.SLP + 'cc'
