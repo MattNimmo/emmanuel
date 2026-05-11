@@ -340,7 +340,7 @@
 
     <div class="chart-card">
       <div class="chart-title">Average Total Service Variance</div>
-      <div class="chart-subtitle">By location · non-moment services · ELK, LV, SLP only (MG plan inflated)</div>
+      <div class="chart-subtitle">By location · non-moment services · all campuses</div>
       <div class="chart-wrap">
         <canvas id="avgTotalChart"></canvas>
       </div>
@@ -552,15 +552,6 @@ function buildServiceCards() {
   const html = ['ELK','LV','MG','SLP'].map(loc => {
     const color = COLORS[loc];
 
-    if (loc === 'MG') {
-      return `<div class="loc-card loc-card--note" data-loc="MG">
-        <div class="loc-name" style="color:${color}">MG</div>
-        <div class="loc-label">${labels[loc]}</div>
-        <div class="loc-stat" style="font-size:22px;color:var(--muted)">—</div>
-        <div class="loc-stat-label" style="margin-top:8px;line-height:1.6">Plan total inflated by song<br>double-count in PC — excluded</div>
-      </div>`;
-    }
-
     const avgs = SERVICE_TOTAL_AVGS[loc];
     const vals = [avgs.avg9, avgs.avg11].filter(v => v !== null);
     const combined = vals.length ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
@@ -586,8 +577,12 @@ function buildServiceCards() {
       rangeHtml = `<div class="svc-actual">Typical actual: ${minM}–${maxM} min</div>`;
     }
 
+    const limitedNotes = {
+      LV: '⚠ Plan inflation limits several LV weeks',
+      MG: '⚠ Limited to weeks without song double-count'
+    };
     const limitedHtml = avgs.limitedData
-      ? `<div class="svc-limited">⚠ Plan inflation limits several LV weeks</div>`
+      ? `<div class="svc-limited">${limitedNotes[loc] || '⚠ Limited data'}</div>`
       : '';
 
     return `<div class="loc-card" data-loc="${loc}">
@@ -611,7 +606,6 @@ let currentMetric  = 'mid';
 function buildTrendData(service, metric) {
   const source = metric === 'total' ? SERVICE_TOTAL : DATA;
   return ['ELK','LV','MG','SLP']
-    .filter(loc => !(metric === 'total' && loc === 'MG'))
     .map(loc => {
       const color = COLORS[loc];
       let vals;
@@ -704,7 +698,7 @@ function setMetric(m) {
   document.getElementById('btn-mid').className   = 'toggle-btn' + (m==='mid'   ? ' on' : '');
   document.getElementById('btn-total').className = 'toggle-btn' + (m==='total' ? ' on' : '');
   document.getElementById('trend-subtitle').textContent = m === 'total'
-    ? 'Seconds over / under planned total service length · averaged per campus per week · moment-flagged weeks shown as hollow points · MG excluded (plan inflated)'
+    ? 'Seconds over / under planned total service length · averaged per campus per week · moment-flagged weeks shown as hollow points · MG limited to weeks where worship songs aren\'t double-counted'
     : 'Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points';
   trendChart.data.datasets = buildTrendData(currentService, m);
   trendChart.update();
@@ -758,7 +752,7 @@ function initAvgChart() {
 
 // ── Avg Total Service Bar Chart ───────────────────────────────
 function initAvgTotalChart() {
-  const locs = ['ELK','LV','SLP'];
+  const locs = ['ELK','LV','MG','SLP'];
   const vals = locs.map(loc => {
     const avgs = SERVICE_TOTAL_AVGS[loc];
     const v = [avgs.avg9, avgs.avg11].filter(x => x !== null);
@@ -892,8 +886,9 @@ function buildTable() {
     DATA.ELK['9am'], DATA.ELK['11am'], DATA.LV['9am'], DATA.LV['11am'],
     DATA.MG['9am'],  DATA.MG['11am'],  DATA.SLP['9am'], DATA.SLP['11am'],
     SERVICE_TOTAL.ELK['9am'],  SERVICE_TOTAL.ELK['11am'],
-    SERVICE_TOTAL.LV['9am'],   SERVICE_TOTAL.SLP['9am'], SERVICE_TOTAL.SLP['11am'],
-    SERVICE_TOTAL_PLANNED.ELK['9am'], SERVICE_TOTAL_PLANNED.SLP['9am']
+    SERVICE_TOTAL.LV['9am'],   SERVICE_TOTAL.MG['9am'],  SERVICE_TOTAL.MG['11am'],
+    SERVICE_TOTAL.SLP['9am'],  SERVICE_TOTAL.SLP['11am'],
+    SERVICE_TOTAL_PLANNED.ELK['9am'], SERVICE_TOTAL_PLANNED.MG['9am'], SERVICE_TOTAL_PLANNED.SLP['9am']
   ];
   const misaligned = lengths.filter(a => a.length !== n);
   if (misaligned.length) {

@@ -179,8 +179,9 @@ const TABLE_DATA = [
 
 // ── Service Total Length ──────────────────────────────────────────────────────
 // Overall service length variance in seconds (actual − planned). null = unusable.
-// MG excluded entirely — Planning Center sums individual song durations separately
-// from the worship bundle, double-counting song time and inflating MG planned totals.
+// MG: usable on weeks where worship songs are listed at 0:00 planned (bundle absorbs them).
+// Null on weeks where PC double-counts songs against the bundle (Mar 8, Apr 12, May 3) or
+// has timer errors. Apr 26 plan adjusted (Same God 8:01 planned-unused subtracted).
 // LV null on weeks where PC plan is inflated by the same song double-count issue.
 // ELK Mar 1 null — planned total 91:25 is inflated vs typical 71–77 min.
 // ELK Mar 15 9am null — 9:45am service was a run-through, not a full public service.
@@ -195,8 +196,8 @@ const SERVICE_TOTAL = {
     '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [ 205,   82,  172,  249,  507, null, null,  339, null, null, null,  520, null, -381],
+    '11am': [-106, null, null,   87, null, null, null, null, null, null,  345,  575, null, null]
   },
   SLP: {
     '9am':  [ 375,   77,  380,  486,  543,  442,  508,  130,   74,  313,  170,  240,  390,  -48],
@@ -216,8 +217,8 @@ const SERVICE_TOTAL_PLANNED = {
     '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [5004, 4445, 4290, 4650, 4395, null, 4276, 4350, 4350, null, 4350, 4410, null, 4866],
+    '11am': [5004, 4445, 4290, 4650, 4395, null, 4276, 4350, 4350, null, 4350, 4410, null, 4866]
   },
   SLP: {
     '9am':  [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476],
@@ -231,6 +232,6 @@ const SERVICE_TOTAL_PLANNED = {
 const SERVICE_TOTAL_AVGS = {
   ELK: { avg9: 225, avg11: 261 },
   LV:  { avg9: -166, avg11: null, limitedData: true },
-  MG:  null,
+  MG:  { avg9: 328, avg11: 225, limitedData: true },
   SLP: { avg9: 307, avg11: 606 }
 };
