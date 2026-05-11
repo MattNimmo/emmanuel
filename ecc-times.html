@@ -348,7 +348,7 @@
 
     <div class="chart-card full-width">
       <div class="chart-title">Message Length — Plan vs Actual</div>
-      <div class="chart-subtitle">Series-type matters: Q&A format ≈ on plan; standard series runs 4–11 min over</div>
+      <div class="chart-subtitle">SLP 9am & 11am · last 6 weeks · Q&A ≈ on plan; standard series runs 4–11 min over; guest preachers run short</div>
       <div class="chart-wrap">
         <canvas id="msgChart"></canvas>
       </div>
@@ -807,7 +807,7 @@ function initAvgTotalChart() {
 
 // ── Message Chart ─────────────────────────────────────────────
 function initMsgChart() {
-  const indices = WEEKS.map((_, i) => i).filter(i => MSG_DATA.SLP['9am'][i] !== null);
+  const indices = WEEKS.map((_, i) => i).slice(-6);
   const labels  = indices.map(i => MSG_DATA.series[i] ? WEEKS[i] + '\n' + MSG_DATA.series[i] : WEEKS[i]);
   const ctx = document.getElementById('msgChart').getContext('2d');
   new Chart(ctx, {
@@ -816,7 +816,8 @@ function initMsgChart() {
       labels,
       datasets: [
         { label: 'Planned', data: indices.map(() => MSG_DATA.planned), backgroundColor: '#e8e8e8', borderRadius: 6, borderSkipped: false },
-        { label: 'SLP 9am', data: indices.map(i => MSG_DATA.SLP['9am'][i]), backgroundColor: COLORS.SLP+'99', borderColor: COLORS.SLP, borderWidth: 1.5, borderRadius: 6, borderSkipped: false }
+        { label: 'SLP 9am', data: indices.map(i => MSG_DATA.SLP['9am'][i]), backgroundColor: COLORS.SLP+'99', borderColor: COLORS.SLP, borderWidth: 1.5, borderRadius: 6, borderSkipped: false },
+        { label: 'SLP 11am', data: indices.map(i => MSG_DATA.SLP['11am'][i]), backgroundColor: COLORS.SLP+'44', borderColor: COLORS.SLP, borderWidth: 1.5, borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
@@ -835,7 +836,7 @@ function initMsgChart() {
         }
       },
       scales: {
-        y: { min: 33, max: 52, grid: { color: '#f0f0f0' }, ticks: { callback: v => v + ' min', font: { size: 11 } } },
+        y: { min: 24, max: 52, grid: { color: '#f0f0f0' }, ticks: { callback: v => v + ' min', font: { size: 11 } } },
         x: { grid: { display: false }, ticks: { font: { size: 10 } } }
       }
     }

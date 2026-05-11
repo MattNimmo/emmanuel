@@ -95,20 +95,20 @@ const EL_AVGS = {
 };
 
 // Message length data (minutes, decimal). null = no reliable data.
-// Aligned to WEEKS index. ELK and SLP 9am are the primary tracked series.
-// LV 11am does not exist; MG message data is unreliable (bumper/message timer swaps). Intentional.
+// Aligned to WEEKS index. SLP 9am and 11am are the tracked series (broadcast campus).
+// ELK/MG/LV not tracked. SLP 9am has a recurring Live-section timer issue — null if suspect.
 // series: 'Std' = standard sermon, 'Q&A' = What About format, '' = moment/special week.
 // On ingest: append one value to each array; update series type.
 const MSG_DATA = {
   planned: 38,
   series:  ['Std', '',   'Std', 'Std', 'Std', 'Std', '',    'Std', '',    'Std', 'Q&A', 'Q&A', 'Std', ''],
   ELK: {
-    '9am':  [40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, null],
-    '11am': [42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, null]
+    '9am':  [40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, 32.70],
+    '11am': [42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, 33.43]
   },
   SLP: {
-    '9am':  [35.07, null, null,  null,  47.65, null,  48.90, null,  null,  42.58, 38.65, 40.15, null,  null],
-    '11am': [36.47, null, null,  null,  null,  null,  47.55, null,  null,  45.58, null,  41.58, null,  null]
+    '9am':  [35.07, null, null,  null,  47.65, null,  48.90, null,  35.92, 42.58, 38.65, 40.15, 35.05, 27.25],
+    '11am': [36.47, null, null,  null,  null,  null,  47.55, null,  37.27, 45.58, 42.00, 41.58, 37.38, 30.05]
   }
 };
 
