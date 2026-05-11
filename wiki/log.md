@@ -2,6 +2,16 @@
 
 ---
 
+## [2026-05-11] ingest | Creative Department Weekly Meeting
+
+- Source: 2026-05-11 Creative Department Weekly Meeting transcript (397 lines)
+- Key extractions: camera philosophy settled (less is more during message; connection shots during response); production/worship playbook refresh called by JC — deadline TEC Aug 16; Eagle Brook site visit planned; Dante 8-channel limit documented (expandable to 16 via Resi SDI); LED walls capital case articulated; 180 Stages video ready to deploy; website events consolidation via CCB; Hispanic service logistics
+- Pastor Nate joined mid-meeting; weighed in on multisite camera psychology and dream to preach from a location campus
+- Pages created: [[creative-dept-weekly-05-11]]
+- Pages updated: [[index]]
+
+---
+
 ## [2026-05-11] synthesis | Recurring Feedback Patterns — Deeper Connections
 
 - Cross-referenced weekend planning notes + meeting transcripts + service times data + attendance report

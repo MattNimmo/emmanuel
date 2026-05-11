@@ -49,6 +49,7 @@ updated: 2026-05-11
 - [[decision-rights]] — Decision Rights.xlsx; 1-5 scale definitions only; created by Nathan Grams; full framework in concept page (1 source)
 - [[employee-list-2026]] — HR export; 72 employees; all campuses; titles + departments; notable: 2 Creative Directors at Central, Tanner Taschuk in comms, Audrey Johnson new/returned (1 source)
 - [[director-sync-05-11]] — May 11 director sync; scripts folder in service prep; app location-events tab missing at MG/ELK; baby dedication returning to locations; broadcast camera feedback from all campuses (1 source)
+- [[creative-dept-weekly-05-11]] — May 11 creative weekly; camera philosophy (less is more during message / connection shots during response); playbook refresh by TEC Aug 16; Eagle Brook site visit planned; Dante 8-channel limit; LED walls capital case; 180 plan launch; website events consolidation (1 source)
 - [[weekly-planning-05-11]] — May 11 weekly planning; Mother's Day full debrief (wins + misses); Holy Spirit Night confirmed (May 31, Spring Lake Park, Pastor Nate); Team Emmanuel RSVP urgency; GDOP May 17 TBD (1 source)
 - [[attendance-report-2026]] — 2026 Sunday weekly attendance Jan–May 10; all campuses; Easter 2026 = 6,993 (+79% vs. 2025); full 2025 comparison column (1 source)
 - [[weekend-planning-notes]] — Living notes document; 70+ Weekend Planning Meetings Dec 2024–May 2026; sermon series arc, recurring production issues, Sunday standards, 4-question debrief history (1 source)
