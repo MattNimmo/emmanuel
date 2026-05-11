@@ -165,7 +165,6 @@
   .trend-item.confirmed { border-color: var(--red); }
   .trend-item.emerging  { border-color: var(--yellow); }
   .trend-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-  .trend-content {}
   .trend-badge {
     display: inline-block; font-size: 10px; font-weight: 700;
     padding: 2px 8px; border-radius: 20px; text-transform: uppercase; margin-bottom: 5px;
@@ -218,7 +217,6 @@
     letter-spacing: 1px; color: var(--muted); margin-bottom: 14px;
   }
   .el-row { display: flex; flex-direction: column; gap: 9px; }
-  .el-item {}
   .el-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
   .el-item-name { font-size: 12px; color: var(--text); }
   .el-item-val  { font-size: 12px; font-weight: 700; }
@@ -226,6 +224,17 @@
   .el-bar-fill  { height: 100%; border-radius: 3px; }
   .el-bar-fill.pos  { background: var(--red); }
   .el-bar-fill.neg  { background: var(--green); }
+
+  /* ── Service total cards ─────────────────────── */
+  .loc-card--note { opacity: 0.6; cursor: default; }
+  .loc-card--note:hover { transform: none; }
+  .svc-actual {
+    font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5;
+  }
+  .svc-limited {
+    font-size: 10px; color: var(--yellow); font-weight: 700;
+    margin-top: 8px; line-height: 1.4;
+  }
 
   /* ── Footer ──────────────────────────────────── */
   footer {
@@ -295,17 +304,26 @@
 
   </div>
 
+  <!-- Overall Service Length Cards -->
+  <div class="section-title">Overall Service Length</div>
+  <div class="location-grid" id="svc-cards"></div>
+
   <!-- Charts Row -->
   <div class="charts-grid">
 
     <div class="chart-card full-width">
-      <div class="chart-title">Mid-Service Variance by Week</div>
-      <div class="chart-subtitle">Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points</div>
+      <div class="chart-title">Service Variance by Week</div>
+      <div class="chart-subtitle" id="trend-subtitle">Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points</div>
       <div class="toggle-row">
         <span class="toggle-label">Service:</span>
         <button class="toggle-btn" id="btn-9am" onclick="setService('9am')">9am</button>
         <button class="toggle-btn" id="btn-11am" onclick="setService('11am')">11am</button>
-        <button class="toggle-btn on" id="btn-avg"  onclick="setService('avg')">Average</button>
+        <button class="toggle-btn on" id="btn-combined" onclick="setService('combined')">Average</button>
+      </div>
+      <div class="toggle-row" style="margin-top:-10px">
+        <span class="toggle-label">Metric:</span>
+        <button class="toggle-btn on" id="btn-mid" onclick="setMetric('mid')">Mid-Service</button>
+        <button class="toggle-btn" id="btn-total" onclick="setMetric('total')">Total Service</button>
       </div>
       <div class="chart-wrap-tall">
         <canvas id="trendChart"></canvas>
@@ -321,6 +339,14 @@
     </div>
 
     <div class="chart-card">
+      <div class="chart-title">Average Total Service Variance</div>
+      <div class="chart-subtitle">By location · non-moment services · ELK, LV, SLP only (MG plan inflated)</div>
+      <div class="chart-wrap">
+        <canvas id="avgTotalChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card full-width">
       <div class="chart-title">Message Length — Plan vs Actual</div>
       <div class="chart-subtitle">Series-type matters: Q&A format ≈ on plan; standard series runs 4–11 min over</div>
       <div class="chart-wrap">
@@ -418,7 +444,7 @@
   </div>
 
   <!-- Weekly Table -->
-  <div class="section-title">Weekly Mid-Service Data</div>
+  <div class="section-title">Weekly Service Data</div>
   <div class="chart-card" style="margin-bottom:0; padding:0;">
     <div class="table-wrap">
       <table id="weeklyTable">
@@ -429,6 +455,10 @@
             <th>9am / 10am Mid</th>
             <th>vs Plan</th>
             <th>11am Mid</th>
+            <th>vs Plan</th>
+            <th>9am / 10am Total</th>
+            <th>vs Plan</th>
+            <th>11am Total</th>
             <th>vs Plan</th>
             <th>Notes</th>
           </tr>
@@ -459,12 +489,36 @@ function elColor(v, isMidTotal) {
   return 'var(--red)';
 }
 
+function svcTotalColor(v) {
+  if (v === null) return 'var(--muted)';
+  if (v < 0)   return 'var(--green)';
+  if (v < 120) return '#666';
+  if (v < 360) return 'var(--yellow)';
+  return 'var(--red)';
+}
+
 function barPct(v, override) {
   if (override !== undefined) return override;
   if (v === null) return 1;
   return Math.min(100, Math.round(Math.abs(v) / 60 * 100));
 }
 
+function secToStr(s) {
+  if (s === null) return '—';
+  const abs = Math.abs(s);
+  const m = Math.floor(abs / 60);
+  const sec = abs % 60;
+  const sign = s >= 0 ? '+' : '−';
+  return `${sign}${m}:${sec.toString().padStart(2,'0')}`;
+}
+
+function avg(arr) {
+  const valid = arr.filter(v => v !== null);
+  if (!valid.length) return null;
+  return valid.reduce((a,b) => a+b, 0) / valid.length;
+}
+
+// ── Mid-Service Element Cards ─────────────────────────────────
 function buildElementCards() {
   ['ELK','LV','MG','SLP'].forEach(loc => {
     const cfg = EL_AVGS[loc];
@@ -486,69 +540,114 @@ function buildElementCards() {
   });
 }
 
-function secToStr(s) {
-  if (s === null) return '—';
-  const abs = Math.abs(s);
-  const m = Math.floor(abs / 60);
-  const sec = abs % 60;
-  const sign = s >= 0 ? '+' : '−';
-  return `${sign}${m}:${sec.toString().padStart(2,'0')}`;
-}
+// ── Overall Service Length Cards ──────────────────────────────
+function buildServiceCards() {
+  const labels = {
+    ELK: 'Elk River · 9am & 11am',
+    LV:  'Lakeville · 10am only',
+    MG:  'Maple Grove · 9am & 11am',
+    SLP: 'Spring Lake Park · 9am & 11am'
+  };
 
-function avg(arr) {
-  const valid = arr.filter(v => v !== null);
-  if (!valid.length) return null;
-  return valid.reduce((a,b) => a+b, 0) / valid.length;
-}
-
-// ── Trend Chart ──────────────────────────────────────────────
-let trendChart;
-let currentService = 'avg';
-
-function buildTrendData(service) {
-  return ['ELK','LV','MG','SLP'].map(loc => {
+  const html = ['ELK','LV','MG','SLP'].map(loc => {
     const color = COLORS[loc];
-    let vals;
-    if (service === 'avg') {
-      vals = WEEKS.map((_, i) => {
-        const a = DATA[loc]['9am'][i];
-        const b = DATA[loc]['11am'][i];
-        if (a === null && b === null) return null;
-        if (a === null) return b;
-        if (b === null) return a;
-        return (a + b) / 2;
-      });
-    } else {
-      vals = DATA[loc][service];
+
+    if (loc === 'MG') {
+      return `<div class="loc-card loc-card--note" data-loc="MG">
+        <div class="loc-name" style="color:${color}">MG</div>
+        <div class="loc-label">${labels[loc]}</div>
+        <div class="loc-stat" style="font-size:22px;color:var(--muted)">—</div>
+        <div class="loc-stat-label" style="margin-top:8px;line-height:1.6">Plan total inflated by song<br>double-count in PC — excluded</div>
+      </div>`;
     }
 
-    // Split into moment and non-moment segments for styling
-    return {
-      label: loc,
-      data: vals,
-      borderColor: color,
-      backgroundColor: color + '22',
-      borderWidth: 2.5,
-      pointRadius: vals.map((v, i) => v !== null ? 5 : 0),
-      pointBackgroundColor: vals.map((v, i) =>
-        MOMENTS[loc][i] ? 'white' : color
-      ),
-      pointBorderColor: color,
-      pointBorderWidth: vals.map((v, i) => MOMENTS[loc][i] ? 2 : 0),
-      tension: 0.35,
-      spanGaps: true
-    };
-  });
+    const avgs = SERVICE_TOTAL_AVGS[loc];
+    const vals = [avgs.avg9, avgs.avg11].filter(v => v !== null);
+    const combined = vals.length ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
+    const statColor = svcTotalColor(combined);
+
+    // Compute typical actual range from non-moment, non-null weeks
+    const actuals = [];
+    WEEKS.forEach((_, i) => {
+      if (!MOMENTS[loc][i]) {
+        const p9 = SERVICE_TOTAL_PLANNED[loc]['9am'][i];
+        const v9 = SERVICE_TOTAL[loc]['9am'][i];
+        if (p9 !== null && v9 !== null) actuals.push(p9 + v9);
+        const p11 = SERVICE_TOTAL_PLANNED[loc]['11am'][i];
+        const v11 = SERVICE_TOTAL[loc]['11am'][i];
+        if (p11 !== null && v11 !== null) actuals.push(p11 + v11);
+      }
+    });
+
+    let rangeHtml = '';
+    if (actuals.length >= 2) {
+      const minM = Math.floor(Math.min(...actuals) / 60);
+      const maxM = Math.floor(Math.max(...actuals) / 60);
+      rangeHtml = `<div class="svc-actual">Typical actual: ${minM}–${maxM} min</div>`;
+    }
+
+    const limitedHtml = avgs.limitedData
+      ? `<div class="svc-limited">⚠ Plan inflation limits several LV weeks</div>`
+      : '';
+
+    return `<div class="loc-card" data-loc="${loc}">
+      <div class="loc-name" style="color:${color}">${loc}</div>
+      <div class="loc-label">${labels[loc]}</div>
+      <div class="loc-stat" style="color:${statColor}">${secToStr(combined)}</div>
+      <div class="loc-stat-label">avg total service variance</div>
+      ${rangeHtml}
+      ${limitedHtml}
+    </div>`;
+  }).join('');
+
+  document.getElementById('svc-cards').innerHTML = html;
+}
+
+// ── Trend Chart ───────────────────────────────────────────────
+let trendChart;
+let currentService = 'combined';
+let currentMetric  = 'mid';
+
+function buildTrendData(service, metric) {
+  const source = metric === 'total' ? SERVICE_TOTAL : DATA;
+  return ['ELK','LV','MG','SLP']
+    .filter(loc => !(metric === 'total' && loc === 'MG'))
+    .map(loc => {
+      const color = COLORS[loc];
+      let vals;
+      if (service === 'combined') {
+        vals = WEEKS.map((_, i) => {
+          const a = source[loc]['9am'][i];
+          const b = source[loc]['11am'][i];
+          if (a === null && b === null) return null;
+          if (a === null) return b;
+          if (b === null) return a;
+          return (a + b) / 2;
+        });
+      } else {
+        vals = (source[loc][service] || WEEKS.map(() => null)).slice();
+      }
+      return {
+        label: loc,
+        data: vals,
+        borderColor: color,
+        backgroundColor: color + '22',
+        borderWidth: 2.5,
+        pointRadius: vals.map(v => v !== null ? 5 : 0),
+        pointBackgroundColor: vals.map((v, i) => MOMENTS[loc][i] ? 'white' : color),
+        pointBorderColor: color,
+        pointBorderWidth: vals.map((v, i) => MOMENTS[loc][i] ? 2 : 0),
+        tension: 0.35,
+        spanGaps: true
+      };
+    });
 }
 
 function initTrendChart() {
   const ctx = document.getElementById('trendChart').getContext('2d');
   trendChart = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels: WEEKS,
-      datasets: buildTrendData('avg')
-    },
+    data: { labels: WEEKS, datasets: buildTrendData('combined', 'mid') },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
@@ -565,8 +664,9 @@ function initTrendChart() {
               const abs = Math.abs(s);
               const m = Math.floor(abs/60), sec = abs%60;
               const sign = s >= 0 ? '+' : '−';
-              const moment = MOMENTS[ctx.dataset.label][ctx.dataIndex] ? ' (M)' : '';
-              return ` ${ctx.dataset.label}: ${sign}${m}:${sec.toString().padStart(2,'0')}${moment}`;
+              const loc = ctx.dataset.label;
+              const isMoment = MOMENTS[loc] && MOMENTS[loc][ctx.dataIndex];
+              return ` ${loc}: ${sign}${m}:${sec.toString().padStart(2,'0')}${isMoment ? ' (M)' : ''}`;
             }
           }
         }
@@ -584,33 +684,35 @@ function initTrendChart() {
             font: { size: 11 }
           }
         },
-        x: {
-          grid: { display: false },
-          ticks: { font: { size: 12 } }
-        }
+        x: { grid: { display: false }, ticks: { font: { size: 12 } } }
       }
     }
   });
-
-  // Zero line
-  trendChart.options.plugins.annotation = {};
 }
 
 function setService(svc) {
   currentService = svc;
-  document.getElementById('btn-9am').className  = 'toggle-btn' + (svc==='9am'  ? ' on' : '');
-  document.getElementById('btn-11am').className = 'toggle-btn' + (svc==='11am' ? ' on' : '');
-  document.getElementById('btn-avg').className  = 'toggle-btn' + (svc==='avg'  ? ' on' : '');
-  trendChart.data.datasets = buildTrendData(svc);
+  document.getElementById('btn-9am').className      = 'toggle-btn' + (svc==='9am'      ? ' on' : '');
+  document.getElementById('btn-11am').className     = 'toggle-btn' + (svc==='11am'     ? ' on' : '');
+  document.getElementById('btn-combined').className = 'toggle-btn' + (svc==='combined' ? ' on' : '');
+  trendChart.data.datasets = buildTrendData(svc, currentMetric);
   trendChart.update();
 }
 
-// ── Avg Bar Chart ────────────────────────────────────────────
+function setMetric(m) {
+  currentMetric = m;
+  document.getElementById('btn-mid').className   = 'toggle-btn' + (m==='mid'   ? ' on' : '');
+  document.getElementById('btn-total').className = 'toggle-btn' + (m==='total' ? ' on' : '');
+  document.getElementById('trend-subtitle').textContent = m === 'total'
+    ? 'Seconds over / under planned total service length · averaged per campus per week · moment-flagged weeks shown as hollow points · MG excluded (plan inflated)'
+    : 'Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points';
+  trendChart.data.datasets = buildTrendData(currentService, m);
+  trendChart.update();
+}
+
+// ── Avg Mid-Service Bar Chart ─────────────────────────────────
 function initAvgChart() {
   const ctx = document.getElementById('avgChart').getContext('2d');
-  const avgs = {
-    ELK: 47, LV: 18, MG: 77, SLP: 36
-  };
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -618,13 +720,9 @@ function initAvgChart() {
       datasets: [{
         label: 'Avg Mid Variance (sec)',
         data: ['ELK','LV','MG','SLP'].map(loc => EL_AVGS[loc].midTotal),
-        backgroundColor: [
-          COLORS.ELK + 'cc', COLORS.LV + 'cc',
-          COLORS.MG + 'cc', COLORS.SLP + 'cc'
-        ],
-        borderColor: [COLORS.ELK, COLORS.LV, COLORS.MG, COLORS.SLP],
-        borderWidth: 2,
-        borderRadius: 8
+        backgroundColor: [COLORS.ELK+'cc', COLORS.LV+'cc', COLORS.MG+'cc', COLORS.SLP+'cc'],
+        borderColor:      [COLORS.ELK,      COLORS.LV,      COLORS.MG,      COLORS.SLP],
+        borderWidth: 2, borderRadius: 8
       }]
     },
     options: {
@@ -635,8 +733,8 @@ function initAvgChart() {
           callbacks: {
             label: ctx => {
               const s = ctx.raw;
-              const m = Math.floor(s/60), sec = s%60;
-              return ` +${m}:${sec.toString().padStart(2,'0')} over plan`;
+              const m = Math.floor(Math.abs(s)/60), sec = Math.abs(s)%60;
+              return ` ${s>=0?'+':'−'}${m}:${sec.toString().padStart(2,'0')} vs plan`;
             }
           }
         }
@@ -658,9 +756,64 @@ function initAvgChart() {
   });
 }
 
-// ── Message Chart ────────────────────────────────────────────
+// ── Avg Total Service Bar Chart ───────────────────────────────
+function initAvgTotalChart() {
+  const locs = ['ELK','LV','SLP'];
+  const vals = locs.map(loc => {
+    const avgs = SERVICE_TOTAL_AVGS[loc];
+    const v = [avgs.avg9, avgs.avg11].filter(x => x !== null);
+    return v.length ? Math.round(v.reduce((a,b) => a+b, 0) / v.length) : null;
+  });
+  const ctx = document.getElementById('avgTotalChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: locs,
+      datasets: [{
+        label: 'Avg Total Variance (sec)',
+        data: vals,
+        backgroundColor: locs.map(l => COLORS[l]+'cc'),
+        borderColor:      locs.map(l => COLORS[l]),
+        borderWidth: 2, borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const s = ctx.raw;
+              if (s === null) return ' —';
+              const abs = Math.abs(s);
+              const m = Math.floor(abs/60), sec = abs%60;
+              return ` ${s>=0?'+':'−'}${m}:${sec.toString().padStart(2,'0')} vs plan`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: {
+            callback: v => {
+              const abs = Math.abs(v);
+              const m = Math.floor(abs/60), s = abs%60;
+              return (v>=0?'+':'−') + m + ':' + s.toString().padStart(2,'0');
+            },
+            font: { size: 11 }
+          }
+        },
+        x: { grid: { display: false }, ticks: { font: { size: 13, weight: '700' } } }
+      }
+    }
+  });
+}
+
+// ── Message Chart ─────────────────────────────────────────────
 function initMsgChart() {
-  const indices = WEEKS.map((_, i) => i).filter(i => MSG_DATA.ELK['9am'][i] !== null);
+  const indices = WEEKS.map((_, i) => i).filter(i => MSG_DATA.SLP['9am'][i] !== null);
   const labels  = indices.map(i => MSG_DATA.series[i] ? WEEKS[i] + '\n' + MSG_DATA.series[i] : WEEKS[i]);
   const ctx = document.getElementById('msgChart').getContext('2d');
   new Chart(ctx, {
@@ -668,40 +821,14 @@ function initMsgChart() {
     data: {
       labels,
       datasets: [
-        {
-          label: 'Planned',
-          data: indices.map(() => MSG_DATA.planned),
-          backgroundColor: '#e8e8e8',
-          borderRadius: 6,
-          borderSkipped: false
-        },
-        {
-          label: 'ELK 9am',
-          data: indices.map(i => MSG_DATA.ELK['9am'][i]),
-          backgroundColor: COLORS.ELK + '99',
-          borderColor: COLORS.ELK,
-          borderWidth: 1.5,
-          borderRadius: 6,
-          borderSkipped: false
-        },
-        {
-          label: 'SLP 9am',
-          data: indices.map(i => MSG_DATA.SLP['9am'][i]),
-          backgroundColor: COLORS.SLP + '99',
-          borderColor: COLORS.SLP,
-          borderWidth: 1.5,
-          borderRadius: 6,
-          borderSkipped: false
-        }
+        { label: 'Planned', data: indices.map(() => MSG_DATA.planned), backgroundColor: '#e8e8e8', borderRadius: 6, borderSkipped: false },
+        { label: 'SLP 9am', data: indices.map(i => MSG_DATA.SLP['9am'][i]), backgroundColor: COLORS.SLP+'99', borderColor: COLORS.SLP, borderWidth: 1.5, borderRadius: 6, borderSkipped: false }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: 'top',
-          labels: { boxWidth: 10, padding: 12, font: { size: 11 } }
-        },
+        legend: { position: 'top', labels: { boxWidth: 10, padding: 12, font: { size: 11 } } },
         tooltip: {
           callbacks: {
             label: ctx => {
@@ -714,11 +841,7 @@ function initMsgChart() {
         }
       },
       scales: {
-        y: {
-          min: 33, max: 52,
-          grid: { color: '#f0f0f0' },
-          ticks: { callback: v => v + ' min', font: { size: 11 } }
-        },
+        y: { min: 33, max: 52, grid: { color: '#f0f0f0' }, ticks: { callback: v => v + ' min', font: { size: 11 } } },
         x: { grid: { display: false }, ticks: { font: { size: 10 } } }
       }
     }
@@ -746,6 +869,10 @@ function buildTable() {
       <td>${varChip(row.p9)}</td>
       <td>${row.m11}</td>
       <td>${varChip(row.p11)}</td>
+      <td style="font-size:12px;color:var(--muted)">${row.tot9 || '—'}</td>
+      <td>${varChip(row.pt9 || '—')}</td>
+      <td style="font-size:12px;color:var(--muted)">${row.tot11 || '—'}</td>
+      <td>${varChip(row.pt11 || '—')}</td>
       <td style="color:var(--muted); font-size:12px">${row.moment ? `<span class="moment-chip">★ Moment</span>` : ''}${row.notes}</td>
     `;
     tbody.appendChild(tr);
@@ -757,15 +884,37 @@ function buildTable() {
   const n     = WEEKS.length;
   const first = WEEKS[0];
   const last  = WEEKS[n - 1];
-  const year = WEEKS_FULL[n - 1].slice(0, 4);
+  const year  = WEEKS_FULL[n - 1].slice(0, 4);
+
+  // Alignment guard — catches ingest drift before it silently mis-renders.
+  const lengths = [
+    WEEKS_FULL, MOMENTS.ELK, MOMENTS.LV, MOMENTS.MG, MOMENTS.SLP,
+    DATA.ELK['9am'], DATA.ELK['11am'], DATA.LV['9am'], DATA.LV['11am'],
+    DATA.MG['9am'],  DATA.MG['11am'],  DATA.SLP['9am'], DATA.SLP['11am'],
+    SERVICE_TOTAL.ELK['9am'],  SERVICE_TOTAL.ELK['11am'],
+    SERVICE_TOTAL.LV['9am'],   SERVICE_TOTAL.SLP['9am'], SERVICE_TOTAL.SLP['11am'],
+    SERVICE_TOTAL_PLANNED.ELK['9am'], SERVICE_TOTAL_PLANNED.SLP['9am']
+  ];
+  const misaligned = lengths.filter(a => a.length !== n);
+  if (misaligned.length) {
+    console.error(`[ECC] Array length mismatch — expected ${n}, got misaligned arrays:`, misaligned);
+    document.body.insertAdjacentHTML('afterbegin',
+      `<div style="background:#E74C3C;color:#fff;padding:12px 24px;font-weight:700;font-size:13px">
+        ⚠ Data alignment error — check console. Some arrays don't match WEEKS length (${n}).
+       </div>`);
+  }
+
   document.getElementById('header-sub').textContent =
     `Mid-service variance tracking across all 4 campuses · ${n} weeks of data · ${first} – ${last}`;
   document.getElementById('site-footer').textContent =
     `ECC Production · Service Times Tracking · Updated ${last}, ${year} · ${n} weeks of data · ${first} – ${last}`;
 })();
+
 buildElementCards();
+buildServiceCards();
 initTrendChart();
 initAvgChart();
+initAvgTotalChart();
 initMsgChart();
 buildTable();
 </script>
