@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECC Comms Capacity View — Apr 2026 – Apr 2027</title>
+<style>
+  :root {
+    --load-low: #16a34a;
+    --load-low-bg: #dcfce7;
+    --load-mod: #d97706;
+    --load-mod-bg: #fef3c7;
+    --load-high: #dc2626;
+    --load-high-bg: #fee2e2;
+    --load-crit: #7f1d1d;
+    --load-crit-bg: #fecaca;
+    --series-a: #6366f1;
+    --series-b: #0891b2;
+    --series-c: #059669;
+    --series-d: #d97706;
+    --event-special: #9333ea;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: #f8fafc; color: #1e293b; font-size: 13px; }
+
+  /* ── Header ── */
+  header {
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: 18px 24px 14px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  }
+  header h1 { font-size: 17px; font-weight: 700; letter-spacing: -.3px; }
+  header p  { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+  /* ── Nav strip ── */
+  #month-nav {
+    background: #0f172a;
+    padding: 8px 24px;
+    display: flex; gap: 6px; flex-wrap: wrap;
+    position: sticky; top: 57px; z-index: 99;
+    border-bottom: 1px solid #334155;
+  }
+  #month-nav a {
+    color: #94a3b8; text-decoration: none; font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 4px; transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  #month-nav a:hover { background: #1e293b; color: #f1f5f9; }
+  #month-nav a.active { background: #3b82f6; color: #fff; }
+
+  /* ── Main layout ── */
+  main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ── Heatmap ── */
+  #heatmap {
+    background: #fff; border-radius: 10px; padding: 18px 20px;
+    border: 1px solid #e2e8f0; margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  #heatmap h2 { font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #64748b; margin-bottom: 12px; }
+  #heatmap-grid { display: flex; gap: 3px; flex-wrap: wrap; align-items: flex-start; }
+  .hm-month { display: flex; flex-direction: column; gap: 2px; }
+  .hm-month-label { font-size: 9px; font-weight: 700; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: .5px; margin-bottom: 3px; text-align: center; }
+  .hm-week {
+    width: 22px; height: 22px; border-radius: 4px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px; color: rgba(255,255,255,.8); font-weight: 700;
+    transition: transform .1s, box-shadow .1s;
+    position: relative;
+  }
+  .hm-week:hover { transform: scale(1.3); box-shadow: 0 2px 8px rgba(0,0,0,.25); z-index: 2; }
+  .hm-week.load-low  { background: var(--load-low); }
+  .hm-week.load-mod  { background: var(--load-mod); }
+  .hm-week.load-high { background: var(--load-high); }
+  .hm-week.load-crit { background: var(--load-crit); }
+  .hm-week.today { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3b82f6; }
+  .hm-sep { width: 1px; background: #e2e8f0; margin: 0 4px; align-self: stretch; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px;
+    padding-top: 12px; border-top: 1px solid #f1f5f9;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #64748b; }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* ── Recurring baseline box ── */
+  #baseline {
+    background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 24px;
+  }
+  #baseline h2 { font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #3b82f6; margin-bottom: 8px; }
+  #baseline ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+  #baseline ul li {
+    background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* ── Month sections ── */
+  .month-section {
+    background: #fff; border-radius: 10px; border: 1px solid #e2e8f0;
+    margin-bottom: 20px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .month-header {
+    padding: 14px 18px 12px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .month-header-left h2 { font-size: 16px; font-weight: 800; color: #0f172a; }
+  .month-header-left .month-note {
+    font-size: 11px; color: #64748b; margin-top: 3px; max-width: 580px;
+  }
+  .load-badge {
+    font-size: 11px; font-weight: 700; padding: 4px 12px;
+    border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .load-badge.low  { background: var(--load-low-bg);  color: var(--load-low); }
+  .load-badge.mod  { background: var(--load-mod-bg);  color: var(--load-mod); }
+  .load-badge.high { background: var(--load-high-bg); color: var(--load-high); }
+  .load-badge.crit { background: var(--load-crit-bg); color: var(--load-crit); }
+
+  /* ── Week rows ── */
+  .week-table { width: 100%; border-collapse: collapse; }
+  .week-table th {
+    text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .6px; color: #94a3b8; padding: 8px 14px;
+    background: #f8fafc; border-bottom: 1px solid #f1f5f9;
+  }
+  .week-table td { padding: 9px 14px; vertical-align: top; border-bottom: 1px solid #f8fafc; }
+  .week-table tr:last-child td { border-bottom: none; }
+  .week-table tr:hover td { background: #fafbff; }
+  .week-table tr.today-row td { background: #eff6ff !important; }
+  .week-table tr.today-row .week-date::after {
+    content: " ← today"; font-size: 9px; color: #3b82f6; font-weight: 700;
+  }
+
+  .week-date { font-size: 12px; font-weight: 700; color: #334155; white-space: nowrap; }
+  .week-date .day-label { font-size: 10px; color: #94a3b8; font-weight: 400; display: block; }
+
+  /* Series pill */
+  .series-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px;
+    font-weight: 600; line-height: 1.4; margin-bottom: 2px;
+  }
+  .s-what   { background: #ede9fe; color: #6d28d9; }
+  .s-7ch    { background: #dbeafe; color: #1d4ed8; }
+  .s-aug    { background: #d1fae5; color: #065f46; }
+  .s-fall   { background: #fef3c7; color: #92400e; }
+  .s-kb     { background: #fee2e2; color: #991b1b; }
+  .s-xmas   { background: #fce7f3; color: #9d174d; }
+  .s-jan    { background: #e0f2fe; color: #0369a1; }
+  .s-feb    { background: #f3e8ff; color: #7e22ce; }
+  .s-spring { background: #ecfdf5; color: #064e3b; }
+  .s-easter { background: #fff7ed; color: #9a3412; }
+  .s-indy   { background: #f1f5f9; color: #475569; }
+
+  /* Event tags */
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 600; padding: 2px 8px;
+    border-radius: 4px; white-space: nowrap;
+  }
+  .tag-special  { background: #f3e8ff; color: #7e22ce; }
+  .tag-event    { background: #dbeafe; color: #1e40af; }
+  .tag-note     { background: #f1f5f9; color: #475569; }
+  .tag-deadline { background: #fef3c7; color: #92400e; }
+  .tag-warn     { background: #fee2e2; color: #991b1b; }
+  .tag-today    { background: #bfdbfe; color: #1d4ed8; }
+
+  /* Deliverables */
+  .deliverables { display: flex; flex-direction: column; gap: 3px; }
+  .deliv-item {
+    font-size: 11px; color: #374151;
+    padding: 2px 0;
+  }
+  .deliv-item::before { content: "·  "; color: #94a3b8; }
+  .deliv-major { font-weight: 600; color: #0f172a; }
+  .deliv-major::before { content: "▸  "; color: #dc2626; }
+
+  /* ── Overflow warning banner ── */
+  .overflow-banner {
+    background: #7f1d1d; color: #fecaca;
+    padding: 8px 14px; font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .overflow-banner::before { content: "⚠"; font-size: 14px; }
+
+  /* ── Series key ── */
+  #series-key {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  #series-key h2 { font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #64748b; margin-bottom: 10px; }
+  .series-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .series-entry {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: #374151;
+  }
+
+  @media (max-width: 700px) {
+    .week-table th:nth-child(4),
+    .week-table td:nth-child(4) { display: none; }
+    .month-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ECC Comms — Annual Capacity View</h1>
+  <p>April 2026 – April 2027 &nbsp;·&nbsp; Generated Apr 20, 2026 &nbsp;·&nbsp; Source: Emmanuel Master Calendar + Comms Project Horizon</p>
+</header>
+
+<nav id="month-nav">
+  <a href="#apr2026">Apr '26</a>
+  <a href="#may2026">May '26</a>
+  <a href="#jun2026">Jun '26</a>
+  <a href="#jul2026">Jul '26</a>
+  <a href="#aug2026">Aug '26</a>
+  <a href="#sep2026">Sep '26</a>
+  <a href="#oct2026">Oct '26</a>
+  <a href="#nov2026">Nov '26</a>
+  <a href="#dec2026">Dec '26</a>
+  <a href="#jan2027">Jan '27</a>
+  <a href="#feb2027">Feb '27</a>
+  <a href="#mar2027">Mar '27</a>
+  <a href="#apr2027">Apr '27</a>
+</nav>
+
+<main>
+
+<!-- ── Heatmap ── -->
+<section id="heatmap">
+  <h2>Year at a Glance — Weekly Load</h2>
+  <div id="heatmap-grid"></div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--load-low)"></div> Lower load</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--load-mod)"></div> Moderate</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--load-high)"></div> High</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--load-crit)"></div> Overcapacity risk</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#3b82f6; border-radius: 50%;"></div> Today (Apr 20)</div>
+  </div>
+</section>
+
+<!-- ── Recurring Baseline ── -->
+<section id="baseline">
+  <h2>Recurring Weekly Baseline (Every Week, All Year)</h2>
+  <ul>
+    <li>Weekly announcement graphics</li>
+    <li>Sunday message edit + upload (YT / website / Pando / Spotify)</li>
+    <li>Sermon clips → social</li>
+    <li>Weekly email</li>
+    <li>Sunday photo coverage + edit</li>
+    <li>Emmanuel MN social posts (2–3/wk)</li>
+    <li>Social media posting + management</li>
+    <li>Lobby TV management</li>
+  </ul>
+</section>
+
+<!-- ── Series Color Key ── -->
+<section id="series-key">
+  <h2>Sermon Series Key</h2>
+  <div class="series-grid">
+    <div class="series-entry"><span class="series-pill s-what">What About…</span> Apr–May 2026</div>
+    <div class="series-entry"><span class="series-pill s-7ch">7 Churches of Rev.</span> Jun–Jul 2026</div>
+    <div class="series-entry"><span class="series-pill s-aug">August Series (TBD)</span> Aug 2026</div>
+    <div class="series-entry"><span class="series-pill s-fall">Fall CG Series</span> Sep–Oct 2026</div>
+    <div class="series-entry"><span class="series-pill s-kb">KB Series (Tell Me Why‑type)</span> Oct–Nov 2026</div>
+    <div class="series-entry"><span class="series-pill s-xmas">Christmas Advent</span> Dec 2026</div>
+    <div class="series-entry"><span class="series-pill s-jan">New Year Series</span> Jan 2027</div>
+    <div class="series-entry"><span class="series-pill s-feb">Post-Super Sunday Series</span> Feb 2027</div>
+    <div class="series-entry"><span class="series-pill s-spring">Spring Series</span> Mar 2027</div>
+    <div class="series-entry"><span class="series-pill s-easter">Easter Series</span> Apr 2027</div>
+    <div class="series-entry"><span class="series-pill s-indy">Individual / Guest message</span> various</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     MONTH SECTIONS
+════════════════════════════════════════ -->
+
+<!-- APRIL 2026 -->
+<section class="month-section" id="apr2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>April 2026</h2>
+      <div class="month-note">Easter weekend landed Apr 5 · What About… series ongoing · Sisterhood Spring not in 2026</div>
+    </div>
+    <span class="load-badge mod">🟡 Moderate</span>
+  </div>
+  <table class="week-table">
+    <thead><tr>
+      <th style="width:100px">Sunday</th>
+      <th style="width:220px">Series / Service</th>
+      <th>Events &amp; Notes</th>
+      <th>Key Deliverables</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Apr 5<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-easter">EASTER SUNDAY</span></td>
+        <td><div class="tags">
+          <span class="tag tag-special">🎉 Easter</span>
+          <span class="tag tag-note">Good Friday Apr 3</span>
+          <span class="tag tag-note">Ability Tree camp offering</span>
+        </div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Full Easter graphics package</span>
+          <span class="deliv-item deliv-major">Good Friday service support</span>
+          <span class="deliv-item">Offering slide: Ability Tree</span>
+          <span class="deliv-item">Social content (post-Easter)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Apr 12<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-what">What About… #1</span></td>
+        <td><div class="tags"><span class="tag tag-event">Baptism</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics (series)</span>
+          <span class="deliv-item">Announcement slides</span>
+        </div></td>
+      </tr>
+      <tr class="today-row">
+        <td><span class="week-date">Apr 19<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-what">What About… #2</span></td>
+        <td><div class="tags"><span class="tag tag-today">📍 Current week</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item">Announcement slides</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Apr 26<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-what">What About… #3</span></td>
+        <td><div class="tags"><span class="tag tag-note">Communion</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item">Announcement slides</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- MAY 2026 -->
+<section class="month-section" id="may2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>May 2026</h2>
+      <div class="month-note">What About… wraps May 31 · Mother's Day (May 10) is main lift · Holy Spirit Night = announcement only · 7 Churches launch prep begins late May</div>
+    </div>
+    <span class="load-badge mod">🟡 Moderate</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">May 3<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-indy">Individual Message</span></td>
+        <td><div class="tags"><span class="tag tag-note">Brad Rosenburg / One Day to Feed the World</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Offering support slide</span><span class="deliv-item">Announcement slides</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">May 10<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-indy">Mother's Day</span></td>
+        <td><div class="tags"><span class="tag tag-special">Mother's Day</span><span class="tag tag-note">Pastor Jodi speaking</span><span class="tag tag-event">Child Dedication</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Mother's Day graphics package</span>
+          <span class="deliv-item deliv-major">Video for moms</span>
+          <span class="deliv-item">Photobooth / flower moment support</span>
+          <span class="deliv-item">Bumper (Mother's Day look)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">May 17<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-what">What About… #4</span></td>
+        <td><div class="tags"><span class="tag tag-note">Global Day of Prayer for Buddhist World</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span><span class="deliv-item">Announcement slides</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">May 24<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-what">What About… #5</span></td>
+        <td><div class="tags"><span class="tag tag-note">Phil Johnson speaking</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">May 31<span class="day-label">Week 5</span></span></td>
+        <td><span class="series-pill s-what">What About… #6</span></td>
+        <td><div class="tags"><span class="tag tag-special">Holy Spirit Night</span><span class="tag tag-deadline">7 Churches launch prep begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Announcement slide (Holy Spirit Night)</span>
+          <span class="deliv-item">Series close social graphics</span>
+          <span class="deliv-item deliv-major">7 Churches graphics package — begin</span>
+          <span class="deliv-item deliv-major">7 Churches bumper video — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- JUNE 2026 -->
+<section class="month-section" id="jun2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>June 2026</h2>
+      <div class="month-note">7 Churches of Revelation launches Jun 7 (new graphics package + bumper) · Father's Day Jun 21 = light acknowledgment · Summer series steady state</div>
+    </div>
+    <span class="load-badge mod">🟡 Moderate</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Jun 7<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-event">Series Launch</span><span class="tag tag-note">Communion</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Full graphics package — due this Sunday</span>
+          <span class="deliv-item deliv-major">Bumper video — due this Sunday</span>
+          <span class="deliv-item">Social launch content</span>
+          <span class="deliv-item">Website/app update</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jun 14<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #2</span></td>
+        <td><div class="tags"><span class="tag tag-note">Darin Poli speaking</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span><span class="deliv-item">Announcement slides</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jun 21<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #3</span></td>
+        <td><div class="tags"><span class="tag tag-special">Father's Day</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Father's Day acknowledgment (light)</span><span class="deliv-item">Weekly social graphics</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jun 28<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #4</span></td>
+        <td><div class="tags"></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span><span class="deliv-item">Announcement slides</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- JULY 2026 -->
+<section class="month-section" id="jul2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>July 2026</h2>
+      <div class="month-note">Summer series steady state · MNTC (Jul 12) is externally produced — lowest-burden Sunday of year · Serve Day promo = announcement package only</div>
+    </div>
+    <span class="load-badge low">🟢 Lower</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Jul 5<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #5</span></td>
+        <td><div class="tags"><span class="tag tag-note">Young Communicators</span><span class="tag tag-note">Communion</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jul 12<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-indy">MNTC Sunday</span></td>
+        <td><div class="tags"><span class="tag tag-event">MNTC</span><span class="tag tag-note">Externally produced content</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Minimal — externally produced</span><span class="deliv-item">Announcement support only</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jul 19<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #6</span></td>
+        <td><div class="tags"><span class="tag tag-event">Baptism</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item">Serve Day announcement slide (⚠️ if confirmed)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jul 26<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-7ch">7 Churches #7 — FINAL</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">August Series prep begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">August Series graphics package — begin</span>
+          <span class="deliv-item deliv-major">August Series bumper video — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- AUGUST 2026 -->
+<section class="month-section" id="aug2026">
+  <div class="overflow-banner">FALSE CALM WARNING — August carries 4 concurrent workstreams: new series launch + Team Emmanuel Conference + CG Campaign booklet design + Fall Kickoff prep</div>
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>August 2026</h2>
+      <div class="month-note">Historically the most underplanned month. August Series launches AND Team Emmanuel Conference (major event) AND CG booklet design must begin AND Fall Kickoff prep starts. Treat as peak season.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Aug 2<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-aug">August Series #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-event">Series Launch</span><span class="tag tag-note">Dr. Darnell Williams</span><span class="tag tag-note">Communion</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Full graphics package — due this Sunday</span>
+          <span class="deliv-item deliv-major">Bumper video — due this Sunday</span>
+          <span class="deliv-item">Social launch content</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Aug 9<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-aug">August Series #2</span></td>
+        <td><div class="tags"><span class="tag tag-warn">TEC — Aug 15</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">TEC: Graphics package + supers</span>
+          <span class="deliv-item deliv-major">TEC: Promo video</span>
+          <span class="deliv-item deliv-major">TEC: Photobooth design + order</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Aug 16<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-aug">August Series #3</span></td>
+        <td><div class="tags"><span class="tag tag-note">Post-TEC week</span><span class="tag tag-deadline">CG booklet — design begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">CG Campaign booklet — cover + assets begin</span>
+          <span class="deliv-item">ELC Launch Day merch design ⚠️</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Aug 23<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-aug">August Series #4</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Fall Kickoff prep begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Fall Kickoff graphics package — begin</span>
+          <span class="deliv-item">Fall Kickoff merch design + order</span>
+          <span class="deliv-item">CG booklet — in progress</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Aug 30<span class="day-label">Week 5</span></span></td>
+        <td><span class="series-pill s-aug">August Series #5 — FINAL</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">CG booklet must be print-ready</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">CG booklet — finalize + send to print</span>
+          <span class="deliv-item deliv-major">Fall CG Series graphics package — begin</span>
+          <span class="deliv-item deliv-major">Fall CG Series bumper video — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SEPTEMBER 2026 -->
+<section class="month-section" id="sep2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>September 2026</h2>
+      <div class="month-note">Two major back-to-back launch events: Fall Kickoff + CG Series launch (one week apart). Booklet must arrive from print before launch Sunday. CG Campaign = new series + booklet + website + Connect Groups promo all at once.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Sep 6<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-indy">Individual / Bridge</span></td>
+        <td><div class="tags"><span class="tag tag-special">Fall Kickoff (~Sep 6 or 13)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Fall Kickoff graphics package — deploy</span>
+          <span class="deliv-item">Fall Kickoff merch — arrive + distribute</span>
+          <span class="deliv-item">Announcement slides (CG Campaign promo)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Sep 13<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-event">Series Launch</span><span class="tag tag-warn">CG booklets in hand</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">CG Series full graphics package — deploy</span>
+          <span class="deliv-item deliv-major">CG bumper video — deploy</span>
+          <span class="deliv-item deliv-major">CG booklets — distributed in lobbies</span>
+          <span class="deliv-item">Website/app update — Connect Groups</span>
+          <span class="deliv-item">Social launch campaign</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Sep 20<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #2</span></td>
+        <td><div class="tags"><span class="tag tag-event">Baptism ⚠️</span></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span><span class="deliv-item">Connect Groups recruitment social push</span></div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Sep 27<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #3</span></td>
+        <td><div class="tags"></div></td>
+        <td><div class="deliverables"><span class="deliv-item">Weekly social graphics</span><span class="deliv-item">Website/app — Connect Groups live</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- OCTOBER 2026 -->
+<section class="month-section" id="oct2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>October 2026</h2>
+      <div class="month-note">Worship Night (likely mid-Oct based on 2025 precedent — confirm date) is a full production event. KB Series launches late Oct. CG Series still running. Potentially 3 graphics packages in play simultaneously.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Oct 4<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #4</span></td>
+        <td><div class="tags"><span class="tag tag-warn">Worship Night prep begins ⚠️</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Worship Night graphics package — begin</span>
+          <span class="deliv-item deliv-major">Worship Night promo video — begin</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Oct 11<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #5</span></td>
+        <td><div class="tags"><span class="tag tag-special">Worship Night ⚠️ (confirm date)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Worship Night: full graphics pkg — deploy</span>
+          <span class="deliv-item deliv-major">Worship Night: promo video — deploy</span>
+          <span class="deliv-item deliv-major">Worship Night: video recording + production</span>
+          <span class="deliv-item">MYC announcement slide ⚠️</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Oct 18<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-fall">Fall CG Series #6 — FINAL</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">KB Series launch prep begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">KB Series graphics package — begin</span>
+          <span class="deliv-item deliv-major">KB Series bumper video — begin</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Oct 25<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-note">Child Dedications ⚠️</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">KB Series full graphics package — deploy</span>
+          <span class="deliv-item deliv-major">KB bumper video — deploy</span>
+          <span class="deliv-item">Social launch content</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- NOVEMBER 2026 -->
+<section class="month-section" id="nov2026">
+  <div class="overflow-banner">PEAK CRUNCH — Highest-risk window of the year. Every team member at or over capacity. No unplanned requests this month. Defer or outsource anything non-P0.</div>
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>November 2026</h2>
+      <div class="month-note">KB Series + Miracle Offering (12 deliverables, print + data dependencies) + Sisterhood Fall + KB Weekend #2 + Advent booklet + Christmas design must BEGIN before month ends. No slack exists.</div>
+    </div>
+    <span class="load-badge crit">🔴🔴 Overcapacity Risk</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Nov 1<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #2</span></td>
+        <td><div class="tags"><span class="tag tag-note">Communion ⚠️</span><span class="tag tag-warn">Miracle Offering promo begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">KB Series weekly graphics</span>
+          <span class="deliv-item deliv-major">Miracle Offering promo slide — deploy (lead-up)</span>
+          <span class="deliv-item deliv-major">Giving envelopes — ORDER NOW (2–3 wk print lead)</span>
+          <span class="deliv-item">App + website feature — Miracle Offering</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Nov 8<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #3 — MIRACLE OFFERING</span></td>
+        <td><div class="tags"><span class="tag tag-special">Miracle Offering Sunday</span><span class="tag tag-note">KB Weekend #2</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Miracle Offering: Promo video</span>
+          <span class="deliv-item deliv-major">Miracle Offering: General slides package</span>
+          <span class="deliv-item deliv-major">Miracle Offering: Giving envelopes (print, must arrive)</span>
+          <span class="deliv-item deliv-major">All-Church email — Miracle Offering</span>
+          <span class="deliv-item">KB Weekend #2: Engagement card</span>
+          <span class="deliv-item">KB Weekend #2: KB project video</span>
+          <span class="deliv-item">Sisterhood Fall graphics + merch — in progress</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Nov 15<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #4</span></td>
+        <td><div class="tags"><span class="tag tag-warn">⚠️ Miracle Offering DATA SLIDES due</span><span class="tag tag-note">KB provides giving results ~1 wk after</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">KB Series weekly graphics</span>
+          <span class="deliv-item deliv-major">Miracle Offering: Per-location project slides (4)</span>
+          <span class="deliv-item deliv-major">Miracle Offering: Emmanuel goal slide</span>
+          <span class="deliv-item deliv-major">Miracle Offering: Year-to-date slide</span>
+          <span class="deliv-item deliv-major">Follow-up All-Church email</span>
+          <span class="deliv-item deliv-major">Sisterhood Fall: Full graphics pkg deploy</span>
+          <span class="deliv-item deliv-major">Sisterhood Fall: Merch + photo shoot</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Nov 22<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #5</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Christmas design — MUST BEGIN</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">KB Series weekly graphics</span>
+          <span class="deliv-item deliv-major">Christmas seasonal look — begin design</span>
+          <span class="deliv-item deliv-major">Advent booklet cover — begin</span>
+          <span class="deliv-item">Sisterhood Fall: Recap video / testimony bumper</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Nov 29<span class="day-label">Week 5</span></span></td>
+        <td><span class="series-pill s-kb">KB Series #6</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Advent booklet to print this week</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">KB Series weekly graphics</span>
+          <span class="deliv-item deliv-major">Advent booklet — finalize + send to print</span>
+          <span class="deliv-item deliv-major">Christmas graphics package — in progress</span>
+          <span class="deliv-item deliv-major">Christmas bumper — in progress</span>
+          <span class="deliv-item">Christmas ad campaign — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- DECEMBER 2026 -->
+<section class="month-section" id="dec2026">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>December 2026</h2>
+      <div class="month-note">Hard deadline pressure throughout. All Christmas assets due before Dec 6. Annual report booklet (Vision Sunday) must be designed while Christmas is live. KB Booklet due first week of January — design starts now.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Dec 6<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-xmas">Christmas Advent #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-special">Christmas Series Begins</span><span class="tag tag-note">Communion</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Christmas seasonal look — ALL ASSETS FINAL</span>
+          <span class="deliv-item deliv-major">Christmas full graphics package — deploy</span>
+          <span class="deliv-item deliv-major">Christmas bumper — deploy</span>
+          <span class="deliv-item deliv-major">Christmas ad campaign — launch</span>
+          <span class="deliv-item deliv-major">Banners — ordered + arriving</span>
+          <span class="deliv-item">Advent booklets — in lobbies</span>
+          <span class="deliv-item">KB Booklet design — begin</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Dec 13<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-xmas">Christmas Advent #2</span></td>
+        <td><div class="tags"><span class="tag tag-note">Pre-K Choir ⚠️</span><span class="tag tag-note">Photobooths in lobbies</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Christmas weekly social graphics</span>
+          <span class="deliv-item">Photobooth design (Christmas look)</span>
+          <span class="deliv-item deliv-major">Annual report booklet — begin (Vision Sunday prep)</span>
+          <span class="deliv-item">KB Booklet — in progress</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Dec 20<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-xmas">Christmas Advent #3</span></td>
+        <td><div class="tags"><span class="tag tag-note">Next Gen Choir</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Christmas weekly social graphics</span>
+          <span class="deliv-item deliv-major">KB Booklet — finalize + deliver (due first week Jan)</span>
+          <span class="deliv-item">Annual report booklet — in progress</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Dec 24<span class="day-label">Christmas Eve</span></span></td>
+        <td><span class="series-pill s-xmas">CHRISTMAS EVE SERVICE</span></td>
+        <td><div class="tags"><span class="tag tag-special">🎄 Christmas Eve</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Christmas Eve production support</span>
+          <span class="deliv-item">Service elements / slides</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Dec 27<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-indy">Individual Message</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">KB Booklet due Jan first week</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">KB Booklet — final delivery</span>
+          <span class="deliv-item">Annual report booklet — finalize</span>
+          <span class="deliv-item">21 Days prayer look — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- JANUARY 2027 -->
+<section class="month-section" id="jan2027">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>January 2027</h2>
+      <div class="month-note">Four concurrent tracks: 21 Days of Prayer &amp; Fasting + new series + Vision Sunday annual report + KB Catalytic Weekend #1. Annual report booklet required December pre-work.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Jan 3<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-jan">New Year Series #1</span></td>
+        <td><div class="tags"><span class="tag tag-event">21 Days of Prayer begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">New year series full graphics package</span>
+          <span class="deliv-item deliv-major">New year series bumper video</span>
+          <span class="deliv-item deliv-major">21 Days: graphics/look update</span>
+          <span class="deliv-item">21 Days: teaching videos updated</span>
+          <span class="deliv-item">21 Days: website/app update</span>
+          <span class="deliv-item deliv-major">KB Booklet — final delivery this week</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jan 10<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-jan">New Year Series #2</span></td>
+        <td><div class="tags"><span class="tag tag-note">21 Days ongoing</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item">21 Days: prayer meeting livestream support</span>
+          <span class="deliv-item">Annual report booklet — final review</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jan 17<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-jan">New Year Series #3</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Vision Sunday + KB Weekend prep</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Annual report booklet — to print this week</span>
+          <span class="deliv-item">KB engagement cards — finalize</span>
+          <span class="deliv-item">KB Launch Video — finalize</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jan 24<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-jan">VISION SUNDAY</span></td>
+        <td><div class="tags"><span class="tag tag-special">Vision Sunday</span><span class="tag tag-special">KB Catalytic Weekend #1 (Jan 25)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Annual meeting slide</span>
+          <span class="deliv-item deliv-major">Annual report booklet — distributed</span>
+          <span class="deliv-item deliv-major">KB: Launch video</span>
+          <span class="deliv-item deliv-major">KB: Engagement cards</span>
+          <span class="deliv-item deliv-major">KB: Slides for launching KB teams</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Jan 31<span class="day-label">Week 5</span></span></td>
+        <td><span class="series-pill s-jan">New Year Series — continuing</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Super Sunday prep begins</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Super Sunday full graphics package — begin</span>
+          <span class="deliv-item deliv-major">Super Sunday promo video — begin</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FEBRUARY 2027 -->
+<section class="month-section" id="feb2027">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>February 2027</h2>
+      <div class="month-note">Super Sunday is the largest single-Sunday production of the year. New series launches immediately after. Spring CG Campaign possible — confirm with Jodi Ruch.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Feb 7<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-feb">Pre-Super Sunday</span></td>
+        <td><div class="tags"><span class="tag tag-warn">Super Sunday promo peak</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Super Sunday: graphics package — deploy promos</span>
+          <span class="deliv-item deliv-major">Super Sunday: promo video — deploy</span>
+          <span class="deliv-item deliv-major">Super Sunday: stingers — produce</span>
+          <span class="deliv-item">Social videos (Super Sunday promo)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Feb 14<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-feb">SUPER SUNDAY</span></td>
+        <td><div class="tags"><span class="tag tag-special">⭐ Super Sunday</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Full Super Sunday production — all elements live</span>
+          <span class="deliv-item">Post-event social content</span>
+          <span class="deliv-item deliv-major">New series graphics package — begin</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Feb 21<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-feb">New Series #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-event">Series Launch</span><span class="tag tag-event">Baptism ⚠️</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">New series full graphics package — deploy</span>
+          <span class="deliv-item deliv-major">New series bumper video — deploy</span>
+          <span class="deliv-item">Spring CG booklet — begin (if confirmed ⚠️)</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Feb 28<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-feb">New Series #2</span></td>
+        <td><div class="tags"></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item">Spring CG Campaign assets (if confirmed ⚠️)</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- MARCH 2027 -->
+<section class="month-section" id="mar2027">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>March 2027</h2>
+      <div class="month-note">Sisterhood Spring timing TBD (March or April — must confirm). Easter 2027 falls late April — design must begin in March. If Sisterhood + Easter both land in April, this becomes a second overlap crunch point matching November.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Mar 7<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-spring">Spring Series — continuing</span></td>
+        <td><div class="tags"><span class="tag tag-warn">Sisterhood Spring ⚠️ confirm date</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Sisterhood Spring: graphics package — begin</span>
+          <span class="deliv-item">Sisterhood Spring: merch design + order</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Mar 14<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-spring">Spring Series — continuing</span></td>
+        <td><div class="tags"><span class="tag tag-deadline">Easter design must begin</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Easter graphics package — begin</span>
+          <span class="deliv-item">Easter testimony video — begin</span>
+          <span class="deliv-item">Sisterhood Spring: KB slide, templates</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Mar 21<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-spring">Spring Series — continuing</span></td>
+        <td><div class="tags"><span class="tag tag-warn">Sisterhood Spring ⚠️ (if March date)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Sisterhood Spring event — if March</span>
+          <span class="deliv-item">Easter ad campaign — begin</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Mar 28<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-spring">Palm Sunday / Spring Series</span></td>
+        <td><div class="tags"><span class="tag tag-special">Palm Sunday</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Weekly social graphics</span>
+          <span class="deliv-item deliv-major">Easter graphics package — finalize</span>
+          <span class="deliv-item">Easter banners — order + ship</span>
+          <span class="deliv-item">Easter photobooth — design + order</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- APRIL 2027 -->
+<section class="month-section" id="apr2027">
+  <div class="month-header">
+    <div class="month-header-left">
+      <h2>April 2027</h2>
+      <div class="month-note">Easter falls late April 2027 (shorter runway vs. 2026's Apr 5). Sisterhood Spring may overlap if not confirmed in March. Easter is a non-negotiable full campaign.</div>
+    </div>
+    <span class="load-badge high">🔴 High</span>
+  </div>
+  <table class="week-table">
+    <thead><tr><th style="width:100px">Sunday</th><th style="width:220px">Series / Service</th><th>Events &amp; Notes</th><th>Key Deliverables</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="week-date">Apr 4<span class="day-label">Week 1</span></span></td>
+        <td><span class="series-pill s-easter">Easter Series — pre-Easter</span></td>
+        <td><div class="tags"><span class="tag tag-warn">Sisterhood Spring ⚠️ (if April date)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item">Easter promo social content</span>
+          <span class="deliv-item deliv-major">Sisterhood Spring event — if April</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Apr 11<span class="day-label">Week 2</span></span></td>
+        <td><span class="series-pill s-easter">Easter Series — Palm Sunday ⚠️</span></td>
+        <td><div class="tags"><span class="tag tag-special">Good Friday (Apr 16 ⚠️)</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Good Friday service support</span>
+          <span class="deliv-item">Easter all assets final + live</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Apr 18<span class="day-label">Week 3</span></span></td>
+        <td><span class="series-pill s-easter">EASTER SUNDAY 2027 ⚠️</span></td>
+        <td><div class="tags"><span class="tag tag-special">🎉 Easter 2027</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Full Easter campaign — all elements live</span>
+          <span class="deliv-item">Ad campaign active</span>
+          <span class="deliv-item">Banners + photobooth in place</span>
+          <span class="deliv-item">Testimony video</span>
+        </div></td>
+      </tr>
+      <tr>
+        <td><span class="week-date">Apr 25<span class="day-label">Week 4</span></span></td>
+        <td><span class="series-pill s-easter">Post-Easter Series #1 — LAUNCH</span></td>
+        <td><div class="tags"><span class="tag tag-event">New Series Launch</span></div></td>
+        <td><div class="deliverables">
+          <span class="deliv-item deliv-major">Post-Easter series full graphics package</span>
+          <span class="deliv-item deliv-major">Post-Easter series bumper video</span>
+        </div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+
+<script>
+// ── Heatmap data ──────────────────────────────────────────
+const weeks = [
+  // April 2026
+  { m: "Apr '26", load: "high",  label: "5",  today: false },
+  { m: "Apr '26", load: "mod",   label: "12", today: false },
+  { m: "Apr '26", load: "mod",   label: "19", today: true  },
+  { m: "Apr '26", load: "mod",   label: "26", today: false },
+  // May 2026
+  { m: "May '26", load: "mod",   label: "3",  today: false },
+  { m: "May '26", load: "mod",   label: "10", today: false },
+  { m: "May '26", load: "mod",   label: "17", today: false },
+  { m: "May '26", load: "mod",   label: "24", today: false },
+  { m: "May '26", load: "mod",   label: "31", today: false },
+  // June 2026
+  { m: "Jun '26", load: "mod",   label: "7",  today: false },
+  { m: "Jun '26", load: "low",   label: "14", today: false },
+  { m: "Jun '26", load: "low",   label: "21", today: false },
+  { m: "Jun '26", load: "low",   label: "28", today: false },
+  // July 2026
+  { m: "Jul '26", load: "low",   label: "5",  today: false },
+  { m: "Jul '26", load: "low",   label: "12", today: false },
+  { m: "Jul '26", load: "low",   label: "19", today: false },
+  { m: "Jul '26", load: "mod",   label: "26", today: false },
+  // August 2026
+  { m: "Aug '26", load: "high",  label: "2",  today: false },
+  { m: "Aug '26", load: "high",  label: "9",  today: false },
+  { m: "Aug '26", load: "high",  label: "16", today: false },
+  { m: "Aug '26", load: "high",  label: "23", today: false },
+  { m: "Aug '26", load: "high",  label: "30", today: false },
+  // September 2026
+  { m: "Sep '26", load: "high",  label: "6",  today: false },
+  { m: "Sep '26", load: "high",  label: "13", today: false },
+  { m: "Sep '26", load: "mod",   label: "20", today: false },
+  { m: "Sep '26", load: "mod",   label: "27", today: false },
+  // October 2026
+  { m: "Oct '26", load: "high",  label: "4",  today: false },
+  { m: "Oct '26", load: "high",  label: "11", today: false },
+  { m: "Oct '26", load: "high",  label: "18", today: false },
+  { m: "Oct '26", load: "high",  label: "25", today: false },
+  // November 2026
+  { m: "Nov '26", load: "crit",  label: "1",  today: false },
+  { m: "Nov '26", load: "crit",  label: "8",  today: false },
+  { m: "Nov '26", load: "crit",  label: "15", today: false },
+  { m: "Nov '26", load: "crit",  label: "22", today: false },
+  { m: "Nov '26", load: "crit",  label: "29", today: false },
+  // December 2026
+  { m: "Dec '26", load: "high",  label: "6",  today: false },
+  { m: "Dec '26", load: "high",  label: "13", today: false },
+  { m: "Dec '26", load: "high",  label: "20", today: false },
+  { m: "Dec '26", load: "high",  label: "24", today: false },
+  { m: "Dec '26", load: "mod",   label: "27", today: false },
+  // January 2027
+  { m: "Jan '27", load: "high",  label: "3",  today: false },
+  { m: "Jan '27", load: "high",  label: "10", today: false },
+  { m: "Jan '27", load: "high",  label: "17", today: false },
+  { m: "Jan '27", load: "high",  label: "24", today: false },
+  { m: "Jan '27", load: "high",  label: "31", today: false },
+  // February 2027
+  { m: "Feb '27", load: "high",  label: "7",  today: false },
+  { m: "Feb '27", load: "high",  label: "14", today: false },
+  { m: "Feb '27", load: "high",  label: "21", today: false },
+  { m: "Feb '27", load: "mod",   label: "28", today: false },
+  // March 2027
+  { m: "Mar '27", load: "high",  label: "7",  today: false },
+  { m: "Mar '27", load: "high",  label: "14", today: false },
+  { m: "Mar '27", load: "high",  label: "21", today: false },
+  { m: "Mar '27", load: "high",  label: "28", today: false },
+  // April 2027
+  { m: "Apr '27", load: "high",  label: "4",  today: false },
+  { m: "Apr '27", load: "high",  label: "11", today: false },
+  { m: "Apr '27", load: "high",  label: "18", today: false },
+  { m: "Apr '27", load: "mod",   label: "25", today: false },
+];
+
+// Build heatmap
+const grid = document.getElementById("heatmap-grid");
+let currentMonth = null;
+let monthDiv = null;
+
+weeks.forEach(w => {
+  if (w.m !== currentMonth) {
+    if (monthDiv) {
+      grid.appendChild(monthDiv);
+      // Add separator
+      const sep = document.createElement("div");
+      sep.className = "hm-sep";
+      grid.appendChild(sep);
+    }
+    currentMonth = w.m;
+    monthDiv = document.createElement("div");
+    monthDiv.className = "hm-month";
+    const label = document.createElement("div");
+    label.className = "hm-month-label";
+    label.textContent = w.m;
+    monthDiv.appendChild(label);
+  }
+
+  const cell = document.createElement("div");
+  cell.className = `hm-week load-${w.load}${w.today ? " today" : ""}`;
+  cell.textContent = w.label;
+  cell.title = `${w.m} · ${w.label} · ${w.load === "crit" ? "Overcapacity" : w.load === "high" ? "High" : w.load === "mod" ? "Moderate" : "Lower"}`;
+
+  // Click to scroll
+  const anchor = w.m.replace("'", "").replace(" ", "").toLowerCase().replace(" ", "");
+  const monthMap = {
+    "apr26": "apr2026", "may26": "may2026", "jun26": "jun2026",
+    "jul26": "jul2026", "aug26": "aug2026", "sep26": "sep2026",
+    "oct26": "oct2026", "nov26": "nov2026", "dec26": "dec2026",
+    "jan27": "jan2027", "feb27": "feb2027", "mar27": "mar2027",
+    "apr27": "apr2027"
+  };
+  cell.style.cursor = "pointer";
+  cell.addEventListener("click", () => {
+    const key = w.m.toLowerCase().replace(" ", "").replace("'", "");
+    const id = monthMap[key];
+    if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  monthDiv.appendChild(cell);
+});
+if (monthDiv) grid.appendChild(monthDiv);
+
+// ── Active nav highlight on scroll ──────────────────────────
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll("#month-nav a");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove("active"));
+      const active = document.querySelector(`#month-nav a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add("active");
+    }
+  });
+}, { rootMargin: "-20% 0px -70% 0px", threshold: 0 });
+
+sections.forEach(s => {
+  if (s.id && s.id !== "heatmap" && s.id !== "baseline" && s.id !== "series-key") {
+    observer.observe(s);
+  }
+});
+</script>
+</body>
+</html>

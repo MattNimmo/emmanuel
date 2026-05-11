@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECC Comms — Weekly Capacity Hours 2026–2027</title>
+<style>
+:root {
+  --c-low:  #16a34a; --bg-low:  #dcfce7;
+  --c-mod:  #d97706; --bg-mod:  #fef3c7;
+  --c-high: #c2410c; --bg-high: #ffedd5;
+  --c-over: #b91c1c; --bg-over: #fee2e2;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: #f1f5f9; color: #1e293b; font-size: 12px; }
+
+header {
+  background: #1e293b; color: #f1f5f9;
+  padding: 14px 24px 12px; position: sticky; top: 0; z-index: 60;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+header h1 { font-size: 16px; font-weight: 700; }
+header p  { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+
+#baseline {
+  background: #0f172a; color: #cbd5e1;
+  padding: 8px 24px; font-size: 11px;
+  display: flex; gap: 24px; flex-wrap: wrap;
+  position: sticky; top: 52px; z-index: 59;
+  border-bottom: 1px solid #334155;
+}
+#baseline strong { color: #f1f5f9; }
+#baseline span { display: inline-block; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
+
+#caps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-bottom: 20px;
+}
+.cap-card {
+  background: #fff; border-radius: 8px; padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+}
+.cap-card .name  { font-weight: 700; font-size: 12px; }
+.cap-card .role  { font-size: 10px; color: #64748b; margin-bottom: 6px; }
+.cap-card .line  { display: flex; justify-content: space-between; font-size: 11px; margin-top: 3px; }
+.cap-card .line .lbl { color: #64748b; }
+.cap-card .line .val { font-weight: 600; }
+.cap-card .line .val.warn { color: var(--c-high); }
+
+.month-block {
+  background: #fff; border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 16px; overflow: hidden;
+}
+.month-head {
+  padding: 10px 16px; background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.month-head h2 { font-size: 13px; font-weight: 700; }
+.month-avg { font-size: 11px; color: #64748b; }
+
+table.wt { width: 100%; border-collapse: collapse; }
+table.wt th {
+  padding: 6px 10px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .5px;
+  color: #64748b; background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0; text-align: left;
+}
+table.wt th.num { text-align: center; width: 120px; }
+table.wt td { padding: 7px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+table.wt tr:last-child td { border-bottom: none; }
+table.wt tr.today-row td { background: #eff6ff; }
+
+.wk-date  { font-weight: 700; font-size: 12px; white-space: nowrap; }
+.wk-event { font-size: 11px; color: #475569; margin-top: 2px; }
+
+.pc {
+  text-align: center; border-radius: 6px; padding: 5px 8px;
+  font-size: 11px; font-weight: 700;
+}
+.pc .hrs  { font-size: 14px; font-weight: 800; line-height: 1; }
+.pc .cap  { font-size: 9px; font-weight: 400; color: rgba(0,0,0,.5); }
+.pc .pct  { font-size: 10px; margin-top: 2px; }
+.pc.low   { background: var(--bg-low);  color: var(--c-low);  }
+.pc.mod   { background: var(--bg-mod);  color: var(--c-mod);  }
+.pc.high  { background: var(--bg-high); color: var(--c-high); }
+.pc.over  { background: var(--bg-over); color: var(--c-over); }
+
+.bar-wrap { background: rgba(0,0,0,.08); border-radius: 2px; height: 4px; margin-top: 4px; }
+.bar-fill  { height: 4px; border-radius: 2px; background: currentColor; }
+
+#legend {
+  display: flex; gap: 14px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;
+  font-size: 11px; color: #374151;
+}
+.leg { display: flex; align-items: center; gap: 5px; }
+.leg-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+#mnav {
+  background: #0f172a; padding: 6px 24px;
+  display: flex; gap: 5px; flex-wrap: wrap;
+  position: sticky; top: 84px; z-index: 58;
+  border-bottom: 1px solid #334155;
+}
+#mnav a {
+  color: #94a3b8; text-decoration: none; font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 3px;
+}
+#mnav a:hover { background: #1e293b; color: #fff; }
+
+.fn { font-size: 10px; color: #94a3b8; margin-top: 16px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ECC Comms — Weekly Capacity Hours</h1>
+  <p>April 2026 – April 2027 &nbsp;·&nbsp; Generated Apr 20, 2026 &nbsp;·&nbsp; Hours from Comms Team Deliverables with Hours source</p>
+</header>
+
+<div id="baseline">
+  <span><strong>Recurring baseline (every week):</strong> Sara 9 hrs · Tanner 7.5 hrs · Zac ~2 hrs</span>
+  <span><strong>Series launch pkg:</strong> Sara ~29 hrs · Tanner ~10 hrs (bumper)</span>
+  <span><strong>Events pkg:</strong> Sara ~20 hrs · Photography contracted separately</span>
+</div>
+
+<nav id="mnav"></nav>
+
+<main>
+
+<div id="legend">
+  <strong style="font-size:11px;color:#374151">Utilization of effective capacity:</strong>
+  <div class="leg"><div class="leg-dot" style="background:var(--bg-low);border:1px solid var(--c-low)"></div> ≤60% Low</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--bg-mod);border:1px solid var(--c-mod)"></div> 61–80% Moderate</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--bg-high);border:1px solid var(--c-high)"></div> 81–95% High</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--bg-over);border:1px solid var(--c-over)"></div> >95% Over capacity</div>
+</div>
+
+<div id="caps">
+  <div class="cap-card">
+    <div class="name">Sara Wescott</div>
+    <div class="role">Graphic Designer</div>
+    <div class="line"><span class="lbl">Raw capacity</span><span class="val">26 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Sunday deduction</span><span class="val">0 hrs</span></div>
+    <div class="line"><span class="lbl">Effective capacity</span><span class="val">26 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Recurring (fixed)</span><span class="val warn">9 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Available for projects</span><span class="val">~17 hrs/wk</span></div>
+  </div>
+  <div class="cap-card">
+    <div class="name">Tanner</div>
+    <div class="role">Filmmaker</div>
+    <div class="line"><span class="lbl">Raw capacity</span><span class="val">26 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Sunday deduction</span><span class="val warn">7 hrs</span></div>
+    <div class="line"><span class="lbl">Effective capacity</span><span class="val">19 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Recurring (fixed)</span><span class="val warn">7.5 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Available for projects</span><span class="val">~11.5 hrs/wk</span></div>
+  </div>
+  <div class="cap-card">
+    <div class="name">Zac</div>
+    <div class="role">Filmmaker</div>
+    <div class="line"><span class="lbl">Raw capacity</span><span class="val">26 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Sunday deduction</span><span class="val warn">7 hrs</span></div>
+    <div class="line"><span class="lbl">Effective capacity</span><span class="val">19 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Recurring (fixed)</span><span class="val warn">~2 hrs/wk</span></div>
+    <div class="line"><span class="lbl">Available for projects</span><span class="val">~17 hrs/wk</span></div>
+  </div>
+</div>
+
+<div id="table-root"></div>
+
+<p class="fn">
+  <strong>Hours model assumptions:</strong> Recurring hrs deducted first each week. Project hrs estimated from Comms Team Deliverables with Hours source (midpoints used for ranges).
+  Series launch pkg = Sara 29 hrs + Tanner 10 hrs distributed ~3 weeks before launch Sunday.
+  Events graphics pkg = Sara 20 hrs distributed 2–3 weeks before event.
+  Bumper video = Tanner 10 hrs. Promo videos = Tanner 10 hrs.
+  Merch = Sara 20 hrs (reduced run; full 60–80 hr estimate applies to large print runs).
+  Print booklets (KB, Annual Report, Advent, CG) = Sara 25–30 hrs each, distributed over lead-time window.
+  Zac hours shown for major production events; weekly project capacity otherwise available for video production support.
+  Photography is contracted — not included in this model.<br>
+  <strong>⚠️ Unknown variables:</strong> Zac's recurring task split with Tanner not yet confirmed (shown as ~2 hrs/wk).
+  Department support hours (ELC, Dr. NR, Worship, SHL Podcast) NOT included — adds additional load above these figures.
+  Sara social post volume (2–3/wk Emmanuel MN) included in recurring 9 hrs.
+</p>
+
+</main>
+
+<script>
+const CAP = {sara:26, tan:19, zac:19};
+
+const weeks = [
+  // APRIL 2026
+  {d:"Apr 20", m:"April 2026",        today:true,  ev:"What About... #2 — current week",
+   sara:12, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + annc. slides 3", tan:"Rec 7.5 + minor pre-work", zac:"Sunday production"}},
+  {d:"Apr 26", m:"April 2026",        today:false, ev:"What About... #3 · 7 Churches pre-work begins",
+   sara:14, tan:11, zac:4,
+   notes:{sara:"Rec 9 + 7 Churches series graphic begins (5)", tan:"Rec 7.5 + bumper pre-work (3)", zac:"Sunday production"}},
+
+  // MAY 2026
+  {d:"May 3",  m:"May 2026",          today:false, ev:"One Day to Feed the World · What About... continuing",
+   sara:20, tan:11, zac:4,
+   notes:{sara:"Rec 9 + 7 Churches graphic (5) + OTFTW announcement (2.5) + Mother's Day pkg begins (3.5)", tan:"Rec 7.5 + bumper (3)", zac:"Sunday production"}},
+  {d:"May 10", m:"May 2026",          today:false, ev:"Mother's Day + Child Dedication",
+   sara:21, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Mother's Day events pkg + photobooth final (12)", tan:"Rec 7.5 + Mother's Day promo video (5)", zac:"Sunday production"}},
+  {d:"May 17", m:"May 2026",          today:false, ev:"What About... continuing · 7 Churches design",
+   sara:17, tan:13, zac:4,
+   notes:{sara:"Rec 9 + 7 Churches design remaining (8)", tan:"Rec 7.5 + bumper (5)", zac:"Sunday production"}},
+  {d:"May 24", m:"May 2026",          today:false, ev:"What About... closing · Kids Camp announcement",
+   sara:15, tan:10, zac:4,
+   notes:{sara:"Rec 9 + 7 Churches finalize (3) + Kids Camp annc (3)", tan:"Rec 7.5 + bumper final (2)", zac:"Sunday production"}},
+  {d:"May 31", m:"May 2026",          today:false, ev:"Holy Spirit Night · What About... finale",
+   sara:14, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + Holy Spirit Night annc slide (2.5) + 7 Churches last adjustments (2)", tan:"Rec 7.5", zac:"Sunday production"}},
+
+  // JUNE 2026
+  {d:"Jun 7",  m:"June 2026",         today:false, ev:"7 Churches of Revelation LAUNCH",
+   sara:14, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + Summer Book Study begins (5)", tan:"Rec 7.5 — design delivered", zac:"Sunday production"}},
+  {d:"Jun 14", m:"June 2026",         today:false, ev:"7 Churches #2",
+   sara:14, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + Summer Book Study (5)", tan:"Rec 7.5", zac:"Sunday production"}},
+  {d:"Jun 21", m:"June 2026",         today:false, ev:"Father's Day · 7 Churches #3",
+   sara:15, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + Father's Day minimal (2.5) + Summer Book Study (3.5)", tan:"Rec 7.5", zac:"Sunday production"}},
+  {d:"Jun 28", m:"June 2026",         today:false, ev:"7 Churches #4 · August Series design begins",
+   sara:15, tan:11, zac:4,
+   notes:{sara:"Rec 9 + August Series graphic begins (6)", tan:"Rec 7.5 + August bumper begins (3)", zac:"Sunday production"}},
+
+  // JULY 2026
+  {d:"Jul 5",  m:"July 2026",         today:false, ev:"7 Churches #5",
+   sara:15, tan:10, zac:4,
+   notes:{sara:"Rec 9 + August Series graphic (6)", tan:"Rec 7.5 + bumper (2)", zac:"Sunday production"}},
+  {d:"Jul 12", m:"July 2026",         today:false, ev:"MNTC Sunday — externally produced",
+   sara:15, tan:10, zac:4,
+   notes:{sara:"Rec 9 + August Series graphic (6)", tan:"Rec 7.5 + bumper (2)", zac:"Sunday production (MNTC)"}},
+  {d:"Jul 19", m:"July 2026",         today:false, ev:"Water Baptism · Youth Summer Camp (Jul 20–24)",
+   sara:15, tan:10, zac:4,
+   notes:{sara:"Rec 9 + August Series graphic (6)", tan:"Rec 7.5 + bumper (2)", zac:"Sunday production"}},
+  {d:"Jul 26", m:"July 2026",         today:false, ev:"Final August Series prep · TEC prep begins",
+   sara:18, tan:11, zac:4,
+   notes:{sara:"Rec 9 + August Series final (3) + TEC events pkg begins (6)", tan:"Rec 7.5 + bumper final (3)", zac:"Sunday production"}},
+
+  // AUGUST 2026
+  {d:"Aug 2",  m:"August 2026 ⚠️",   today:false, ev:"August Series LAUNCH · TEC design · Booklet + Kickoff begin",
+   sara:21, tan:13, zac:8,
+   notes:{sara:"Rec 9 + TEC pkg (5) + CG booklet begins (3) + Kickoff merch begins (4)", tan:"Rec 7.5 + TEC promo video begins (5)", zac:"Sunday production + TEC pre-production (8)"}},
+  {d:"Aug 9",  m:"August 2026 ⚠️",   today:false, ev:"August Series #2 · TEC design push · Booklet + Kickoff intensify",
+   sara:25, tan:15, zac:10,
+   notes:{sara:"Rec 9 + TEC pkg (6) + CG booklet (4) + Kickoff (6)", tan:"Rec 7.5 + TEC promo (7)", zac:"Sunday + TEC pre-production (10)"}},
+  {d:"Aug 15", m:"August 2026 ⚠️",   today:false, ev:"TEAM EMMANUEL CONFERENCE",
+   sara:28, tan:18, zac:19,
+   notes:{sara:"Rec 9 + TEC final: events pkg, photobooth, supers, bkgd (11) + booklet (4) + Kickoff (4)", tan:"Rec 7.5 + TEC filming + recording (10)", zac:"Sunday + full TEC production day — AT CAP"}},
+  {d:"Aug 23", m:"August 2026 ⚠️",   today:false, ev:"August Series #4 · ELC Welcome Week",
+   sara:24, tan:13, zac:7,
+   notes:{sara:"Rec 9 + ELC Welcome Week graphics (3) + booklet (5) + Kickoff (7)", tan:"Rec 7.5 + TEC post-production (5)", zac:"Sunday + TEC post-production assist (7)"}},
+  {d:"Aug 30", m:"August 2026 ⚠️",   today:false, ev:"Booklet + Fall Kickoff push · Fall CG Series design begins",
+   sara:24, tan:13, zac:7,
+   notes:{sara:"Rec 9 + booklet (5) + Kickoff (7) + Fall CG Series graphic begins (3)", tan:"Rec 7.5 + Fall CG bumper begins (5)", zac:"Sunday + production support (7)"}},
+
+  // SEPTEMBER 2026
+  {d:"Sep 6",  m:"September 2026",    today:false, ev:"Pre-Kickoff final design week · booklet to print",
+   sara:24, tan:13, zac:4,
+   notes:{sara:"Rec 9 + booklet final (3) + Kickoff final deploy (7) + CG Series graphic (5)", tan:"Rec 7.5 + CG bumper (5)", zac:"Sunday production"}},
+  {d:"Sep 13", m:"September 2026",    today:false, ev:"FALL KICKOFF",
+   sara:15, tan:8,  zac:12,
+   notes:{sara:"Rec 9 + Kickoff deploy (3) + CG Series final (3)", tan:"Rec 7.5 — design delivered", zac:"Sunday + Kickoff event production (12)"}},
+  {d:"Sep 20", m:"September 2026",    today:false, ev:"Fall CG Series LAUNCH · Water Baptism",
+   sara:12, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + annc. refresh (3)", tan:"Rec 7.5 — bumper delivered", zac:"Sunday production"}},
+  {d:"Sep 27", m:"September 2026",    today:false, ev:"Fall CG #2 · Worship Night + KB Series pre-work begins",
+   sara:24, tan:13, zac:9,
+   notes:{sara:"Rec 9 + Worship Night events pkg begins (8) + KB Series graphic begins (7)", tan:"Rec 7.5 + Worship Night promo video begins (5)", zac:"Sunday + Worship Night pre-production begins (9)"}},
+
+  // OCTOBER 2026
+  {d:"Oct 4",  m:"October 2026 ⚠️",  today:false, ev:"EMMANUEL LIVE WORSHIP NIGHT",
+   sara:14, tan:20, zac:19,
+   notes:{sara:"Rec 9 + KB Series design continues (5)", tan:"Rec 7.5 + Worship Night filming + immediate edit (12) — OVER", zac:"Sunday + Worship Night full production day — AT CAP"}},
+  {d:"Oct 11", m:"October 2026 ⚠️",  today:false, ev:"Fall CG continuing · Child Dedication · Worship Night post-prod",
+   sara:17, tan:16, zac:12,
+   notes:{sara:"Rec 9 + KB Series design (8)", tan:"Rec 7.5 + Worship Night post-production (8)", zac:"Sunday + Worship Night post-production assist (12)"}},
+  {d:"Oct 18", m:"October 2026 ⚠️",  today:false, ev:"MYC Oct 15–17 · KB Series final design push",
+   sara:19, tan:16, zac:4,
+   notes:{sara:"Rec 9 + MYC announcement (3) + KB Series final (7)", tan:"Rec 7.5 + KB bumper (5) + Worship Night final edit (3)", zac:"Sunday production"}},
+  {d:"Oct 25", m:"October 2026 ⚠️",  today:false, ev:"KB Series LAUNCH · Miracle Offering + Sisterhood prep begins",
+   sara:17, tan:14, zac:4,
+   notes:{sara:"Rec 9 + KB Series finalize (3) + Miracle Offering envelope design begins (3) + Sisterhood begins (2)", tan:"Rec 7.5 + KB bumper final (2) + Miracle Offering promo begins (4)", zac:"Sunday production"}},
+
+  // NOVEMBER 2026
+  {d:"Nov 1",  m:"November 2026 🔴🔴", today:false, ev:"KB Series · Sisterhood Night prep (Nov 6) · Miracle Offering push",
+   sara:22, tan:13, zac:9,
+   notes:{sara:"Rec 9 + Sisterhood events pkg (6) + Miracle Offering slides/emails (4) + Christmas seasonal begins (3)", tan:"Rec 7.5 + Miracle Offering promo (5)", zac:"Sunday + Sisterhood Night production prep (9)"}},
+  {d:"Nov 8",  m:"November 2026 🔴🔴", today:false, ev:"Sisterhood Night (Nov 6) · Miracle Offering final push",
+   sara:28, tan:16, zac:14,
+   notes:{sara:"Rec 9 + Miracle Offering: app, web, emails, slides final (8) + Sisterhood merch/templates (3) + Advent booklet begins (5) + Christmas seasonal (3) — OVER", tan:"Rec 7.5 + Miracle Offering promo finalize (3) + Sisterhood recap video begins (5)", zac:"Sunday + Sisterhood Night filming + Miracle Offering video assist (14)"}},
+  {d:"Nov 15", m:"November 2026 🔴🔴", today:false, ev:"MIRACLE OFFERING Nov 11 · KB Weekend #2 · Water Baptism",
+   sara:28, tan:16, zac:9,
+   notes:{sara:"Rec 9 + Miracle Offering post-event data slides ×4 (4) + KB Weekend #2 engagement card (3) + Advent booklet (5) + Christmas seasonal (7) — OVER", tan:"Rec 7.5 + KB Weekend #2 video (3) + Sisterhood recap final (5)", zac:"Sunday + Miracle Offering / KB Weekend filming (9)"}},
+  {d:"Nov 22", m:"November 2026 🔴🔴", today:false, ev:"Christmas seasonal design push · Advent booklet to print",
+   sara:22, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Christmas seasonal final (8) + Advent booklet final → print (5)", tan:"Rec 7.5 + Christmas video content begins (5)", zac:"Sunday production"}},
+  {d:"Nov 29", m:"November 2026 🔴🔴", today:false, ev:"Christmas/Advent final push",
+   sara:19, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Christmas campaign full pkg push (10)", tan:"Rec 7.5 + Christmas video (5)", zac:"Sunday production"}},
+
+  // DECEMBER 2026
+  {d:"Dec 6",  m:"December 2026",     today:false, ev:"Christmas Advent LAUNCH · KB Booklet design begins",
+   sara:17, tan:11, zac:4,
+   notes:{sara:"Rec 9 + KB Booklet begins (5) + deploy Christmas assets (3)", tan:"Rec 7.5 + Christmas content (3)", zac:"Sunday production"}},
+  {d:"Dec 13", m:"December 2026",     today:false, ev:"Advent #2 · Preschool Choir",
+   sara:21, tan:11, zac:14,
+   notes:{sara:"Rec 9 + KB Booklet (5) + Annual Report design begins (5) + Preschool Choir program (2)", tan:"Rec 7.5 + Christmas content (3)", zac:"Sunday + Preschool Choir production (14)"}},
+  {d:"Dec 20", m:"December 2026",     today:false, ev:"Advent #3 · NextGen Choir",
+   sara:21, tan:11, zac:14,
+   notes:{sara:"Rec 9 + KB Booklet (5) + Annual Report (5) + NextGen Choir program (2)", tan:"Rec 7.5 + Christmas content (3)", zac:"Sunday + NextGen Choir production (14)"}},
+  {d:"Dec 27", m:"December 2026",     today:false, ev:"KB Booklet due Jan 1 week · Annual Report push",
+   sara:22, tan:8,  zac:2,
+   notes:{sara:"Rec 9 + KB Booklet final (8) + Annual Report (5)", tan:"Rec 7.5 — holiday quiet", zac:"Reduced (holiday)"}},
+
+  // JANUARY 2027
+  {d:"Jan 4",  m:"January 2027 ⚠️",  today:false, ev:"KB Booklet DUE · 21 Days begins (Jan 5) · New Year Series prep",
+   sara:24, tan:18, zac:9,
+   notes:{sara:"Rec 9 + KB Booklet deliver (8) + 21 Days graphics look begins (7)", tan:"Rec 7.5 + 21 Days video updates (5) + New Year bumper begins (5)", zac:"Sunday + 21 Days video content (9)"}},
+  {d:"Jan 11", m:"January 2027 ⚠️",  today:false, ev:"21 Days · New Year Series design · Annual Report final push",
+   sara:27, tan:16, zac:9,
+   notes:{sara:"Rec 9 + 21 Days look (5) + New Year Series graphic (8) + Annual Report (5) — OVER", tan:"Rec 7.5 + bumper (5) + 21 Days video (3)", zac:"Sunday + 21 Days video (9)"}},
+  {d:"Jan 18", m:"January 2027 ⚠️",  today:false, ev:"VISION SUNDAY · Annual Report due",
+   sara:20, tan:11, zac:4,
+   notes:{sara:"Rec 9 + Annual Report final deploy (3) + Super Sunday pkg begins (8)", tan:"Rec 7.5 + New Year bumper final (3)", zac:"Sunday production"}},
+  {d:"Jan 25", m:"January 2027 ⚠️",  today:false, ev:"KB Catalytic Weekend #1",
+   sara:19, tan:16, zac:12,
+   notes:{sara:"Rec 9 + KB engagement cards + launch slides (3) + Super Sunday (7)", tan:"Rec 7.5 + KB Launch video (5) + Super Sunday promo begins (3)", zac:"Sunday + KB Weekend #1 filming (12)"}},
+
+  // FEBRUARY 2027
+  {d:"Feb 1",  m:"February 2027",     today:false, ev:"Super Sunday final design push",
+   sara:19, tan:16, zac:4,
+   notes:{sara:"Rec 9 + Super Sunday graphics final (10)", tan:"Rec 7.5 + Super Sunday promo video final (8)", zac:"Sunday production"}},
+  {d:"Feb 8",  m:"February 2027",     today:false, ev:"SUPER SUNDAY",
+   sara:12, tan:13, zac:16,
+   notes:{sara:"Rec 9 + deploy Super Sunday (3)", tan:"Rec 7.5 + Super Sunday filming (5)", zac:"Sunday + Super Sunday full production (16)"}},
+  {d:"Feb 15", m:"February 2027",     today:false, ev:"Post-Super Sunday Series LAUNCH · Water Baptism",
+   sara:17, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Post-SS Series design (8)", tan:"Rec 7.5 + bumper (5)", zac:"Sunday production"}},
+  {d:"Feb 22", m:"February 2027",     today:false, ev:"Spring Series ongoing",
+   sara:14, tan:11, zac:4,
+   notes:{sara:"Rec 9 + series ongoing (5)", tan:"Rec 7.5 + bumper ongoing (3)", zac:"Sunday production"}},
+
+  // MARCH 2027
+  {d:"Mar 1",  m:"March 2027",        today:false, ev:"Spring Series",
+   sara:14, tan:8,  zac:4,
+   notes:{sara:"Rec 9 + ongoing series (5)", tan:"Rec 7.5", zac:"Sunday production"}},
+  {d:"Mar 8",  m:"March 2027",        today:false, ev:"Sisterhood Spring prep · Easter campaign begins",
+   sara:22, tan:18, zac:9,
+   notes:{sara:"Rec 9 + Sisterhood events pkg begins (8) + Easter series graphic begins (5)", tan:"Rec 7.5 + Sisterhood recap video begins (5) + Easter bumper begins (5)", zac:"Sunday + Sisterhood pre-production (9)"}},
+  {d:"Mar 15", m:"March 2027",        today:false, ev:"Sisterhood Spring · Easter campaign design push",
+   sara:25, tan:13, zac:14,
+   notes:{sara:"Rec 9 + Sisterhood final (8) + Easter campaign design (8) — near capacity", tan:"Rec 7.5 + Easter testimony video begins (5)", zac:"Sunday + Sisterhood filming (14)"}},
+  {d:"Mar 22", m:"March 2027",        today:false, ev:"Sisterhood event · Easter push",
+   sara:14, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Easter push (5)", tan:"Rec 7.5 + Easter video (5)", zac:"Sunday production"}},
+  {d:"Mar 28", m:"March 2027",        today:false, ev:"Soul Care Conference (Mar 26–28) · Easter final push",
+   sara:19, tan:13, zac:12,
+   notes:{sara:"Rec 9 + Soul Care events production (3) + Easter pkg final (7)", tan:"Rec 7.5 + Easter video final (5)", zac:"Sunday + Soul Care production (12)"}},
+
+  // APRIL 2027
+  {d:"Apr 4",  m:"April 2027",        today:false, ev:"Easter final design + Good Friday prep",
+   sara:17, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Easter pkg deploy + Good Friday support (8)", tan:"Rec 7.5 + Easter testimony video final (5)", zac:"Sunday production"}},
+  {d:"Apr 11", m:"April 2027",        today:false, ev:"Good Friday Apr 16 prep · Easter deploy",
+   sara:14, tan:11, zac:4,
+   notes:{sara:"Rec 9 + final deploy (5)", tan:"Rec 7.5 + finishing touches (3)", zac:"Sunday production"}},
+  {d:"Apr 18", m:"April 2027",        today:false, ev:"EASTER 2027",
+   sara:12, tan:11, zac:16,
+   notes:{sara:"Rec 9 + Easter Sunday deploy (3)", tan:"Rec 7.5 + Easter filming (3)", zac:"Sunday + Easter full production (16)"}},
+  {d:"Apr 25", m:"April 2027",        today:false, ev:"Post-Easter Series begins",
+   sara:17, tan:13, zac:4,
+   notes:{sara:"Rec 9 + Post-Easter series design begins (8)", tan:"Rec 7.5 + bumper begins (5)", zac:"Sunday production"}},
+];
+
+// ─── RENDER ───────────────────────────────────────────────
+function cls(h, cap) {
+  const p = h / cap;
+  return p <= .60 ? 'low' : p <= .80 ? 'mod' : p <= .95 ? 'high' : 'over';
+}
+function pct(h, cap) { return Math.round(h/cap*100) + '%'; }
+function bw(h, cap)  { return Math.min(100, Math.round(h/cap*100)) + '%'; }
+
+function cell(h, cap, note) {
+  const c = cls(h, cap);
+  const label = h > cap ? h + ' ⚠️' : h;
+  return `<td><div class="pc ${c}" title="${note||''}">
+    <div class="hrs">${label}</div>
+    <div class="cap">/ ${cap} hrs</div>
+    <div class="pct">${pct(h,cap)}</div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:${bw(h,cap)}"></div></div>
+  </div></td>`;
+}
+
+// Group by month
+const months = [];
+let cur = null;
+for (const w of weeks) {
+  if (!cur || cur.name !== w.m) { cur = {name:w.m, weeks:[]}; months.push(cur); }
+  cur.weeks.push(w);
+}
+
+// Nav
+const nav = document.getElementById('mnav');
+months.forEach((mo, i) => {
+  const a = document.createElement('a');
+  a.href = '#mo' + i;
+  a.textContent = mo.name.replace(/ ⚠️|🔴🔴/g,'');
+  nav.appendChild(a);
+});
+
+// Render
+const root = document.getElementById('table-root');
+months.forEach((mo, mi) => {
+  const maxSara = Math.max(...mo.weeks.map(w=>w.sara));
+  const maxTan  = Math.max(...mo.weeks.map(w=>w.tan));
+  const maxZac  = Math.max(...mo.weeks.map(w=>w.zac));
+  const overWks = mo.weeks.filter(w => w.sara > CAP.sara || w.tan > CAP.tan || w.zac > CAP.zac).length;
+  const badge = overWks > 0
+    ? `<span style="color:var(--c-over);font-weight:700">${overWks} wk(s) over capacity</span>`
+    : (maxSara > 22 || maxTan > 16)
+      ? `<span style="color:var(--c-high)">Peak — Sara ${maxSara}h · Tanner ${maxTan}h · Zac ${maxZac}h</span>`
+      : `<span style="color:var(--c-low)">Avg Sara ${Math.round(mo.weeks.reduce((s,w)=>s+w.sara,0)/mo.weeks.length)}h/wk</span>`;
+
+  const block = document.createElement('div');
+  block.className = 'month-block';
+  block.id = 'mo' + mi;
+  block.innerHTML = `
+    <div class="month-head"><h2>${mo.name}</h2><span class="month-avg">${badge}</span></div>
+    <table class="wt">
+      <thead><tr>
+        <th style="width:90px">Week of</th>
+        <th>Events / Focus</th>
+        <th class="num">Sara<br><small style="font-weight:400;text-transform:none">cap 26</small></th>
+        <th class="num">Tanner<br><small style="font-weight:400;text-transform:none">cap 19</small></th>
+        <th class="num">Zac<br><small style="font-weight:400;text-transform:none">cap 19</small></th>
+      </tr></thead>
+      <tbody id="tb${mi}"></tbody>
+    </table>`;
+  root.appendChild(block);
+
+  const tb = block.querySelector(`#tb${mi}`);
+  for (const w of mo.weeks) {
+    const tr = document.createElement('tr');
+    if (w.today) tr.className = 'today-row';
+    tr.innerHTML = `
+      <td><div class="wk-date">${w.d}${w.today?' <span style="color:#3b82f6;font-size:9px">TODAY</span>':''}</div></td>
+      <td><div class="wk-event">${w.ev}</div></td>
+      ${cell(w.sara, CAP.sara, w.notes?.sara)}
+      ${cell(w.tan,  CAP.tan,  w.notes?.tan)}
+      ${cell(w.zac,  CAP.zac,  w.notes?.zac)}
+    `;
+    tb.appendChild(tr);
+  }
+});
+</script>
+</body>
+</html>

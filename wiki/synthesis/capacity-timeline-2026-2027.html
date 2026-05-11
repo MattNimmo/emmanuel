@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECC Comms — Team Capacity Timeline 2026–2027</title>
+<style>
+  :root {
+    --col: 90px;
+    --name-col: 172px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --low-bg: #dcfce7;   --low:  #15803d;
+    --mod-bg: #fef9c3;   --mod:  #a16207;
+    --high-bg: #fee2e2;  --high: #b91c1c;
+    --crit-bg: #fca5a5;  --crit: #7f1d1d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: #f1f5f9; color: #1e293b; font-size: 12px; }
+
+  header {
+    background: #1e293b; color: #f1f5f9;
+    padding: 14px 24px; position: sticky; top: 0; z-index: 60;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  header h1 { font-size: 15px; font-weight: 700; }
+  header p { font-size: 11px; color: #94a3b8; }
+
+  .scroll-wrap { overflow-x: auto; padding: 20px 20px 48px; }
+
+  /* ─── Table shell ─── */
+  table.tl {
+    border-collapse: separate; border-spacing: 0;
+    min-width: calc(var(--name-col) + var(--col) * 13);
+  }
+
+  /* ─── Sticky name column ─── */
+  .nc {
+    width: var(--name-col); min-width: var(--name-col);
+    position: sticky; left: 0; z-index: 20;
+    background: #fff;
+    border-right: 2px solid #cbd5e1;
+  }
+
+  /* ─── Month header row ─── */
+  .mh {
+    width: var(--col); min-width: var(--col);
+    text-align: center; padding: 9px 4px 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase;
+    background: #1e293b; color: #94a3b8;
+    border-right: 1px solid #334155;
+    position: sticky; top: 48px; z-index: 15;
+  }
+  .mh.now { color: #60a5fa; border-bottom: 2px solid #3b82f6; }
+  .mh-corner { background: #1e293b; border-right: 2px solid #334155; position: sticky; left: 0; top: 48px; z-index: 25; }
+
+  /* ─── Row labels ─── */
+  .rl {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .6px; color: #94a3b8;
+    padding: 5px 10px; background: #f8fafc;
+    border-right: 2px solid #cbd5e1;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+  }
+  .pl {
+    padding: 9px 10px; background: #fff;
+    border-right: 2px solid #cbd5e1;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+  }
+  .pl .nm { font-size: 13px; font-weight: 600; color: #0f172a; }
+  .pl .ro { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+  /* ─── Event cells ─── */
+  .ec {
+    vertical-align: top; padding: 4px 3px;
+    background: #fff;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .eb {
+    display: block; border-radius: 3px;
+    padding: 2px 4px; margin-bottom: 2px;
+    font-size: 8.5px; font-weight: 600;
+    line-height: 1.35; text-align: center;
+  }
+  .eb-s  { background: #fce7f3; color: #9d174d; } /* special */
+  .eb-h  { background: #fef9c3; color: #92400e; } /* holiday */
+  .eb-e  { background: #dbeafe; color: #1e40af; } /* event */
+  .eb-n  { background: #f1f5f9; color: #475569; } /* note */
+  .eb-t  { background: #bfdbfe; color: #1d4ed8; border: 1px solid #93c5fd; } /* today */
+
+  /* ─── Series row ─── */
+  .sr {
+    text-align: center; padding: 7px 4px;
+    font-size: 10px; font-weight: 700;
+    border-right: 2px solid #fff;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+    letter-spacing: -.1px;
+  }
+  .s-what   { background: #ede9fe; color: #6d28d9; }
+  .s-7ch    { background: #dbeafe; color: #1d4ed8; }
+  .s-aug    { background: #d1fae5; color: #065f46; }
+  .s-fall   { background: #fef3c7; color: #92400e; }
+  .s-kb     { background: #fee2e2; color: #991b1b; }
+  .s-xmas   { background: #fce7f3; color: #9d174d; }
+  .s-jan    { background: #e0f2fe; color: #0369a1; }
+  .s-spr    { background: #ecfdf5; color: #064e3b; }
+  .s-post   { background: #f3e8ff; color: #7e22ce; }
+  .s-easter { background: #fff7ed; color: #9a3412; }
+  .s-over   { background: repeating-linear-gradient(45deg,#fef3c7,#fef3c7 5px,#fee2e2 5px,#fee2e2 10px); color: #7c2d12; }
+
+  /* ─── Workload cells ─── */
+  .wc {
+    padding: 5px 4px; vertical-align: top;
+    border-right: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+  .wc.low  { background: var(--low-bg); }
+  .wc.mod  { background: var(--mod-bg); }
+  .wc.high { background: var(--high-bg); }
+  .wc.crit { background: var(--crit-bg); }
+
+  .pt {
+    display: block; padding: 2px 5px; border-radius: 3px;
+    background: rgba(255,255,255,.75);
+    color: #374151; margin-bottom: 2px;
+    font-size: 8.5px; font-weight: 600; line-height: 1.4;
+    border-left: 2px solid rgba(0,0,0,.12);
+  }
+  .pt.maj { border-left-color: #ef4444; color: #111; background: rgba(255,255,255,.9); }
+  .pt.bas { color: #6b7280; font-weight: 400; border-left-color: transparent; font-style: italic; }
+
+  /* ─── Load summary row ─── */
+  .lc {
+    text-align: center; padding: 5px 3px;
+    font-size: 9px; font-weight: 700; line-height: 1.3;
+    border-right: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+  .lc.low  { background: var(--low-bg);  color: var(--low); }
+  .lc.mod  { background: var(--mod-bg);  color: var(--mod); }
+  .lc.high { background: var(--high-bg); color: var(--high); }
+  .lc.crit { background: var(--crit-bg); color: var(--crit); font-size: 8.5px; }
+
+  /* ─── Section break ─── */
+  .brk td, .brk th { height: 5px; background: #cbd5e1 !important; border: none !important; padding: 0 !important; }
+
+  /* ─── Legend ─── */
+  .legend {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    padding: 12px 20px; background: #fff;
+    border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b;
+  }
+  .li { display: flex; align-items: center; gap: 6px; }
+  .sw { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ECC Comms — Team Capacity Timeline</h1>
+  <p>April 2026 – April 2027 &nbsp;·&nbsp; Today: Apr 20, 2026</p>
+</header>
+
+<div class="scroll-wrap">
+<table class="tl">
+
+<!-- ═══════════ MONTH HEADERS ═══════════ -->
+<thead>
+<tr>
+  <th class="nc mh-corner" style="height:42px"></th>
+  <th class="mh now">Apr<br>'26</th>
+  <th class="mh">May<br>'26</th>
+  <th class="mh">Jun<br>'26</th>
+  <th class="mh">Jul<br>'26</th>
+  <th class="mh">Aug<br>'26</th>
+  <th class="mh">Sep<br>'26</th>
+  <th class="mh">Oct<br>'26</th>
+  <th class="mh">Nov<br>'26</th>
+  <th class="mh">Dec<br>'26</th>
+  <th class="mh">Jan<br>'27</th>
+  <th class="mh">Feb<br>'27</th>
+  <th class="mh">Mar<br>'27</th>
+  <th class="mh">Apr<br>'27</th>
+</tr>
+</thead>
+
+<tbody>
+
+<!-- ═══════════ KEY EVENTS ═══════════ -->
+<tr>
+  <td class="nc rl">Key Events</td>
+  <td class="ec">
+    <span class="eb eb-s">🎉 Easter Apr 5</span>
+    <span class="eb eb-t">📍 Today Apr 20</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-h">💐 Mother's Day May 10</span>
+    <span class="eb eb-n">Holy Spirit Night May 31</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-h">👔 Father's Day Jun 21</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-e">MNTC Jul 12</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">⚡ TEC ~Aug 15</span>
+    <span class="eb eb-n">ELC Launch Day</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-e">Fall Kickoff Sep 6–13</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">🎵 Worship Night ~Oct 11</span>
+    <span class="eb eb-n">MYC ⚠️</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">💰 Miracle Offering Nov 8</span>
+    <span class="eb eb-e">Sisterhood Fall ~Nov 15</span>
+    <span class="eb eb-n">KB Weekend #2</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">🎄 Christmas Eve Dec 24</span>
+    <span class="eb eb-n">Pre-K Choir Dec 13</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-e">21 Days Jan 1–21</span>
+    <span class="eb eb-s">Vision Sunday Jan 24</span>
+    <span class="eb eb-n">KB Weekend #1 Jan 25</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">⭐ Super Sunday Feb 14</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-n">Sisterhood Spring ⚠️ TBD</span>
+    <span class="eb eb-h">Palm Sunday Mar 28</span>
+  </td>
+  <td class="ec">
+    <span class="eb eb-s">🎉 Easter Apr 18</span>
+    <span class="eb eb-n">Good Friday Apr 16</span>
+  </td>
+</tr>
+
+<!-- ═══════════ ACTIVE SERIES ═══════════ -->
+<tr>
+  <td class="nc rl">Sermon Series</td>
+  <td colspan="2" class="sr s-what">What About…</td>
+  <td colspan="2" class="sr s-7ch">7 Churches of Revelation</td>
+  <td class="sr s-aug">August Series (TBD)</td>
+  <td class="sr s-fall">Fall CG Series</td>
+  <td class="sr s-over">Fall CG → KB Series</td>
+  <td class="sr s-kb">KB Series</td>
+  <td class="sr s-xmas">Christmas Advent</td>
+  <td class="sr s-jan">New Year Series</td>
+  <td class="sr s-post">Post-Super Sunday</td>
+  <td class="sr s-spr">Spring Series</td>
+  <td class="sr s-easter">Easter Series</td>
+</tr>
+
+<!-- ─── DIVIDER ─── -->
+<tr class="brk"><td colspan="14"></td></tr>
+
+<!-- ═══════════ SARA WESCOTT ═══════════ -->
+<tr>
+  <td class="nc pl">
+    <div class="nm">Sara Wescott</div>
+    <div class="ro">Graphic Designer</div>
+  </td>
+  <!-- Apr -->
+  <td class="wc mod">
+    <span class="pt maj">What About... launch pkg</span>
+    <span class="pt maj">Easter aftermath</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- May -->
+  <td class="wc high">
+    <span class="pt maj">Mother's Day package</span>
+    <span class="pt">What About... ongoing</span>
+    <span class="pt">7 Churches pkg — begin</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Jun -->
+  <td class="wc mod">
+    <span class="pt maj">7 Churches launch pkg</span>
+    <span class="pt">Father's Day (light)</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Jul -->
+  <td class="wc mod">
+    <span class="pt">7 Churches ongoing</span>
+    <span class="pt maj">August Series pkg — begin</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Aug -->
+  <td class="wc crit">
+    <span class="pt maj">August Series launch pkg</span>
+    <span class="pt maj">TEC event graphics</span>
+    <span class="pt maj">Fall CG booklet design</span>
+    <span class="pt maj">Fall Kickoff design + merch</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Sep -->
+  <td class="wc high">
+    <span class="pt maj">Fall CG Series launch pkg</span>
+    <span class="pt maj">CG booklets → print + distrib.</span>
+    <span class="pt maj">Fall Kickoff graphics deploy</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Oct -->
+  <td class="wc high">
+    <span class="pt">Fall CG Series ongoing</span>
+    <span class="pt maj">Worship Night graphics pkg</span>
+    <span class="pt maj">KB Series pkg — begin</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Nov -->
+  <td class="wc crit">
+    <span class="pt maj">KB Series graphics</span>
+    <span class="pt maj">Miracle Offering — envelopes, slides, email</span>
+    <span class="pt maj">Sisterhood Fall graphics + merch</span>
+    <span class="pt maj">Christmas seasonal look — begin</span>
+    <span class="pt maj">Advent booklet → print</span>
+  </td>
+  <!-- Dec -->
+  <td class="wc high">
+    <span class="pt maj">Christmas campaign (full)</span>
+    <span class="pt maj">Advent booklets in lobbies</span>
+    <span class="pt maj">KB Booklet design</span>
+    <span class="pt maj">Annual report booklet — begin</span>
+  </td>
+  <!-- Jan -->
+  <td class="wc high">
+    <span class="pt maj">New Year Series pkg</span>
+    <span class="pt maj">21 Days look</span>
+    <span class="pt maj">Annual report → print</span>
+    <span class="pt maj">Super Sunday pkg — begin</span>
+  </td>
+  <!-- Feb -->
+  <td class="wc high">
+    <span class="pt maj">Super Sunday graphics pkg</span>
+    <span class="pt maj">Spring Series launch pkg</span>
+    <span class="pt bas">Weekly annc. graphics</span>
+  </td>
+  <!-- Mar -->
+  <td class="wc high">
+    <span class="pt">Spring Series ongoing</span>
+    <span class="pt maj">Sisterhood Spring pkg + merch ⚠️</span>
+    <span class="pt maj">Easter graphics pkg — begin</span>
+    <span class="pt">Easter ad campaign — begin</span>
+  </td>
+  <!-- Apr '27 -->
+  <td class="wc high">
+    <span class="pt maj">Easter — full campaign deploy</span>
+    <span class="pt maj">Sisterhood Spring ⚠️ (if April)</span>
+    <span class="pt">Easter banners + photobooth</span>
+  </td>
+</tr>
+
+<!-- ═══════════ VIDEOGRAPHER 1 — PRODUCTION ═══════════ -->
+<tr>
+  <td class="nc pl">
+    <div class="nm">Videographer 1</div>
+    <div class="ro">Production / Switcher</div>
+  </td>
+  <!-- Apr -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday production (all year)</span>
+  </td>
+  <!-- May -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">Mother's Day live coverage</span>
+  </td>
+  <!-- Jun -->
+  <td class="wc low">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">Series launch wk</span>
+  </td>
+  <!-- Jul -->
+  <td class="wc low">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt bas">MNTC (externally produced)</span>
+  </td>
+  <!-- Aug -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt maj">TEC — full event production</span>
+  </td>
+  <!-- Sep -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">Fall Kickoff live</span>
+  </td>
+  <!-- Oct -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt maj">Worship Night — full production</span>
+  </td>
+  <!-- Nov -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt maj">Miracle Offering Sunday — production</span>
+    <span class="pt">KB Weekend #2</span>
+  </td>
+  <!-- Dec -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">Christmas Eve service</span>
+  </td>
+  <!-- Jan -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">21 Days prayer mtg livestreams</span>
+    <span class="pt maj">Vision Sunday production</span>
+  </td>
+  <!-- Feb -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt maj">Super Sunday — full production</span>
+  </td>
+  <!-- Mar -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt">Sisterhood Spring ⚠️</span>
+  </td>
+  <!-- Apr '27 -->
+  <td class="wc high">
+    <span class="pt bas">Sunday production</span>
+    <span class="pt maj">Easter — full production</span>
+    <span class="pt">Good Friday service</span>
+  </td>
+</tr>
+
+<!-- ═══════════ VIDEOGRAPHER 2 — EDITING ═══════════ -->
+<tr>
+  <td class="nc pl">
+    <div class="nm">Videographer 2</div>
+    <div class="ro">Editing / Bumpers / Social</div>
+  </td>
+  <!-- Apr -->
+  <td class="wc mod">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt">What About... bumper</span>
+  </td>
+  <!-- May -->
+  <td class="wc mod">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Mother's Day video</span>
+    <span class="pt">7 Churches bumper — begin</span>
+  </td>
+  <!-- Jun -->
+  <td class="wc mod">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">7 Churches bumper</span>
+  </td>
+  <!-- Jul -->
+  <td class="wc low">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt">August Series bumper — begin</span>
+  </td>
+  <!-- Aug -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">August Series bumper</span>
+    <span class="pt maj">TEC promo video</span>
+    <span class="pt">Fall CG bumper — begin</span>
+  </td>
+  <!-- Sep -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Fall CG Series bumper</span>
+    <span class="pt">SHL Podcast production</span>
+  </td>
+  <!-- Oct -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Worship Night promo video</span>
+    <span class="pt maj">KB Series bumper</span>
+  </td>
+  <!-- Nov -->
+  <td class="wc crit">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Miracle Offering promo video</span>
+    <span class="pt maj">KB Weekend #2 video</span>
+    <span class="pt maj">Sisterhood Fall recap video</span>
+    <span class="pt">Christmas bumper — begin</span>
+  </td>
+  <!-- Dec -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Christmas bumper</span>
+    <span class="pt">KB Booklet video support</span>
+    <span class="pt">Podcast thumbnails / social</span>
+  </td>
+  <!-- Jan -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">New Year Series bumper</span>
+    <span class="pt maj">21 Days teaching videos</span>
+    <span class="pt maj">KB Launch Video</span>
+  </td>
+  <!-- Feb -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Super Sunday stingers</span>
+    <span class="pt maj">Spring Series bumper</span>
+  </td>
+  <!-- Mar -->
+  <td class="wc mod">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Easter testimony video</span>
+    <span class="pt">Easter bumper — begin</span>
+  </td>
+  <!-- Apr '27 -->
+  <td class="wc high">
+    <span class="pt bas">Msg edits + sermon clips</span>
+    <span class="pt maj">Easter bumper</span>
+    <span class="pt maj">Post-Easter series bumper</span>
+  </td>
+</tr>
+
+<!-- ═══════════ PHOTOGRAPHER ═══════════ -->
+<tr>
+  <td class="nc pl">
+    <div class="nm">Photographer</div>
+    <div class="ro">Photo Coverage + Editing</div>
+  </td>
+  <!-- Apr -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage (all year)</span>
+    <span class="pt">Easter coverage + edit</span>
+  </td>
+  <!-- May -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt">Mother's Day + flowers</span>
+    <span class="pt">Child Dedication</span>
+  </td>
+  <!-- Jun -->
+  <td class="wc low">
+    <span class="pt bas">Sunday coverage</span>
+  </td>
+  <!-- Jul -->
+  <td class="wc low">
+    <span class="pt bas">Sunday coverage</span>
+  </td>
+  <!-- Aug -->
+  <td class="wc high">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt maj">TEC photography (major event)</span>
+  </td>
+  <!-- Sep -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt">Fall Kickoff coverage</span>
+  </td>
+  <!-- Oct -->
+  <td class="wc high">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt maj">Worship Night photography</span>
+  </td>
+  <!-- Nov -->
+  <td class="wc high">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt maj">Sisterhood Fall photo shoot</span>
+    <span class="pt">KB Weekend coverage</span>
+  </td>
+  <!-- Dec -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt">Christmas Eve coverage</span>
+    <span class="pt">Photobooth — Christmas look</span>
+  </td>
+  <!-- Jan -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt">Vision Sunday coverage</span>
+    <span class="pt">KB Weekend #1 coverage</span>
+  </td>
+  <!-- Feb -->
+  <td class="wc high">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt maj">Super Sunday photography</span>
+  </td>
+  <!-- Mar -->
+  <td class="wc mod">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt">Sisterhood Spring ⚠️</span>
+  </td>
+  <!-- Apr '27 -->
+  <td class="wc high">
+    <span class="pt bas">Sunday coverage</span>
+    <span class="pt maj">Easter photography (major event)</span>
+  </td>
+</tr>
+
+<!-- ─── DIVIDER ─── -->
+<tr class="brk"><td colspan="14"></td></tr>
+
+<!-- ═══════════ OVERALL LOAD SUMMARY ═══════════ -->
+<tr>
+  <td class="nc rl" style="font-size:9.5px">Overall Load</td>
+  <td class="lc mod">Moderate</td>
+  <td class="lc mod">Moderate</td>
+  <td class="lc mod">Moderate</td>
+  <td class="lc low">Lower</td>
+  <td class="lc crit">🔴🔴 FALSE CALM — Overcapacity</td>
+  <td class="lc high">High</td>
+  <td class="lc high">High</td>
+  <td class="lc crit">🔴🔴 PEAK CRUNCH — Overcapacity</td>
+  <td class="lc high">High</td>
+  <td class="lc high">High</td>
+  <td class="lc high">High</td>
+  <td class="lc high">High</td>
+  <td class="lc high">High</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="li"><div class="sw" style="background:var(--low-bg)"></div> Lower load</div>
+  <div class="li"><div class="sw" style="background:var(--mod-bg)"></div> Moderate</div>
+  <div class="li"><div class="sw" style="background:var(--high-bg)"></div> High</div>
+  <div class="li"><div class="sw" style="background:var(--crit-bg)"></div> Overcapacity risk</div>
+  <div class="li"><div class="sw" style="background:rgba(255,255,255,.9); border:1px solid #ccc; border-left:3px solid #ef4444"></div> Major deliverable</div>
+  <div class="li"><div class="sw" style="background:rgba(255,255,255,.7); border:1px solid #ccc"></div> Project / campaign work</div>
+  <div class="li"><div class="sw" style="background:rgba(255,255,255,.7); border:1px solid #ccc"></div><em style="color:#6b7280">Recurring baseline</em></div>
+</div>
+
+</body>
+</html>
