@@ -7,7 +7,7 @@ tags: [director-sync, production, communications, multisite, app, broadcast]
 sources: [05-11 Weekly Director Sync Meeting_ Script Management, Event Planning, and Broadcast Feedback-transcript.txt]
 ---
 
-**TLDR:** Script management gets a home (service prep folder); baby dedication moves back to locations; MG/ELK are missing the app's location-events tab; broadcast camera feedback from locations solidifies what shots work and don't.
+**TLDR:** Script management gets a home (service prep folder); baby dedication governance is contested — long-term direction is location-managed, but October stays centralized (Nathan Grams objected); MG/ELK are missing the app's location-events tab; broadcast camera feedback from locations solidifies what shots work and don't.
 
 ---
 
@@ -45,13 +45,11 @@ The Mother's Day baby dedication revealed a systemic failure in central form man
 4. Three contacts to the comms team; location pastors had no visibility into signups or ability to extend the form
 5. Cambry was the only person with form access and was running a women's event
 
-**Direction:** Moving baby dedication form management back to locations, using the same template/model as baptism and Growth Track.
+**Long-term direction:** Location-managed, using the same template/model as baptism and Growth Track. Locations own the form, timing, access, and visibility. Nathan Grams made this case to Pastor Manny; Pastor Manny agreed in principle.
 
-- Locations get an aligned template; they manage timing, access, and visibility
-- Nathan Grams made this case to Pastor Manny; Pastor Manny agreed for Mother's Day
-- **Unresolved:** October dedication is still reportedly being kept centrally managed — Nathan pushing back on that
+**October 2026 exception:** The October baby dedication is staying centrally managed — decided over Nathan Grams' objection. Governance beyond October is unresolved.
 
-**Core tension named:** Centrally managed = aligned messaging but loses boots-on-ground execution. Location managed = faster response, better local awareness, slightly more variation risk.
+**Core tension:** Centrally managed = aligned messaging but loses boots-on-ground execution. Location managed = faster response, better local awareness, slightly more variation risk.
 
 ## Master Calendar & Event Distribution Strategy
 
@@ -105,7 +103,7 @@ Matt Nimmo, JonCarlos Velez, Nathan Grams (Speaker 3/SLP), Brian (Speaker 1/ELK)
 
 ## Related
 - [[announcement-cadence]] — app ownership, event routing
-- [[weekend-planning-05-11]] — same week; Holy Spirit Night details, May planning
+- [[weekly-planning-05-11]] — same week; Holy Spirit Night details, May planning
 - [[creative-team-meeting-05-04]] — prior camera conversation context
 - [[josh-patterson]] — production lead, camera system owner
 - [[joncarlos-velez]] — creative/worship director, broadcast direction

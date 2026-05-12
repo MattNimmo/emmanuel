@@ -2,6 +2,19 @@
 
 ---
 
+## [2026-05-11] maintenance | Lint pass
+
+- Fixed: director-sync-05-11 TLDR and body — baby dedication governance corrected (October stays centralized; Nathan Grams objected)
+- Fixed: recurring-feedback-patterns Pattern 6 — narrowed resolution claim to match actual decision
+- Fixed: director-sync-05-11 broken wikilink [[weekend-planning-05-11]] → [[weekly-planning-05-11]]
+- Fixed: deleted duplicate wiki/concepts/holy-spirit-night.md (synthesis version is canonical)
+- Fixed: moved guest-speaker-protocol from Synthesis to Concepts in index.md
+- Added: Interactive HTML Tools section to index.md with all 3 HTML files, descriptions, and connected wiki pages
+- Updated: overview.md — date, active builds (playbook refresh, 180 pipeline, MG Resi resolved), key open questions (baby ded governance, GDOP, calendar stacking, LV data integrity), active synthesis pages
+- Pages updated: [[director-sync-05-11]], [[recurring-feedback-patterns]], [[index]], [[overview]]
+
+---
+
 ## [2026-05-11] ingest | Creative Department Weekly Meeting
 
 - Source: 2026-05-11 Creative Department Weekly Meeting transcript (397 lines)

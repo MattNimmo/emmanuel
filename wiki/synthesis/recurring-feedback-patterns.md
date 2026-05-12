@@ -160,11 +160,11 @@ Speakers at locations don't know which camera is "live." Tally light improvement
 **First seen:** Feb 2025  
 **Frequency:** Feb 2025, Mar 2025, and Mother's Day 2026 (full failure)  
 **Calendar correlation:** Child dedications occur ~4x/year (Mar, May, Aug, Oct — varies by campus); centralized form causes confusion each time  
-**Status:** Partially resolved — moving to location-level management (Nathan Grams / May 2026)
+**Status:** Partially resolved — long-term direction is location-managed; October 2026 exception is staying centralized (Nathan Grams objected; decision went the other way)
 
 **Pattern:** The centrally managed sign-up form for child dedications created repeated confusion. Families didn't know where to find the link. Deadlines weren't communicated consistently. Campuses received sign-up windows without enough lead time to prepare. The Mother's Day 2026 instance was the most visible failure: ELK had zero families despite running the standard Sunday; SLP had one family when they expected more.
 
-**Resolution direction:** Nathan Grams and location pastors are moving child dedications to location-level management. The location owns the form, the communication, and the curation. This is confirmed in the director-sync-05-11.
+**Resolution direction:** Long-term: location-managed, same model as baptism and Growth Track — location owns form, timing, and access. Pastor Manny agreed in principle. However, October 2026 is staying centrally managed over Nathan Grams' objection. Governance beyond October is unresolved. See [[director-sync-05-11]].
 
 **Next dedication:** October 2026. Ideas for structural improvement:
 - Move the dedication moment earlier in service (between songs 2–3, worship still playing)

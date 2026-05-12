@@ -90,6 +90,7 @@ updated: 2026-05-11
 - [[online-broadcast-strategy]] — Actual viewership ~600–700; treating online as a location; online pastor question; Pando uptime fix
 - [[website-strategy]] — ECC website direction: external front door, not member hub; summer 2026 refresh; vendor evaluation in progress
 - [[creative-team-l10]] — Proposed EOS L10 meeting format for Creative Team Monday weekly; 90-min fixed agenda; scorecard included; exploratory
+- [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
 
 ## Synthesis
 - [[comms-project-horizon-2026-2027]] — Chronological map of all comms projects Apr 2026–Apr 2027; confirmed + inferred; risk windows identified
@@ -100,6 +101,15 @@ updated: 2026-05-11
 - [[daily-review-2026-05-04]] — May 4 daily digest; 4 meetings; this-week action items by department; 5 outstanding decisions; longer-term decisions
 - [[comms-deliverables-may-july-2026]] — Production due dates + deployment dates for all comms deliverables May–July 2026; blockers, capacity note, open items
 - [[social-media-platform-strategy]] — Platform-by-platform frequency + ownership map; Phase 1 (now) and Phase 2 (volunteer room vision)
-- [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
 - [[holy-spirit-night]] — May 31, 2026; Spring Lake Park (SLP); all locations; Pastor Nate preaching; 5:15pm call time; confirmed service flow + kids programming details
 - [[recurring-feedback-patterns]] — 12 recurring production/service patterns from 18 months of Weekend Planning debriefs; cross-referenced with master calendar; risk windows identified
+
+## Interactive HTML Tools
+
+Standalone browser-based views. Open directly in a browser; not rendered inside the wiki.
+
+| File | Title | What it shows | Connected wiki pages |
+|------|-------|---------------|----------------------|
+| [comms-weekly-capacity-hours-2026-2027.html](wiki/synthesis/comms-weekly-capacity-hours-2026-2027.html) | ECC Comms — Weekly Capacity Hours 2026–2027 | Week-by-week hours per team member (Sara/Tanner/Switcher/Photo) vs. effective capacity; color-coded load bands | [[comms-weekly-capacity-hours-2026-2027]], [[communications-capacity-planning]], [[comms-team]] |
+| [capacity-view-2026-2027.html](wiki/synthesis/capacity-view-2026-2027.html) | ECC Comms Capacity View — Apr 2026–Apr 2027 | Project/series overlaid on weekly capacity; swimlane view per team member; risk windows color-coded | [[comms-project-horizon-2026-2027]], [[comms-projects-by-category]], [[communications-capacity-planning]] |
+| [capacity-timeline-2026-2027.html](wiki/synthesis/capacity-timeline-2026-2027.html) | ECC Comms — Team Capacity Timeline 2026–2027 | Gantt-style timeline view; team load across the full year; low/mod/high/critical bands | [[comms-project-horizon-2026-2027]], [[comms-deliverables-may-july-2026]], [[communications-capacity-planning]] |
