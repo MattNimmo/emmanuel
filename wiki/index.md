@@ -93,6 +93,7 @@ updated: 2026-05-11
 - [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
 
 ## Synthesis
+- [[matt-nimmo-leadership-profile]] — Personal leadership profile: character patterns, worship→creative-director transition, growth edges, JC partnership dynamic (10 sources)
 - [[comms-project-horizon-2026-2027]] — Chronological map of all comms projects Apr 2026–Apr 2027; confirmed + inferred; risk windows identified
 - [[comms-projects-by-category]] — All comms projects grouped by category (series, events, print, recurring, etc.); designed for priority-setting with Nate
 - [[comms-weekly-capacity-hours-2026-2027]] — Week-by-week hour model per team member (Sara/Tanner/Switcher/Photo) vs. effective capacity; HTML view

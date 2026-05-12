@@ -2,6 +2,18 @@
 
 ---
 
+## [2026-05-11] synthesis | Matt Nimmo — Leadership Profile
+
+- Drew from close reading of 10 transcripts (Apr–May 2026): comms offsite, team meeting, vendor consultations, director syncs, creative meetings, weekend planning
+- Key framing: Matt stepped into Creative Director 8 weeks ago alongside JC; prior role was Worship Director (5 years); 17-year ECC tenure
+- Core patterns identified: insider/guest identity tension; bilateral protection reflex; internal decisiveness vs. external tentativeness; speed from vision to structure; humor as social management
+- New context reframes several patterns — systems-first instinct as smart adaptation to unfamiliar domains; "less is more" camera philosophy as native worship knowledge; role-newcomer framing as temporary orientation, not permanent character
+- Growth edges named: claiming worship-director authority in the creative chair; starting with the position not the question; surfacing tension rather than absorbing it; letting story land before it becomes structure; developing a distinctive point of view
+- Pages created: [[matt-nimmo-leadership-profile]]
+- Pages updated: [[index]]
+
+---
+
 ## [2026-05-11] maintenance | Lint pass
 
 - Fixed: director-sync-05-11 TLDR and body — baby dedication governance corrected (October stays centralized; Nathan Grams objected)
