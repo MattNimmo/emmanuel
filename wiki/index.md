@@ -1,6 +1,6 @@
 ---
 title: ECC Wiki Index
-updated: 2026-05-11
+updated: 2026-05-13
 ---
 
 # ECC Wiki — Master Index
@@ -53,6 +53,7 @@ updated: 2026-05-11
 - [[weekly-planning-05-11]] — May 11 weekly planning; Mother's Day full debrief (wins + misses); Holy Spirit Night confirmed (May 31, Spring Lake Park, Pastor Nate); Team Emmanuel RSVP urgency; GDOP May 17 TBD (1 source)
 - [[attendance-report-2026]] — 2026 Sunday weekly attendance Jan–May 10; all campuses; Easter 2026 = 6,993 (+79% vs. 2025); full 2025 comparison column (1 source)
 - [[weekend-planning-notes]] — Living notes document; 70+ Weekend Planning Meetings Dec 2024–May 2026; sermon series arc, recurring production issues, Sunday standards, 4-question debrief history (1 source)
+- [[staff-chapel-05-12]] — May 12, 2026 all-staff chapel; Sage Benkin hired as MG worship leader; Caleb/Jess Ballew interim worship leads recognized; transcript severely incomplete (1 source)
 
 ## Entities
 - [[emmanuel-christian-center]] — Org overview: 4 campuses, mission, leadership, all ministries/departments (web)
@@ -72,6 +73,9 @@ updated: 2026-05-11
 - [[dr-lori]] — Organizational coach/consultant; Working Genius facilitator (certifying Apr 24–25); long ECC history; leading June comms offsite
 - [[kylie]] — Creative Project Manager; confirmed active May 5; Mon/Tue Central, Wed/Thu/Sun Lakeville; Tenacity WG hire
 - [[luke-fredrickson]] — External tech/content strategist; met May 4; spiritual content pipeline vision; exploratory
+- [[sage-benkin]] — New worship leader, Maple Grove; hired May 2026; announced at May 12 Staff Chapel
+- [[caleb-ballew]] — Director of Finance; interim MG worship lead Jan–May 2026; husband of Jess Ballew
+- [[jessica-ballew]] — Director of ELC; interim MG worship lead Jan–May 2026; wife of Caleb Ballew
 
 ## Concepts
 - [[service-times-tracking]] — Weekly campus timing sheets; service structure, mid-service tracking, data quality notes, campus-specific elements

@@ -2,6 +2,19 @@
 
 ---
 
+## [2026-05-13] ingest | Staff Chapel — May 12, 2026
+
+- Ingested partial RTF transcript from Staff Chapel held May 12, 2026
+- Transcript severely incomplete: only timestamps 12:31–14:04 and 2:06:30–2:13:43 of a 2+ hour chapel captured; middle 2 hours entirely missing
+- "Josh Patterson" in transcript is the recording device name, not a speaker; no statements are attributable to individuals
+- Key finding: Sage Benkin hired as new Maple Grove worship leader; announced at chapel with her present
+- Caleb and Jess Ballew recognized for serving as interim MG worship leads since January 2026 on top of their regular roles
+- Closing prayer themes: Mission 52, prodigals returning, vision casting, Team Emmanuel Conference (Aug 15), leadership pipeline
+- Pages created: [[staff-chapel-05-12]], [[sage-benkin]], [[caleb-ballew]], [[jessica-ballew]]
+- Pages updated: [[index]]
+
+---
+
 ## [2026-05-11] synthesis | Matt Nimmo — Leadership Profile
 
 - Drew from close reading of 10 transcripts (Apr–May 2026): comms offsite, team meeting, vendor consultations, director syncs, creative meetings, weekend planning
