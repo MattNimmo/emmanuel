@@ -2,9 +2,9 @@
 title: Josh Patterson
 type: entity
 created: 2026-04-21
-updated: 2026-05-04
-tags: [person, production, tech, stage]
-sources: [04-15 Creative Weekly Meeting_ Mother's Day Media Plan, Song Recording, Social Timeline, Stage_Tech Updates-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt]
+updated: 2026-05-18
+tags: [person, production, tech, stage, service-producer]
+sources: [04-15 Creative Weekly Meeting_ Mother's Day Media Plan, Song Recording, Social Timeline, Stage_Tech Updates-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt, PRODUCTION HANDBOOK_ILLUSTRATOR_FINAL_Small.pdf]
 ---
 
 **TLDR:** Josh Patterson is ECC's production lead — overseeing stage, tech, cameras, and live production systems. He has strong opinions on production aesthetics and is the point person for major technical changes (stage wrap, camera switchover, Reach system upgrade).
@@ -13,9 +13,10 @@ sources: [04-15 Creative Weekly Meeting_ Mother's Day Media Plan, Song Recording
 
 ## Role
 
-- **Title:** Production (Lead)
+- **Title:** Production Lead / Service Producer
 - **Location:** Spring Lake Park (primary); supports all locations
 - Works closely with Tanner on production; manages the Reach system
+- Signed the Emmanuel Production Handbook as Service Producer; the Service Producer role is Staff-led and sits at the top of the production hierarchy
 
 ---
 

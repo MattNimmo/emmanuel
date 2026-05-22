@@ -1,6 +1,6 @@
 ---
 title: ECC Wiki Index
-updated: 2026-05-13
+updated: 2026-05-21
 ---
 
 # ECC Wiki — Master Index
@@ -21,6 +21,7 @@ updated: 2026-05-13
 - [[service-times-2026-04-26]] — April 26, 2026 timing sheets for all 4 campuses (ELK/LV/MG/SLP); full element-by-element breakdown; mid-service totals (4 sources)
 - [[service-times-2026-05-03]] — May 3, 2026 timing sheets (ODTFTW Cat B); MG close worship worst single-element overrun in dataset (+3:13/+2:19); SLP tightest mid; bumper/msg timer swaps at MG+SLP 9am (4 sources)
 - [[service-times-2026-05-10]] — May 10, 2026 timing sheets (Mother's Day Cat B); Jodi Ruch preaching ~5 min short across all campuses; LV close worship 0:23 (3rd-week timer pattern); SLP 9am Live-section timer issue (2nd week); MG 11am closing prayer 16:40 leave-on (4 sources)
+- [[service-times-2026-05-17]] — May 17, 2026 timing sheets (What About #4); Pastor Nate messages 46:05/44:46 at SLP (longest Q&A messages in dataset); LV close worship pattern resolved; SLP 9am timer issue resolved; MG posted lowest non-moment mid readings (4 sources)
 - [[2027-churchwide-events-magnet]] — 2027 magnet-content event list (Nathan Grams); ~30 dated items; 8 marked tentative `(?)`; Nov 5 Sisterhood + Nov 7 Miracle Offering = tight fall stack (1 source)
 - [[comm-requests]] — Pastor Jodi's annual communications request list by event/month (1 source)
 - [[comms-team-deliverables]] — Near-exhaustive catalog of 76 comms deliverable types; original version, lead times blank (1 source)
@@ -51,9 +52,16 @@ updated: 2026-05-13
 - [[director-sync-05-11]] — May 11 director sync; scripts folder in service prep; app location-events tab missing at MG/ELK; baby dedication returning to locations; broadcast camera feedback from all campuses (1 source)
 - [[creative-dept-weekly-05-11]] — May 11 creative weekly; camera philosophy (less is more during message / connection shots during response); playbook refresh by TEC Aug 16; Eagle Brook site visit planned; Dante 8-channel limit; LED walls capital case; 180 plan launch; website events consolidation (1 source)
 - [[weekly-planning-05-11]] — May 11 weekly planning; Mother's Day full debrief (wins + misses); Holy Spirit Night confirmed (May 31, Spring Lake Park, Pastor Nate); Team Emmanuel RSVP urgency; GDOP May 17 TBD (1 source)
-- [[attendance-report-2026]] — 2026 Sunday weekly attendance Jan–May 10; all campuses; Easter 2026 = 6,993 (+79% vs. 2025); full 2025 comparison column (1 source)
+- [[attendance-report-2026]] — 2026 Sunday weekly attendance Jan–May 17; all campuses; Easter 2026 = 6,993 (+79% vs. 2025); May 17 = 3,839 (+75 vs. 2025); full 2025 comparison column (2 sources)
 - [[weekend-planning-notes]] — Living notes document; 70+ Weekend Planning Meetings Dec 2024–May 2026; sermon series arc, recurring production issues, Sunday standards, 4-question debrief history (1 source)
 - [[staff-chapel-05-12]] — May 12, 2026 all-staff chapel; Sage Benkin hired as MG worship leader; Caleb/Jess Ballew interim worship leads recognized; transcript severely incomplete (1 source)
+- [[worship-handbook-v6]] — Official Emmanuel Worship team handbook V6; identity, roles (WL/FLV/MD/instruments), hand signals, Ableton/Planning Center, team ethics (1 source)
+- [[worship-lookbook-v2]] — Emmanuel Worship 2023 platform attire guide; do/don't, broadcast color rules, fit requirements (1 source)
+- [[production-handbook]] — Emmanuel Production (Tech Team) handbook; 13 roles across Broadcast Producing and Video Directing tracks; 70–80 min service target; "services, not shows" (1 source)
+- [[message-planning-meeting-05-04]] — May 4 message planning meeting; Holy Spirit two-week emphasis, Seven Churches of Revelation speaker map, August/fall series planning (1 source)
+- [[weekly-planning-05-18]] — May 18 weekly planning; Bill Johnson (May 24), Holy Spirit Night (May 31), grad honoring added; script channel launched in Teams; camera + monitor tech issues (1 source)
+- [[eos-meeting-05-20]] — May 20 EOS meeting; Nate's organizational restructuring reveal; XP search announced; Andy Ballew leads EOS introduction; named dysfunctions (1 source)
+- [[seven-churches-05-20]] — May 20 creative brainstorm; ancient-present aesthetic; drape columns; lobby backdrop; Turkey B-roll promo; tour poster; post-service social interviews (1 source)
 
 ## Entities
 - [[emmanuel-christian-center]] — Org overview: 4 campuses, mission, leadership, all ministries/departments (web)
@@ -64,21 +72,25 @@ updated: 2026-05-13
 - [[comms-team]] — Team composition (2 videographers, 1 designer, 1 photographer), capacity ~26 hrs/person/week (3 sources)
 - [[nate-ruch]] — Senior Pastor; priority decision-maker; Dr. Nate Ruch independent ministry
 - [[jodi-ruch]] — Pastor; primary comms requestor; author of annual Comm Requests doc
-- [[joncarlos-velez]] — Creative & Worship Director; JC; vision/direction for all creative and worship
+- [[joncarlos-velez]] — Lead Worship Pastor (official title); Creative & Worship Director; JC; vision/direction for all creative and worship
 - [[sara-wescott]] — Graphic Designer on comms team; ECC's sole internal design resource
 - [[jess-porter]] — Location Coordinator, MG; comms team advocate; testimony pipeline champion
 - [[zac-anderson]] — Filmmaker on comms team; also owns set lists and weekly email; not Zach Brauer
 - [[gabby-velez]] — Worship leader and original songwriter; JC's wife; Mother's Day 2026 music video
-- [[josh-patterson]] — Production lead; stage, cameras, Reach system; strong production aesthetic opinions
+- [[josh-patterson]] — Production Lead / Service Producer; stage, cameras, Reach system; signed the Production Handbook; top of production hierarchy
+- [[ashley-olson]] — Connections Ministry Coordinator; co-owner of website sections alongside Jodi Ruch (May 2026 direction)
 - [[dr-lori]] — Organizational coach/consultant; Working Genius facilitator (certifying Apr 24–25); long ECC history; leading June comms offsite
 - [[kylie]] — Creative Project Manager; confirmed active May 5; Mon/Tue Central, Wed/Thu/Sun Lakeville; Tenacity WG hire
 - [[luke-fredrickson]] — External tech/content strategist; met May 4; spiritual content pipeline vision; exploratory
 - [[sage-benkin]] — New worship leader, Maple Grove; hired May 2026; announced at May 12 Staff Chapel
 - [[caleb-ballew]] — Director of Finance; interim MG worship lead Jan–May 2026; husband of Jess Ballew
 - [[jessica-ballew]] — Director of ELC; interim MG worship lead Jan–May 2026; wife of Caleb Ballew
+- [[andy-ballew]] — Board member 13+ years; EOS consultant; licensed A/G minister; likely Caleb Ballew's parent
 
 ## Concepts
 - [[service-times-tracking]] — Weekly campus timing sheets; service structure, mid-service tracking, data quality notes, campus-specific elements
+- [[emmanuel-worship-team]] — Full Emmanuel Worship team model: identity values, roles, operational systems (Planning Center/Ableton), platform standards, ethics
+- [[emmanuel-production-team]] — Tech Team model: identity values, 13 roles, broadcast workflow, camera shot philosophy, service standards
 - [[communications-capacity-planning]] — Framework and open questions for building the ClickUp capacity view (3 sources)
 - [[clickup-capacity-setup]] — Recommended ClickUp architecture, templates, custom fields, views, and build sequence (2 sources)
 - [[sermon-series-comms-workflow]] — Recurring deliverable workflow triggered by each new sermon series, 8–9x/year (3 sources)
@@ -93,6 +105,8 @@ updated: 2026-05-13
 - [[social-media-strategy]] — Current state (bulletin board), One Church Columbus volunteer model, platform strategy needs, capacity blockers
 - [[online-broadcast-strategy]] — Actual viewership ~600–700; treating online as a location; online pastor question; Pando uptime fix
 - [[website-strategy]] — ECC website direction: external front door, not member hub; summer 2026 refresh; vendor evaluation in progress
+- [[seven-churches-of-revelation]] — Summer 2026 sermon series (Revelation 2–3); June 7–late July; creative direction confirmed; ancient-present aesthetic; "The Future Is Ancient"
+- [[eos-initiative]] — Emmanuel Operating System initiative; Andy Ballew consulting; XP search for 2027; 6-component framework; VTO in development
 - [[creative-team-l10]] — Proposed EOS L10 meeting format for Creative Team Monday weekly; 90-min fixed agenda; scorecard included; exploratory
 - [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
 
@@ -106,7 +120,9 @@ updated: 2026-05-13
 - [[daily-review-2026-05-04]] — May 4 daily digest; 4 meetings; this-week action items by department; 5 outstanding decisions; longer-term decisions
 - [[comms-deliverables-may-july-2026]] — Production due dates + deployment dates for all comms deliverables May–July 2026; blockers, capacity note, open items
 - [[social-media-platform-strategy]] — Platform-by-platform frequency + ownership map; Phase 1 (now) and Phase 2 (volunteer room vision)
+- [[ecc-state-may-2026]] — May 21, 2026 current-state synthesis: EOS restructuring, Seven Churches creative, near-term pipeline, tensions worth tracking
 - [[holy-spirit-night]] — May 31, 2026; Spring Lake Park (SLP); all locations; Pastor Nate preaching; 5:15pm call time; confirmed service flow + kids programming details
+- [[nate-meeting-05-18]] — May 18 action items from Nate: website training/ownership, 7 Churches of Revelation series, TEC support, vinyl mockups
 - [[recurring-feedback-patterns]] — 12 recurring production/service patterns from 18 months of Weekend Planning debriefs; cross-referenced with master calendar; risk windows identified
 
 ## Interactive HTML Tools

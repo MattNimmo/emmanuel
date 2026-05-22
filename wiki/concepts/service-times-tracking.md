@@ -2,8 +2,8 @@
 title: Service Times Tracking
 type: concept
 created: 2026-04-26
-updated: 2026-05-10
-weeks_tracked: 14
+updated: 2026-05-18
+weeks_tracked: 15
 tags: [service-times, production, worship, mid-service, locations, elk, lv, mg, slp, planning-center]
 sources: [Elk Times April 26 2026, LV Times April 26 2026, MG Times April 26 2026, SLP Times April 26 2026, Elk 26-03-15, LV 26-03-15, MG 26-03-15, SLP 26-03-15, Elk 26-03-22, LV 26-03-22, MG 26-03-22, SLP 26-03-22, Elk 26-03-29, LV 26-03-29, MG 26-03-29, SLP 26-03-29, Elk - 26-04-12, LV - 26-04-12, MG - 26-04-12, SLP - 26-04-12, Elk 26-04-19, LV 26-04-19, MG 26-04-19, SLP 26-04-19]
 ---
@@ -208,6 +208,10 @@ Mid-service actuals vs. planned, per tracked service. Moment-flagged services sh
 | **May 10 *(M)*** | **LV** | **7:20** *(incl. unplanned ded)* | **+3:30** | **—** | **—** | **Mother's Day; unplanned Child Ded 4:20; close worship 0:23 (3rd-week timer pattern)** |
 | **May 10 *(M)*** | **MG** | **7:35** | **+2:27** | **5:14** | **+1:14** | **Mother's Day; Hosted Moment +1:21 (Collin announce); 11am Closing Prayer 16:40 timer leave-on** |
 | **May 10 *(M)*** | **SLP** | **3:49** | **+0:44** | **4:10** | **+1:05** | **Mother's Day / Jodi Ruch; 9am Offering 7:20 ODTFTW recap; 11am Salvation 11:31** |
+| May 17 | ELK | 12:53 | **−0:07** | 15:18 | **+2:18** | What About #4; Staff Moment (Mallory); 11am M&G +1:31; messages 45:43/43:52 (+7:43/+5:52) |
+| May 17 | LV | 12:48 | **+3:18** | — | — | Close worship 1:16 — **pattern resolved**; Announcements 5:48 (+3:48, 4 items); planned mid includes GDOP video |
+| May 17 | MG | 4:27 | **+0:27** | 4:58 | **+0:58** | Lowest MG non-moment mid in dataset; Close Worship 11am +0:03 (essentially on plan); 11am bumper timer bleed (38:00) |
+| May 17 | SLP | 8:38 | **+1:13** | 9:46 | **+2:21** | Announcements +1:14/+1:28; messages 46:05/44:46 (longest Q&A messages in dataset); 11am Here As In Heaven 9:48 (+5:48) |
 
 **Key patterns at 7 weeks (formal tracking):** MG close worship is the dominant structural problem — May 3 posted the worst single-element overrun in the full dataset (+3:13 at 9am, +2:19 at 11am vs planned 0:45). SLP is consistently the tightest mid-service across all locations. Message length is series-dependent: Q&A format (What About) and individual messages both ran near 38:00 plan on May 3. Bumper/message timer swaps at both MG 9am and SLP 9am on May 3 suggest a possible shared Production Center issue on that date.
 
@@ -219,51 +223,51 @@ Mid-service actuals vs. planned, per tracked service. Moment-flagged services sh
 
 Running averages across all tracked services. Updated with each weekly ingest. See individual source pages for week-by-week breakdown. Moment-flagged services `(M)` are excluded from these calculations.
 
-> **Note (12 weeks of data — Feb 1 through Apr 26):** ELK = 19 services, LV = 8–9 (varies by week availability), MG = 15, SLP = 10 (formal tracking only; historical SLP in [[slp-service-times-historical]]). Historical weeks (Feb 1–Mar 8) have data quality caveats documented in source pages. Averages below incorporate historical data where usable; flagged services `(M)` and confirmed timer errors are excluded. Confirm stable patterns at week 13 (reached Apr 26).
+> **Note (15 weeks of data — Feb 1 through May 17):** Historical weeks (Feb 1–Mar 8) have data quality caveats documented in source pages. Averages incorporate historical data where usable; flagged services `(M)` and confirmed timer errors are excluded. Stable patterns confirmed at week 13 (Apr 26). Week 15 = May 17.
 
 ### ELK
 
 | Element | Avg Variance | Services | Notes |
 |---------|-------------|----------|-------|
-| Close Worship / NG Connect Card | **+0:14** | 19 | Up from +0:07 — historical weeks confirm consistent overrun; Feb 22 11am (+1:09) was highest |
-| Meet & Greet / Greet and Seat | +0:17 | 18 | Slightly elevated from +0:13 — Feb 22 11am (+1:13) was highest non-moment reading |
-| Announcements / Pastoral Moment | **+0:52** | 19 | Feb 22 9am spike (7:04, +4:04) — largest single-element overrun in dataset. Campaign weeks continue to dominate. |
-| Video (campaign, when present) | ~0:00 | 5 | Near-plan when present; KB Launch Video Feb 1 also on plan |
-| Offering | **-0:26** | 19 | Deeper short average — Communion Sundays and standard weeks often run short; campaign weeks bring it up |
-| **Mid-Service Total** | **+0:58** | 19 | Up from +0:47 — Feb 22 and Mar 1 11am elevated; historical data adds variability |
+| Close Worship / NG Connect Card | **+0:14** | 21 | Stable — May 17 ran +0:13/+0:17, near the running average |
+| Meet & Greet / Greet and Seat | **+0:21** | 20 | Up from +0:17 — May 17 11am ran 2:01 vs 0:30 planned (+1:31); elevated by this large overrun |
+| Announcements / Pastoral Moment | **+0:45** | 21 | Down from +0:52 — both May 17 services ran under plan (-0:05/−0:39); weekly variability continues |
+| Video (campaign / KB spotlight) | ~0:00 | 5 | KB Spotlight ran under plan both services (-0:58/−0:57); campaign video consistently near plan |
+| Offering | **-0:22** | 21 | Slightly better — May 17 9am on plan; 11am +0:45 brought it up marginally |
+| **Mid-Service Total** | **+0:59** | 12 | Stable at ~+1:00; May 17 9am (-0:07) offset by 11am (+2:18) |
 
 ### LV
 
 | Element | Avg Variance | Services | Notes |
 |---------|-------------|----------|-------|
-| Close Worship / Meet & Greet Transition | -0:29 | 7 | Persistent timer recording issue in historical weeks — reliable sessions only. Confirmed pattern: runs short |
-| Meet & Greet | -0:03 | 8 | Slight underrun; consistent |
-| Announcements | **+0:29** | 9 | **Revised upward significantly** — historical weeks showed +1:14 to +2:00 overruns. Was -0:02 in formal tracking; historical context reveals LV announcements are not on plan |
-| 5 Spot (LV unique) | +0:03 | 1 | Mar 22 only — on plan |
-| Offering | **+0:32** | 9 | Campaign weeks still dominant but historical non-campaign weeks averaged near plan. Net avg +0:32 |
-| **Mid-Service Total** | **+0:19** | 8 | Stable near +0:18 — historical non-moment weeks added +0:42 (Feb 22) and +0:03 (Mar 1 excl. Child Ded) |
+| Close Worship / Meet & Greet Transition | **-0:27** | 8 | Improving — May 17 = 1:16 (first normal reading in 3 weeks; -0:14). **Pattern resolved.** |
+| Meet & Greet | -0:03 | 9 | Stable |
+| Announcements | **+0:49** | 10 | **Up sharply from +0:29** — May 17 spike to 5:48 (+3:48) on 4-item week. Now a confirmed volatile element. |
+| 5 Spot (LV unique) | +0:03 | 1 | Mar 22 only — unchanged |
+| Offering | **+0:29** | 10 | Slightly lower — May 17 was -0:03 (on plan) |
+| **Mid-Service Total** | **+0:39** | 9 | Up from +0:19 — May 17 mid of 12:48 (+3:18) includes GDOP video in planned mid |
 
 ### MG
 
 | Element | Avg Variance | Services | Notes |
 |---------|-------------|----------|-------|
-| Close Worship | **+1:03** | 13 | **Up from +0:49 — historical data confirms this pattern goes back at least to Feb 1.** Pattern is structural, not recent. Feb 15 9am was +2:37; Mar 8 9am was +2:53. The 0:45 plan is wrong. |
-| Meet & Greet (Live Band) | +0:06 | 14 | Slightly elevated; Feb 22 had format change (no Close Worship, different elements) |
-| Hosted Moment / Welcome | **+0:31** | 13 | Up from +0:24 — 11am Hosted Moment has consistently run longer than 9am. Feb 22 11am = +1:53 |
-| KB / Campaign Video (when present) | -0:05 | 4 | KB Launch Video Feb 1 ran under plan (-0:41 at 9am); KB 5 Spot Feb 22 ran on plan |
-| Offering | **+0:33** | 13 | **Up sharply from +0:15** — Feb 22 offering anomaly (+3:07 / +2:52) had major impact. Non-anomaly weeks avg near plan. |
-| **Mid-Service Total** | **+2:04** | 15 | **Up sharply from +1:17** — Feb 22 MG was +4:31 / +6:12; remains the worst mid-service in the dataset |
+| Close Worship | **+0:57** | 15 | **Down from +1:03** — May 17 ran +0:32 (9am) and +0:03 (11am). 11am was essentially on plan — lowest MG close worship overrun in dataset. Pattern persists but showed notable improvement this week. |
+| Meet & Greet (Live Band) | +0:04 | 16 | Stable; May 17 ran under plan at both services |
+| Hosted Moment / Welcome | **+0:36** | 15 | Up slightly from +0:31 — May 17 11am +1:46 pushed it higher |
+| KB / Campaign Video (when present) | -0:05 | 4 | Unchanged; KB 5 Spot at MG this week tracked separately (5:00 plan, +0:39/+0:51) |
+| Offering | **+0:33** | 13 | Unchanged; May 17 offering not included in traditional MG mid tracking |
+| **Mid-Service Total** | **+1:54** | 17 | **Down from +2:04** — May 17 posted +0:27/+0:58, well below prior average |
 
 ### SLP
 
 | Element | Avg Variance | Services | Notes |
 |---------|-------------|----------|-------|
-| Host Pastor / New Guest | +0:09 | 10 | *Mar 15 excluded (moment flag).* Slight consistent over. Mar 29 elevated (+0:26/+0:19). |
-| Greet and Seat | -0:05 | 10 | Now slightly under on average — Apr 12 and Apr 19 both ran short |
-| Announcements (primary block) | variable | 10 | Structure changed Apr 19 (two blocks). Too variable to avg meaningfully — see source pages |
-| KB / KB Video | **+0:15** | 4 | Present most weeks; consistent overrun |
-| Offering | **+0:21** | 12 | Stable near +0:21; campaign weeks slightly elevated but SLP offering is more consistent than LV |
-| **Mid-Service Total** | **+0:36** | 10 | *Mar 15 excluded.* Up from +0:27 — Apr 19 two-announcement-block structure inflated mid |
+| Host Pastor / New Guest | +0:09 | 12 | Stable — May 17 ran +0:02/+0:18 |
+| Greet and Seat | **-0:06** | 12 | Slightly more negative — May 17 ran -0:10/−0:14 |
+| Announcements (primary block) | variable | 12 | Both May 17 services over plan (+1:14/+1:28); still too variable to average meaningfully |
+| KB / KB Video | **+0:09** | 6 | Down from +0:15 — May 17 CTM Promo ran -0:01/−0:04 (on plan) |
+| Offering | **+0:22** | 14 | Stable — May 17 ran +0:08 (9am) and +0:53 (11am) |
+| **Mid-Service Total** | **+0:48** | 12 | **Up from +0:36** — May 17 11am (+2:21) is highest standard-week SLP mid in dataset |
 
 ---
 
@@ -303,17 +307,19 @@ Running averages across all tracked services. Updated with each weekly ingest. S
 
 - **Guest preacher message-length pattern: Jodi Ruch runs ~5 min short** *(observed: May 10, 2026 — single week so far)*. Across all 4 campuses on Mother's Day, Pastor Jodi Ruch's message ran 27:15–33:37 vs 35–38:00 planned — consistently ~5 minutes under plan. Brad Rosenburg (May 3, 2026) ran near-plan at 38:32–39:10. **Hypothesis:** Guest preacher cadence is preacher-specific, not a fixed adjustment. Watch the next 2–3 guest-preacher weeks; if Jodi pattern holds across multiple weeks, build a per-preacher length profile in MSG_DATA.
 
-- **LV close worship sub-30s reading: 3 consecutive weeks** *(Mar 8, May 3, May 10)*. LV close worship has now read 0:00–0:23 in three of the last weeks. Not real execution — this is a timer-process pattern. Element must be excluded from LV close worship element-level average until LV production resolves. **Action: flag to LV production team.**
+- **~~LV close worship sub-30s reading~~ — RESOLVED (May 17, 2026).** *(Mar 8, May 3, May 10 — 3 consecutive weeks)*. May 17 returned to 1:16 (normal). Timer-process issue corrected at LV. Element returned to averaging from May 17. ~~Action: flag to LV production team.~~
 
-- **SLP 9am Live-section timer issue: 2 consecutive weeks** *(May 3, May 10)*. May 3 was a bumper/message swap; May 10 shows Bumper 0:01 + Nate Intro 0:02 + Message 27:15 = combined ~27:18 vs 37:49 planned, with ~10 min unaccounted. Same campus, same service slot, two weeks running. **Action: flag to SLP production team for May 17 service.**
+- **~~SLP 9am Live-section timer issue~~ — RESOLVED (May 17, 2026).** *(May 3, May 10)*. May 17 showed clean bumper reads at both SLP services (0:31/0:28). Flagged to production; appears corrected.
 
-- **MG mid-service overrun is compounding** *(Weeks 4–6)*. The combination of Close Worship consistently over + Hosted Moment growing + campaign offering elevated produced +3:25–+3:47 mid-service overruns at MG on Apr 19. This is the largest mid overrun in the dataset. Individual elements are mild; together they compound. MG campus team needs to know mid-service is running 9–10 minutes vs planned 6:30.
+- **MG mid-service compounding — possible improvement *(Week 15, May 17)***: After compounding overruns (+3:25–+3:47 on Apr 19), MG posted its two lowest non-moment mids in the dataset on May 17 (+0:27/+0:58). Close Worship was mild (9am +0:32, 11am +0:03). Insufficient data to call this a reversal (could be topic/content-specific). Watch 2–3 more standard weeks before promoting to resolved. The broader compounding concern remains open.
 
 - **LV Offering elevated on campaign weeks; near-plan otherwise** *(Weeks 3–6)*. Apr 12 (Ability Tree, +1:35), Apr 19 (ODTFTW, +1:29), Apr 26 (+2:31) all show LV offering spiking during named campaigns. Mar 15 (-1:26) and Mar 22 (+0:01) were near plan. This is a structural pattern: LV offering is content-dependent. The previous concern about LV offering "volatility" is now explained — it's predictable based on the campaign calendar.
 
 - **ELK Offering consistently runs short on non-campaign weeks** *(Weeks 1–6)*. In 7 of 11 tracked ELK services, offering ran under its 2:30 plan. Campaign weeks (Apr 12 offered Ability Tree — ran 1:53; Apr 19 ODTFTW — ran 3:54/3:25) introduce variability. Non-campaign weeks average approximately -0:45 below plan. If this holds, adjust ELK planned offering to 1:45–2:00 for non-campaign weeks.
 
 - **SLP Worship Response / "Dwell" song runs over plan consistently** *(Weeks 4–6)*. Mar 29 Palm Sunday (5:37/7:03, moment-flagged). Apr 19 Dwell (5:41/5:39 vs planned 4:00, +1:41 not flagged). The planned 4:00 for SLP's response song appears to be too short. Non-Palm-Sunday services also running +1:30+. Watch at week 9+.
+
+- **Q&A series message length variability: topic-driven spikes *(observed: May 17, 2026)***: Prior Q&A weeks (Apr 19–May 3) averaged ~38–42 min at SLP. May 17 "What About the Holy Spirit?" ran 46:05/44:46 — more standard-series length. Single-week signal; need 2+ more Q&A weeks to determine if this is topic-driven or a calibration shift.
 
 - **MG Planning Center frequently mislabels service columns** *(first observed: Mar 22)*. On certain dates, the 9am and 11am service data is exported under "07:45am" column labels. The run-through may not appear separately. Check column timestamps to identify which column is which — see the MG labeling note in Location Service Schedule above.
 
@@ -369,7 +375,7 @@ Tracks when planned element times are officially changed in Planning Center and 
 
 **MG Feb 22 Offering anomaly:** MG Offering ran 5:07 / 4:52 vs plan 2:00 on Feb 22, with no known campaign context. Excluded from trend averages pending explanation. Do not fold into running average until MG production provides context for this week.
 
-**LV planned total inflation:** LV lists individual songs separately within the worship bundle, inflating the planned total by 6–10 minutes of double-counted song time. Always use element-level variances for LV, not the service total comparison.
+**Phantom song correction (MG and LV):** Planning Center sometimes lists individual songs inside a worship bundle with non-zero planned times. Since the operator runs the bundle timer (not individual song timers), those songs show 0:00 actual — inflating the planned total. **Rule:** if a song has planned > 0 but actual ≈ 0s across all public services for a given week, subtract its planned time from the planned total when computing service-total variance. Reverse case: if the bundle has actual ≈ 0s but songs ran individually (e.g., LV Mar 22, Mar 29), subtract the bundle planned time instead. This correction is applied retroactively to all historical MG and LV data in `data.js`. After correction, MG service totals are available for 12 of 15 weeks; LV service totals are available for all 15 weeks.
 
 ---
 
@@ -536,14 +542,22 @@ One flag per campus-week; it covers both 9am and 11am for that campus. See Inclu
 
 **11d. `EL_AVGS[loc].midTotal` and each `element.val`** — recalculate running averages excluding moment-flagged services and null values. Update every field that changed. Bar widths and colors derive automatically from the updated values — do not touch `elColor()` or `barPct()`.
 
-**11e. `TABLE_DATA`** — push four new rows (one per campus). Field reference:
+**11e. `SERVICE_TOTAL_PLANNED`** — update the planned total for this week. For MG and LV, apply the phantom-song correction before writing: scan the PDF for songs within the worship bundle that have planned > 0 but actual ≈ 0s at all public services — subtract each such phantom's planned seconds from the raw planned total. Reverse case: if songs ran individually and the bundle entry shows actual ≈ 0s, subtract the bundle's planned time instead. Set the corrected value in `SERVICE_TOTAL_PLANNED`. Set `null` only if the plan is unreliable for a reason other than phantoms (e.g., an unresolvable format issue). ELK/SLP plans rarely have phantom issues — apply the same check but expect no adjustment most weeks.
+
+**11f. `SERVICE_TOTAL`** — append one value per campus per tracked service: `actual_total_seconds − corrected_planned_total_seconds`. Set `null` if service total is unusable (timer errors, run-through bleed, or no data).
+
+**11g. `SERVICE_TOTAL_AVGS`** — recalculate the rolling averages, excluding moment-flagged weeks and null values.
+
+**11h. `TABLE_DATA`** — push four new rows (one per campus). Field reference:
 
 | Field | Value |
 |-------|-------|
 | `date` | Short label matching `WEEKS`, e.g. `'May 3'` |
 | `loc` | `'ELK'`, `'LV'`, `'MG'`, or `'SLP'` |
 | `m9` / `m11` | Mid-service actual as `'M:SS'` string, or `'—'` if null |
-| `p9` / `p11` | Variance as `'+M:SS'` or `'−M:SS'` string, or `'—'` if null |
+| `p9` / `p11` | Mid-service variance as `'+M:SS'` or `'−M:SS'` string, or `'—'` if null |
+| `tot9` / `tot11` | Service total actual as `'MM:SS'` string, or `'—'` if null |
+| `pt9` / `pt11` | Service total variance as `'+M:SS'` or `'−M:SS'` string, or `'—'` if null. Compute using phantom-corrected planned total from `SERVICE_TOTAL_PLANNED`. |
 | `notes` | Brief plain-English note; include `(★)` for Category A, `(M)` for Category B |
 | `moment` | `true` if moment-flagged; `false` otherwise |
 
@@ -570,6 +584,7 @@ One flag per campus-week; it covers both 9am and 11am for that campus. See Inclu
 - [[service-times-2026-04-26]] — Apr 26, 2026: "What About...#3"; first tracked week; Communion Sunday moment flags
 - [[service-times-2026-05-03]] — May 3, 2026: ODTFTW Category B; MG close worship worst single-element overrun in dataset; SLP tightest mid; bumper/msg timer swaps at MG+SLP 9am
 - [[service-times-2026-05-10]] — May 10, 2026: Mother's Day Category B; Jodi Ruch preaching (~5 min short cluster); LV close worship 0:23 (3rd-week timer pattern); SLP 9am Live-section timer issue (2nd week); MG 11am closing prayer 16:40 timer leave-on
+- [[service-times-2026-05-17]] — May 17, 2026: What About #4; Pastor Nate messages 46:05/44:46 (longest Q&A messages in dataset); LV close worship pattern resolved; SLP 9am timer issue resolved; MG mid lowest non-moment readings
 
 ### Related
 - [[slp-service-times-historical]] — SLP-only historical timing data Mar 2025–Mar 2026

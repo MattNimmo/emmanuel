@@ -2,9 +2,9 @@
 title: JonCarlos Velez
 type: entity
 created: 2026-04-21
-updated: 2026-04-21
+updated: 2026-05-18
 tags: [person, leadership, creative, worship, director]
-sources: [04-13 Comms Offsite - Favorite Projects_Vision Projects_-transcript.txt, 04-13 Team Meeting_ Capacity Issues, Process Breakdowns, and Social Media Strategy-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt]
+sources: [04-13 Comms Offsite - Favorite Projects_Vision Projects_-transcript.txt, 04-13 Team Meeting_ Capacity Issues, Process Breakdowns, and Social Media Strategy-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt, WORSHIP HANDBOOK_V6.pdf]
 ---
 
 **TLDR:** JonCarlos Velez (JC) is ECC's Creative/Worship Director, recently elevated alongside Matt Nimmo to a new leadership tier overseeing the comms team and creative direction. He holds the "directed vision of creative as a whole" — setting the strategic direction for what ECC sounds like and looks like, while Matt handles operational execution.
@@ -13,7 +13,7 @@ sources: [04-13 Comms Offsite - Favorite Projects_Vision Projects_-transcript.tx
 
 ## Role
 
-- **Title:** Creative & Worship Director (or equivalent — role is being formally defined as of Apr 2026)
+- **Title:** Lead Worship Pastor (official title per Worship Handbook V6); also described as Creative & Worship Director in organizational context
 - **Reports to:** [[nate-ruch]] (Pastor Nate)
 - **Partners with:** Matt Nimmo (Comms Lead) — the two operate as a pair; JC = vision/direction, Matt = execution/operations
 

@@ -2,12 +2,12 @@
 title: "2026 Attendance Report — Sunday Weekly"
 type: source
 created: 2026-05-11
-updated: 2026-05-11
+updated: 2026-05-18
 tags: [attendance, metrics, campuses, SLP, MG, ELK, LKV, online, 2026]
-sources: [2026 Attendance Report(Sunday Weekly).csv]
+sources: [2026 Attendance Report(Sunday Weekly).csv, 2026 Attendance Report May 18th.xlsx]
 ---
 
-**TLDR:** Full-year 2026 attendance report covering Jan 4 through May 10 (2026 actuals) plus 2025 comparison data through Dec 27. Breaks down total, in-person, and campus-level attendance by week. Easter 2026 hit 6,993 — nearly double Easter 2025 (3,895).
+**TLDR:** Full-year 2026 attendance report covering Jan 4 through May 17 (2026 actuals) plus 2025 comparison data through Dec 27. Breaks down total, in-person, and campus-level attendance by week. Easter 2026 hit 6,993 — nearly double Easter 2025 (3,895). May 17 (What About #4): 3,839 total — lowest non-anomaly since Feb 22.
 
 ---
 
@@ -51,6 +51,7 @@ sources: [2026 Attendance Report(Sunday Weekly).csv]
 | 17 | Apr 26 | — | 4,160 | 3,535 | 34 | 13 |
 | 18 | May 3 | — | 4,023 | 3,472 | 18 | 31 |
 | 19 | May 10 | **Mother's Day** | 4,294 | 3,828 | 55 | 4 |
+| 20 | May 17 | What About #4 | 3,839 | — | 21 | 4 |
 
 ---
 
@@ -65,6 +66,9 @@ sources: [2026 Attendance Report(Sunday Weekly).csv]
 - In-person: ~3,100–3,530
 - New guests: 15–36
 - Commitments: 4–35
+
+**Lower-range data points (not anomalies, but soft weeks):**
+- May 17 (What About #4, Q&A format): 3,839 total — +75 vs 2025; lowest non-anomaly since Feb 22; 21 guests, 4 commits
 
 **Weather anomaly — Mar 15:**
 - Total: 2,100 | In-person: 851 — roughly 25% of normal in-person count
@@ -153,7 +157,8 @@ For reference — typical 2025 all-church totals:
 
 ## Data Quality Notes
 
-- 2026 actuals stop at May 10 (Week 19); subsequent rows have 2025 comparison data only
+- 2026 actuals through May 17 (Week 20); subsequent rows have 2025 comparison data only
+- May 17 in-person breakdown unavailable (attendance report omits per-campus in-person split for this week)
 - Team Emmanuel (Kids) and Classes/Meeting columns sparse but present
 - Mar 22 "Easter 2025" label appears on the Apr 19 row — indicates the 2025 comparison column for that row represents Easter 2025 (Apr 20, 2025)
 - Dec 27, 2025 row has total only (3,837); no campus breakdown

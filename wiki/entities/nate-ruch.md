@@ -2,12 +2,12 @@
 title: Pastor Nate Ruch
 type: entity
 created: 2026-04-19
-updated: 2026-04-19
-tags: [person, leadership, senior-pastor, ECC]
-sources: [emmanuelcc.org]
+updated: 2026-05-20
+tags: [person, leadership, senior-pastor, ECC, eos, succession]
+sources: [emmanuelcc.org, 05-20 EOS Meeting_ Church Organizational Restructuring and EOS Implementation-transcript.txt]
 ---
 
-**TLDR:** Nate Ruch is the Senior Pastor of [[emmanuel-christian-center]] and the final decision-maker on communications priorities. He also maintains an independent ministry presence (Dr. Nate Ruch) with its own website, social channels, and content needs supported by the [[comms-team]].
+**TLDR:** Nate Ruch is the Senior Pastor of [[emmanuel-christian-center]], turning 55 in summer 2026 and entering a deliberate restructuring season: formalizing an EOS-based operating system, hiring an Executive Pastor in 2027, and acknowledging that he's been absorbing both Lead Pastor and XP responsibilities since Pastor Ben left.
 
 ---
 
@@ -39,16 +39,32 @@ Regular Sunday preaching role. Notable:
 
 ---
 
-## EOS Adoption
+## EOS Initiative and Organizational Restructuring
 
-Nate is leading ECC's adoption of EOS (Entrepreneurial Operating System) from the book *Traction* by Gino Wickman. Key points:
-- He has asked Matt and JC to read *Traction* so they can align with the model
-- EOS is already being piloted in DLT meetings (as of Apr 2026)
-- Broader rollout expected in 3–6 months
-- Core motivation: "It should be very clear who owns what, so you can run in your lanes with very few no's"
-- Also motivated by multi-site complexity — matrix org structures create ownership ambiguity that EOS is designed to resolve
+As of May 2026, Nate is leading a formal organizational restructuring — the most significant since ECC became multisite. Key elements:
 
-See [[eos-framework]] for full detail.
+**The core problem he named publicly:**
+> "I am both lead pastor and executive pastor right now, and that's not sustainable... The church is not getting the best version of me right now."
+> "I don't want to go another year the way the last five have been. It's taken a toll on my body."
+
+**What's changing:**
+- ECC is adopting an "Emmanuel Operating System" (EOS-based) with [[andy-ballew]] (board member, 13+ years) as consultant
+- Full leadership team briefed May 20, 2026; vision work (VTO) beginning immediately
+- Executive Pastor (XP) position being budgeted for **2027** hire; search accelerating
+- Target for EOS components operational: ~6 months (by ~November 2026)
+
+**His self-named growth edges (from May 20 meeting):**
+- "People don't feel trusted by me" — acknowledged as legitimate critique; has roots in past decisions that cost him
+- Passive-aggressive water-cooler culture exists and must change
+- Staff end-arounds (going to Nate directly when they disagree with their supervisor) must stop after XP arrives
+- "I don't like work Sundays" — sermons being wedged in around administrative work
+
+**His succession framing:**
+> "I know I will turn fifty-five this summer. I am entering a ten-year window to sixty-five. Just basic common sense says we're going to go through a succession process at somewhere in my sixties."
+
+The restructuring is about building systems now so succession, when it comes, goes well.
+
+See [[eos-initiative]] for full detail on the EOS framework and XP search.
 
 ---
 
@@ -69,4 +85,6 @@ See [[eos-framework]] for full detail.
 - [[comms-team]] — team that supports his ministry content
 - [[communications-capacity-planning]] — priority framework awaiting his input
 - [[comms-team-deliverables]] — Dr. NR department section
-- [[eos-framework]] — organizational operating system he is adopting
+- [[eos-initiative]] — organizational operating system and XP search he is leading
+- [[eos-meeting-05-20]] — May 2026 restructuring meeting source
+- [[andy-ballew]] — EOS consultant and board member

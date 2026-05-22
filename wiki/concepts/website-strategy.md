@@ -79,11 +79,24 @@ See [[website-overhaul-04-29]] for full call notes. Key points:
 
 ---
 
+## Ownership Model (Updated May 2026)
+
+Per direction from [[nate-ruch]] on May 18, the website is not a pure comms-owned asset. Ministry departments own their sections:
+
+- **[[jodi-ruch]] and [[ashley-olson]]** take ~90% ownership of: Dedications, Growth Track, Connections, ministry-specific items
+- Goal: integrate ministries into website management; empower them to make changes directly without routing through comms
+- [[zac-anderson]], Matt Nimmo, and [[kylie]] to be trained on website operations
+- This shifts comms role from "website owner" to "platform steward + training provider"
+
+See [[nate-meeting-05-18]].
+
+---
+
 ## Timeline
 
 - **Target:** Summer 2026 refresh
-- **Current phase:** vendor evaluation (April 2026)
-- **Next step:** Matt to define internal vision + design direction before going further
+- **Current phase:** vendor evaluation → training and ownership setup (May 2026)
+- **Next step:** Train Zac/Matt/Kylie; define access/tools for Jodi and Ashley
 
 ---
 

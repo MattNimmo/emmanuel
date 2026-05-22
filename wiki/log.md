@@ -2,6 +2,164 @@
 
 ---
 
+## [2026-05-21] synthesis | ECC State of the Church — May 2026
+
+- Synthesized three May 18–20 sources into a current-state narrative
+- Pages created: [[ecc-state-may-2026]]
+- Pages updated: [[overview]], [[index]]
+- Key synthesis threads:
+  - Org restructuring (EOS + XP) is the structural backdrop for everything in H2 2026
+  - Seven Churches creative direction confirmed; ~2-week execution window before June 7
+  - Named tensions: comms capacity during EOS rollout, August series decision gap, XP culture transition
+
+---
+
+## [2026-05-21] ingest | Weekly Planning 05-18, EOS Meeting 05-20, Seven Churches Creative 05-20
+
+- Ingested 3 transcripts from May 18–20, 2026
+- Pages created: [[weekly-planning-05-18]], [[eos-meeting-05-20]], [[seven-churches-05-20]], [[andy-ballew]], [[eos-initiative]]
+- Pages updated: [[nate-ruch]], [[seven-churches-of-revelation]], [[index]], [[log]]
+- Key findings:
+
+  **Weekly Planning (May 18):**
+  - Bill Johnson confirmed as guest speaker for May 24 (What About? #5)
+  - Grad honoring moment added to May 31 (Sunday after Memorial Day = new standard)
+  - Script/resource channel launched in Teams for centralized service assets
+  - Camera controller incident (Zac): settings pushed to live camera mid-service; not a hardware issue
+  - SLP confidence monitor glitched all morning; appointment scheduled
+  - Alert communications must go to PC Alive channel, not only Sunday chat
+  - Next Gen (Pastor Manny) flagged as missing voice in planning meetings
+
+  **EOS / Organizational Restructuring (May 20 — major):**
+  - Nate Ruch publicly named the dual Lead Pastor + XP burden: "I cannot be a visionary right now"
+  - Pastor Ben (former XP) departure has left Nate covering both roles — unsustainable for years
+  - Nate turning 55 this summer; 10-year window to 65; succession planning acknowledged
+  - Andy Ballew (board member 13+ years, licensed A/G minister) named as EOS consultant
+  - ECC building "Emmanuel Operating System" based on EOS framework; vision work (VTO) starting immediately
+  - XP search accelerating; budget targeting 2027 hire; looking for "integrator" type
+  - Target: all 6 EOS components operational within 6 months (~Nov 2026)
+  - Named dysfunctions: clunky systems, firefighter culture, inconsistent location experience, thin bench strength, passive-aggressive water-cooler culture, end-arounds to Nate
+  - JC quote: "We want an off-road vehicle but continue to drive a sports car"
+  - JC quote: "We function more as family rather than a team"
+  - Nate self-named: "People don't feel trusted by me" — acknowledged as legitimate; behavior change required
+
+  **Seven Churches Creative (May 20):**
+  - Series title confirmed: Seven Churches of Revelation; proposed subtitle "The Future Is Ancient"
+  - Series runs June 7 – late July 2026 (~7 weeks); Teen Challenge one weekend
+  - Nate shared Turkey trip photos/video in the session via AirDrop
+  - Platform: white drapes crumpled to look like stone columns; gobos; uplit for ancient texture
+  - Lobby: photo backdrop at each location (Ephesus arch, columns, palm trees)
+  - Promo video: narrative voiceover + Turkey B-roll + Jeremy (guide) audio; possible Anoka amphitheater shoot
+  - Social: after-service "what's your takeaway?" interviews run weekly throughout series
+  - August series decision deferred
+
+---
+
+## [2026-05-18] ingest | Message Planning Meeting — May 4, 2026
+
+- Ingested "Message Planning Meeting: Holy Spirit Focus, Seven Churches Series, and Fall Kickoff Coordination-Summary-2.pdf" (meeting date 2026-05-04)
+- Pages created: [[message-planning-meeting-05-04]], [[seven-churches-of-revelation]]
+- Pages updated: [[holy-spirit-night]], [[nate-meeting-05-18]], [[index]]
+- Key findings:
+  - **Holy Spirit Night teaching:** Alpha-like approach; 15–25 min; indwelling vs. infilling framework; Pastor Phil preaches Week 1 (May 24) while Speaker 2 travels; Speaker 2 preaches Week 2 (May 31) before HSN
+  - **Holy Spirit Night personnel:** Grant + Danny renting vans for youth; local elders for altar ministry; Ab Donovan included
+  - **Seven Churches of Revelation:** Confirmed June 7–late July; speaker map partially assigned (June 14 = Darren/Jeff; June 21 = likely Nathan; July 5 = Allie/Donovan/Shai); June 7 + July 19 unassigned; Speaker 2 has site-visit photos from Turkey
+  - **August:** Dr. Darnell Williams (North Central University President) standalone Aug 2; four-week State Fair / back-to-school series Aug 9–30
+  - **Fall:** Ephesians walkthrough begins September; Rob Hoskins (OneHope) giving/Great Commission series late Oct–Nov
+  - **Stories & Parables of Jesus:** Long-arc multi-season concept surfaced; no calendar window yet
+  - **Sermon note workflow:** Final notes delivered Monday morning of preaching week; creative preview window = 2–3 weeks before launch
+  - **Fall Kickoff:** Post-Labor Day; Darren + Brian deciding; baptism target Sept 20
+  - **Prayer:** Nathan Grams' mother Sherry recovering from major brain surgery
+
+---
+
+## [2026-05-18] ingest | Meeting with Nate — action items
+
+- Filed verbal to-do list from a May 18 meeting with Pastor Nate Ruch
+- Pages created: [[nate-meeting-05-18]], [[ashley-olson]]
+- Pages updated: [[website-strategy]], [[index]]
+- Key findings:
+  - Website co-ownership: Jodi Ruch + Ashley Olson (Connections Ministry Coordinator) take ~90% of Dedications, Growth Track, Connections, ministry-specific sections — significant governance shift from comms-owned to ministry-owned
+  - Website training needed for Zac Anderson, Matt Nimmo, and Kylie
+  - **7 Churches of Revelation** — new project/series on the horizon; meeting to be set with JC + Matt + Nate; no details yet
+  - TEC ("Team Emmanuel Conference") — Nate expressed desire to support TEC win; "Help us help you" framing; deliverables TBD
+  - Vinyl mockups: Matt to design mockups for stage platform vinyl wrap
+
+---
+
+## [2026-05-18] ingest | Emmanuel Production Handbook
+
+- Ingested PRODUCTION HANDBOOK_ILLUSTRATOR_FINAL_Small.pdf (compressed version; 45 MB, readable)
+- Service Producer signed the handbook — confirmed as Josh Patterson based on prior wiki context (his title updated to "Production Lead / Service Producer")
+- Pages created: [[production-handbook]], [[emmanuel-production-team]]
+- Pages updated: [[josh-patterson]], [[index]]
+- Key findings:
+  - **Service length target: 70–80 minutes** (explicit handbook policy; aligns with service-times data)
+  - "Services, not shows" — governing philosophy for all production decisions
+  - "The sermon isn't over until the response has been sung" — defines where broadcast ends
+  - Two-track hierarchy: Broadcast Producing (Service Producer leads) + Video Directing (Live Video Director leads); only these two roles are Staff-led
+  - **Broadcast Timekeeper role = the person generating the element-by-element timing data** used in weekly service sheets and [[service-times-tracking]]
+  - Inter-Location Comms creates time stamps as "play buttons" for location campuses to sync to broadcast stream
+  - Loudness standard: 88–94 dB during full energy moments
+  - Lighting programmed 1 day in advance minimum; dress rehearsal = first service
+  - Message Notes graphic reviewed by Service Producer or Communications Lead before each service
+  - ProPresenter = worship graphics/lyrics software; Dante VSC + WAVES Sound Grid = audio infrastructure
+  - "Think sunsets, not lightning bolts" — lighting vision principle
+  - Volunteer-driven: no experience required; 3-minute sign-up form
+
+---
+
+## [2026-05-18] ingest | Emmanuel Worship Handbook V6 + Lookbook V2
+
+- Ingested two foundational Emmanuel Worship documents added to raw/sources/ on May 18
+- Production Handbook (701 MB, Illustrator-based) exceeds PDF extraction limit; not ingested — image-only file
+- JonCarlos Velez title updated: "Creative & Worship Director" → "Lead Worship Pastor" (official title per Handbook V6)
+- Pages created: [[worship-handbook-v6]], [[worship-lookbook-v2]], [[emmanuel-worship-team]]
+- Pages updated: [[joncarlos-velez]], [[index]]
+- Key findings:
+  - JonCarlos Velez signed as Lead Worship Pastor; 50+ year worship history at ECC
+  - Defined roles: WL, FLV, Piano, Keys, Acoustic Guitar, Electric Guitar, Bass, Drums, MD
+  - MD is the Ableton operator and production/band liaison; must know Nashville Number System
+  - Hand signal system (9 signals) standardizes real-time song direction on platform
+  - Planning Center = rehearsal material delivery system; music memorized — no stands on platform
+  - Ethics section covers platform accountability, biblical sexuality, social media, alcohol, substance abuse, team care
+  - Lookbook (2023): earth tones/solids/pastels recommended; white glows on camera; tight patterns cause moiré; no shorts on platform
+
+---
+
+## [2026-05-18] maintenance | Phantom-song correction — MG and LV service totals retroactive
+
+- Identified phantom song inflation in MG and LV Planning Center exports across all 15 historical weeks
+- Rule: subtract phantom song planned times (songs listed with planned > 0 but actual ≈ 0s because the bundle timer was run, not individual song timers). Reverse case: subtract bundle planned time when songs ran individually (LV Mar 22, Mar 29).
+- Applied correction retroactively to all 15 weeks of MG and LV data in `data.js`
+- MG service totals unlocked for 12/15 weeks (3 remain null: Mar 15 unusable, Mar 29 partial data, Apr 19 9am unusable); LV service totals unlocked for all 15 weeks
+- Updated `SERVICE_TOTAL_PLANNED`, `SERVICE_TOTAL`, `SERVICE_TOTAL_AVGS`, `TABLE_DATA` tot/pt fields, and all inline comments in data.js
+- Pushed to GitHub; dashboard now shows MG and LV service-total columns with corrected variance
+- LV avg9: −51s → +228s (corrected from inflated plans). MG avg9: 328s → 301s; avg11: 225s → 220s.
+- Pages updated: [[service-times-tracking]], [[log]]
+
+---
+
+## [2026-05-18] ingest | Attendance Report — Updated through May 17, 2026
+
+- Ingested `2026 Attendance Report May 18th.xlsx`; updated coverage from May 10 to May 17
+- May 17 (What About #4): 3,839 total (+75 vs. 2025); SLP 2,225 | MG 420 | ELK 422 | LV 198 | Online 574
+- Lowest non-anomaly total since Feb 22 (3,804); consistent with Q&A sermon format and no special event
+- Extraction required formula evaluation (openpyxl data_only=False); campus sub-columns contained inline arithmetic formulas (e.g. `=178+71`) rather than hardcoded values
+- Pages updated: [[attendance-report-2026]], [[index]], [[log]]
+
+---
+
+## [2026-05-18] ingest | Service Times — May 17, 2026
+
+- Ingested service timing PDFs for all 4 campuses (ELK, LV, MG, SLP) from May 17, 2026
+- What About...#4 (Holy Spirit); standard week, no moment flags
+- Key findings: Pastor Nate messages ran 46:05/44:46 at SLP (longest Q&A series messages in dataset; more standard-series length); LV close worship timer pattern resolved (1:16 after 3 consecutive sub-30s weeks); SLP 9am Live-section timer issue resolved; MG posted lowest non-moment mid-service readings in dataset (+0:27/+0:58)
+- LV announcements spiked to 5:48 (+3:48) on 4-item week; SLP 11am Here As In Heaven 9:48 (+5:48) extended worship response; MG 11am bumper timer bleed (38:00)
+- data.js updated, pushed to GitHub; dashboard extended to 15 weeks
+- Pages created: [[service-times-2026-05-17]]
+- Pages updated: [[service-times-tracking]], [[index]], [[log]]
+
 ## [2026-05-13] ingest | Staff Chapel — May 12, 2026
 
 - Ingested partial RTF transcript from Staff Chapel held May 12, 2026
