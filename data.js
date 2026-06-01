@@ -40,10 +40,10 @@ const DATA = {
 // Moment flags — true = calendar moment (Category A/B) or data too unreliable to trend.
 // Moment weeks shown as hollow points in the trend chart; excluded from averages.
 const MOMENTS = {
-  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false, false,  true],
-  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false,  true],
-  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false,  true],
-  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false, false,  true]
+  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false, false, false],
+  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false],
+  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false],
+  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false, false, false]
 };
 
 // Per-element averages (seconds). Update midTotal and element val fields each ingest.
@@ -53,43 +53,43 @@ const MOMENTS = {
 // dimBar: renders the bar at 40% opacity (used for "variable" elements).
 const EL_AVGS = {
   ELK: {
-    label: 'ELK · Elk River', color: 'var(--elk)', midTotal: 68,
+    label: 'ELK · Elk River', color: 'var(--elk)', midTotal: 86,
     elements: [
-      { name: 'Close Worship',  val:  14 },
-      { name: 'Meet & Greet',   val:  20 },
-      { name: 'Announcements',  val:  48 },
+      { name: 'Close Worship',  val:  21 },
+      { name: 'Meet & Greet',   val:  19 },
+      { name: 'Announcements',  val:  44 },
       { name: 'Campaign Video', val: null, display: '≈0:00', barWidth: 1 },
-      { name: 'Offering',       val: -12 }
+      { name: 'Offering',       val:   0 }
     ]
   },
   LV: {
-    label: 'LV · Lakeville', color: 'var(--lv)', midTotal: 33,
+    label: 'LV · Lakeville', color: 'var(--lv)', midTotal: 63,
     elements: [
-      { name: 'Close Worship',    val: -24 },
-      { name: 'Meet & Greet',     val:  -6 },
-      { name: 'Announcements',    val:  50 },
+      { name: 'Close Worship',    val:  -6 },
+      { name: 'Meet & Greet',     val:  -5 },
+      { name: 'Announcements',    val:  70 },
       { name: '5 Spot (LV-only)', val:   3 },
-      { name: 'Offering',         val:  22 }
+      { name: 'Offering',         val:  13 }
     ]
   },
   MG: {
-    label: 'MG · Maple Grove', color: 'var(--mg)', midTotal: 128,
+    label: 'MG · Maple Grove', color: 'var(--mg)', midTotal: 139,
     elements: [
-      { name: 'Close Worship',  val:  64 },
+      { name: 'Close Worship',  val:  79 },
       { name: 'Meet & Greet',   val:   4 },
-      { name: 'Hosted Moment',  val:  47 },
+      { name: 'Hosted Moment',  val:  46 },
       { name: 'Campaign Video', val:  -5 },
-      { name: 'Offering',       val:  24 }
+      { name: 'Offering',       val:  19 }
     ]
   },
   SLP: {
-    label: 'SLP · Spring Lake Park', color: 'var(--slp)', midTotal: 57,
+    label: 'SLP · Spring Lake Park', color: 'var(--slp)', midTotal: 60,
     elements: [
-      { name: 'Host Pastor / NG',  val:  11 },
+      { name: 'Host Pastor / NG',  val:  13 },
       { name: 'Greet & Seat',      val:  -7 },
       { name: 'Announcements',     val: null, display: 'variable', barWidth: 30, dimBar: true },
       { name: 'KB Video / Moment', val:   9 },
-      { name: 'Offering',          val:  31 }
+      { name: 'Offering',          val:  30 }
     ]
   }
 };
@@ -183,10 +183,10 @@ const TABLE_DATA = [
   { date:'May 24', loc:'LV',  m9:'6:58',  p9:'−0:22', m11:'—',    p11:'—',     tot9:'75:43', pt9:'+1:19',  tot11:'—',     pt11:'—',      notes:'Cleanest LV mid in months; Announce +0:59; Offering −0:45; Close Worship near-plan (1:28)', moment:false },
   { date:'May 24', loc:'MG',  m9:'7:49',  p9:'+3:49', m11:'8:21', p11:'+4:21', tot9:'—',     pt9:'—',      tot11:'—',     pt11:'—',      notes:'Close Worship resurges (+2:16/+1:39); Hosted Moment 4:03/5:12 (+1:33/+2:42) — heaviest MG announcement week in dataset', moment:false },
   { date:'May 24', loc:'SLP', m9:'7:39',  p9:'+1:24', m11:'8:27', p11:'+2:12', tot9:'77:59', pt9:'+5:14',  tot11:'80:39', pt11:'+7:54',  notes:'Offering elevated no-campaign (+2:03/+1:08); Fresh Wind 11am 9:07 (+5:07, extended response); no KB block on plan', moment:false },
-  { date:'May 31', loc:'ELK', m9:'10:33', p9:'+2:33', m11:'12:24',p11:'+4:24', tot9:'84:22', pt9:'+13:22', tot11:'85:08', pt11:'+14:08', notes:'Holy Spirit Night (★); Close Worship 2:39/2:38 (+1:39, P. Bryan pastoral); Offering 11am 4:48 (+3:18); message 46:21/45:20', moment:true },
-  { date:'May 31', loc:'LV',  m9:'11:20', p9:'+6:05', m11:'—',    p11:'—',     tot9:'80:47', pt9:'+9:02',  tot11:'—',     pt11:'—',      notes:'Holy Spirit Night (★); Announce 6:09 (+4:49) — Graduate Recognition; Close Worship 3:34 (+2:34); Offering 0:41 (abbreviated)', moment:true },
-  { date:'May 31', loc:'MG',  m9:'7:08',  p9:'+3:08', m11:'8:55', p11:'+4:55', tot9:'—',     pt9:'—',      tot11:'—',     pt11:'—',      notes:'Holy Spirit Night (★); Close Worship new dataset-worst: 4:35 at 11am (+3:50); message 49:40/49:01 (+11:40/+11:01)', moment:true },
-  { date:'May 31', loc:'SLP', m9:'6:53',  p9:'+1:08', m11:'7:14', p11:'+1:29', tot9:'85:14', pt9:'+12:59', tot11:'87:11', pt11:'+14:56', notes:'Holy Spirit Night (★); mid moderate; Fresh Wind+Salvation extended (+1:38/+2:01 at 9am, +2:42/+1:29 at 11am); message 46:12/45:20', moment:true },
+  { date:'May 31', loc:'ELK', m9:'10:33', p9:'+2:33', m11:'12:24',p11:'+4:24', tot9:'84:22', pt9:'+13:22', tot11:'85:08', pt11:'+14:08', notes:'What About #6; Graduation Sunday; Close Worship +1:39 (P. Bryan pastoral); Offering 11am 4:48 (+3:18 vs 1:30 plan); message 46:21/45:20', moment:false },
+  { date:'May 31', loc:'LV',  m9:'11:20', p9:'+6:05', m11:'—',    p11:'—',     tot9:'80:47', pt9:'+9:02',  tot11:'—',     pt11:'—',      notes:'What About #6; Graduation Sunday; Announce 6:09 (+4:49) Graduate Recognition + HSN TONIGHT; largest LV mid in dataset; message 46:10', moment:false },
+  { date:'May 31', loc:'MG',  m9:'7:08',  p9:'+3:08', m11:'8:55', p11:'+4:55', tot9:'—',     pt9:'—',      tot11:'—',     pt11:'—',      notes:'What About #6; Close Worship new dataset-worst 4:35 at 11am (+3:50); message 49:40/49:01 (+11:40/+11:01) — longest MG messages in dataset', moment:false },
+  { date:'May 31', loc:'SLP', m9:'6:53',  p9:'+1:08', m11:'7:14', p11:'+1:29', tot9:'85:14', pt9:'+12:59', tot11:'87:11', pt11:'+14:56', notes:'What About #6; Graduation Sunday; mid moderate; Fresh Wind+Salvation block +3:39/+4:11 total; message 46:12/45:20', moment:false },
 ];
 
 // ── Service Total Length ──────────────────────────────────────────────────────
@@ -243,8 +243,8 @@ const SERVICE_TOTAL_PLANNED = {
 // Excludes moment-flagged weeks and null values.
 // MG/LV plans now phantom-corrected; limitedData flag retained where data points < 8.
 const SERVICE_TOTAL_AVGS = {
-  ELK: { avg9: 327, avg11: 369 },
-  LV:  { avg9: 211, avg11: null, limitedData: true },
+  ELK: { avg9: 386, avg11: 422 },
+  LV:  { avg9: 244, avg11: null, limitedData: true },
   MG:  { avg9: 301, avg11: 220, limitedData: true },
-  SLP: { avg9: 294, avg11: 609 }
+  SLP: { avg9: 348, avg11: 641 }
 };
