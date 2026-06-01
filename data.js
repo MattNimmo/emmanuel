@@ -10,40 +10,40 @@
 //   4. Update EL_AVGS[loc].midTotal and element val fields (seconds, from wiki)
 //   5. Push new TABLE_DATA rows (one per campus per week)
 
-const WEEKS      = ['Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26','May 3','May 10','May 17'];
-const WEEKS_FULL = ['2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26','2026-05-03','2026-05-10','2026-05-17'];
+const WEEKS      = ['Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26','May 3','May 10','May 17','May 24'];
+const WEEKS_FULL = ['2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26','2026-05-03','2026-05-10','2026-05-17','2026-05-24'];
 
 // Mid-service variance in seconds per service. null = no data / unusable.
 // [9am, 11am] per week, aligned to WEEKS index.
 const DATA = {
   ELK: {
     // Feb1: 9am timer bleed → null; 11am clean. Feb8: Super Sunday. Feb15: WB Sunday. Feb22–Mar8: standard/communion.
-    '9am':  [null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41,   82,  125,   -7],
-    '11am': [  95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56,  157,  167,  138]
+    '9am':  [null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41,   82,  125,   -7,   57],
+    '11am': [  95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56,  157,  167,  138,  184]
   },
   LV: {
     // Feb1: timer bleed → null. Feb8: Super Sunday unreliable → null. Feb15: timer errors → null. Feb22+: usable.
-    '9am':  [null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193,  -23,  210,  198],
-    '11am': [null, null, null, null, null, null,  null, null, null, null, null, null, null, null, null]
+    '9am':  [null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193,  -23,  210,  198,  -22],
+    '11am': [null, null, null, null, null, null,  null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
     // Feb1: both services usable. Feb8: 9am moment, 11am timer error. Feb15: 9am moment, 11am unusable. Feb22+.
-    '9am':  [  88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25,  215,  147,   27],
-    '11am': [ 146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54,  212,   74,   58]
+    '9am':  [  88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25,  215,  147,   27,  229],
+    '11am': [ 146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54,  212,   74,   58,  261]
   },
   SLP: {
-    '9am':  [ 51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9,   17,   44,   73],
-    '11am': [ 43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50,   36,   65,  141]
+    '9am':  [ 51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9,   17,   44,   73,   84],
+    '11am': [ 43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50,   36,   65,  141,  132]
   }
 };
 
 // Moment flags — true = calendar moment (Category A/B) or data too unreliable to trend.
 // Moment weeks shown as hollow points in the trend chart; excluded from averages.
 const MOMENTS = {
-  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false],
-  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false],
-  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false],
-  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false]
+  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false, false],
+  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false],
+  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false],
+  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false, false]
 };
 
 // Per-element averages (seconds). Update midTotal and element val fields each ingest.
@@ -53,43 +53,43 @@ const MOMENTS = {
 // dimBar: renders the bar at 40% opacity (used for "variable" elements).
 const EL_AVGS = {
   ELK: {
-    label: 'ELK · Elk River', color: 'var(--elk)', midTotal: 59,
+    label: 'ELK · Elk River', color: 'var(--elk)', midTotal: 68,
     elements: [
       { name: 'Close Worship',  val:  14 },
-      { name: 'Meet & Greet',   val:  21 },
-      { name: 'Announcements',  val:  45 },
+      { name: 'Meet & Greet',   val:  20 },
+      { name: 'Announcements',  val:  48 },
       { name: 'Campaign Video', val: null, display: '≈0:00', barWidth: 1 },
-      { name: 'Offering',       val: -22 }
+      { name: 'Offering',       val: -12 }
     ]
   },
   LV: {
-    label: 'LV · Lakeville', color: 'var(--lv)', midTotal: 39,
+    label: 'LV · Lakeville', color: 'var(--lv)', midTotal: 33,
     elements: [
-      { name: 'Close Worship',    val: -27 },
-      { name: 'Meet & Greet',     val:  -3 },
-      { name: 'Announcements',    val:  49 },
+      { name: 'Close Worship',    val: -24 },
+      { name: 'Meet & Greet',     val:  -6 },
+      { name: 'Announcements',    val:  50 },
       { name: '5 Spot (LV-only)', val:   3 },
-      { name: 'Offering',         val:  29 }
+      { name: 'Offering',         val:  22 }
     ]
   },
   MG: {
-    label: 'MG · Maple Grove', color: 'var(--mg)', midTotal: 114,
+    label: 'MG · Maple Grove', color: 'var(--mg)', midTotal: 128,
     elements: [
-      { name: 'Close Worship',  val:  57 },
+      { name: 'Close Worship',  val:  64 },
       { name: 'Meet & Greet',   val:   4 },
-      { name: 'Hosted Moment',  val:  36 },
+      { name: 'Hosted Moment',  val:  47 },
       { name: 'Campaign Video', val:  -5 },
-      { name: 'Offering',       val:  33 }
+      { name: 'Offering',       val:  24 }
     ]
   },
   SLP: {
-    label: 'SLP · Spring Lake Park', color: 'var(--slp)', midTotal: 48,
+    label: 'SLP · Spring Lake Park', color: 'var(--slp)', midTotal: 57,
     elements: [
-      { name: 'Host Pastor / NG',  val:   9 },
-      { name: 'Greet & Seat',      val:  -6 },
+      { name: 'Host Pastor / NG',  val:  11 },
+      { name: 'Greet & Seat',      val:  -7 },
       { name: 'Announcements',     val: null, display: 'variable', barWidth: 30, dimBar: true },
       { name: 'KB Video / Moment', val:   9 },
-      { name: 'Offering',          val:  22 }
+      { name: 'Offering',          val:  31 }
     ]
   }
 };
@@ -101,14 +101,14 @@ const EL_AVGS = {
 // On ingest: append one value to each array; update series type.
 const MSG_DATA = {
   planned: 38,
-  series:  ['Std', '',   'Std', 'Std', 'Std', 'Std', '',    'Std', '',    'Std', 'Q&A', 'Q&A', 'Std', '',    'Q&A'],
+  series:  ['Std', '',   'Std', 'Std', 'Std', 'Std', '',    'Std', '',    'Std', 'Q&A', 'Q&A', 'Std', '',    'Q&A', 'Q&A'],
   ELK: {
-    '9am':  [40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, 32.70, 45.72],
-    '11am': [42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, 33.43, 43.87]
+    '9am':  [40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, 32.70, 45.72, 39.68],
+    '11am': [42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, 33.43, 43.87, 40.65]
   },
   SLP: {
-    '9am':  [35.07, null, null,  null,  47.65, null,  48.90, null,  35.92, 42.58, 38.65, 40.15, 35.05, 27.25, 46.08],
-    '11am': [36.47, null, null,  null,  null,  null,  47.55, null,  37.27, 45.58, 42.00, 41.58, 37.38, 30.05, 44.77]
+    '9am':  [35.07, null, null,  null,  47.65, null,  48.90, null,  35.92, 42.58, 38.65, 40.15, 35.05, 27.25, 46.08, 39.70],
+    '11am': [36.47, null, null,  null,  null,  null,  47.55, null,  37.27, 45.58, 42.00, 41.58, 37.38, 30.05, 44.77, 40.65]
   }
 };
 
@@ -179,6 +179,10 @@ const TABLE_DATA = [
   { date:'May 17', loc:'LV',  m9:'12:48', p9:'+3:18', m11:'—',    p11:'—',     tot9:'81:20', pt9:'+6:50',  tot11:'—',     pt11:'—',      notes:'Close worship resolved (1:16); Announce 5:48 (+3:48, 4 items incl. GDOP); msg/bumper 46:07', moment:false },
   { date:'May 17', loc:'MG',  m9:'4:27',  p9:'+0:27', m11:'4:58', p11:'+0:58', tot9:'80:51', pt9:'+3:51',  tot11:'80:18', pt11:'+3:18',  notes:'Lowest MG mid in dataset; Close Worship 11am +0:03; 11am bumper timer bleed 38:00/msg 6:28', moment:false },
   { date:'May 17', loc:'SLP', m9:'8:38',  p9:'+1:13', m11:'9:46', p11:'+2:21', tot9:'75:09', pt9:'+3:14',  tot11:'84:38', pt11:'+12:43', notes:'Announcements +1:14/+1:28; messages 46:05/44:46 (+8:05/+6:46); 11am Here As In Heaven 9:48', moment:false },
+  { date:'May 24', loc:'ELK', m9:'9:27',  p9:'+0:57', m11:'11:34',p11:'+3:04', tot9:'80:19', pt9:'+7:49',  tot11:'82:13', pt11:'+9:43',  notes:'Offering elevated non-campaign week (+1:09/+1:55); 11am Announce 4:57 (+1:57); Close Worship near-zero (timer advance suspected)', moment:false },
+  { date:'May 24', loc:'LV',  m9:'6:58',  p9:'−0:22', m11:'—',    p11:'—',     tot9:'75:43', pt9:'+1:19',  tot11:'—',     pt11:'—',      notes:'Cleanest LV mid in months; Announce +0:59; Offering −0:45; Close Worship near-plan (1:28)', moment:false },
+  { date:'May 24', loc:'MG',  m9:'7:49',  p9:'+3:49', m11:'8:21', p11:'+4:21', tot9:'—',     pt9:'—',      tot11:'—',     pt11:'—',      notes:'Close Worship resurges (+2:16/+1:39); Hosted Moment 4:03/5:12 (+1:33/+2:42) — heaviest MG announcement week in dataset', moment:false },
+  { date:'May 24', loc:'SLP', m9:'7:39',  p9:'+1:24', m11:'8:27', p11:'+2:12', tot9:'77:59', pt9:'+5:14',  tot11:'80:39', pt11:'+7:54',  notes:'Offering elevated no-campaign (+2:03/+1:08); Fresh Wind 11am 9:07 (+5:07, extended response); no KB block on plan', moment:false },
 ];
 
 // ── Service Total Length ──────────────────────────────────────────────────────
@@ -193,20 +197,20 @@ const TABLE_DATA = [
 // Index-aligned to WEEKS.
 const SERVICE_TOTAL = {
   ELK: {
-    '9am':  [ 582, -262,  533, -165, null, -140, null,  858,  449,  452,  276,  573,  -22,  -95,  693],
-    '11am': [ 406,   -2,  236, -123, null,  -23,  157,  573,  244,  433,  419,  626,  308,   34,  725]
+    '9am':  [ 582, -262,  533, -165, null, -140, null,  858,  449,  452,  276,  573,  -22,  -95,  693,  469],
+    '11am': [ 406,   -2,  236, -123, null,  -23,  157,  573,  244,  433,  419,  626,  308,   34,  725,  583]
   },
   LV: {
-    '9am':  [ 131,  -60,  -87,  -60, 1125,  171,   36,  464,   24,  118,  301,  374, -155, -522,  410],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [ 131,  -60,  -87,  -60, 1125,  171,   36,  464,   24,  118,  301,  374, -155, -522,  410,   79],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [ 205,   82,  172,  249,  507,  260, null,  339, null,  769, null,  520,   54, -105,  231],
-    '11am': [-106, null, null,   87, null, null, null, null, null,  394,  345,  575,  -16, null,  198]
+    '9am':  [ 205,   82,  172,  249,  507,  260, null,  339, null,  769, null,  520,   54, -105,  231, null],
+    '11am': [-106, null, null,   87, null, null, null, null, null,  394,  345,  575,  -16, null,  198, null]
   },
   SLP: {
-    '9am':  [ 375,   77,  380,  486,  543,  442,  508,  130,   74,  313,  170,  240,  390,  -48,  194],
-    '11am': [1037,  308,  493,  752,  792,  497,  539,  373,  252,  671,  514,  463,  465,  237,  763]
+    '9am':  [ 375,   77,  380,  486,  543,  442,  508,  130,   74,  313,  170,  240,  390,  -48,  194,  314],
+    '11am': [1037,  308,  493,  752,  792,  497,  539,  373,  252,  671,  514,  463,  465,  237,  763,  474]
   }
 };
 
@@ -214,20 +218,20 @@ const SERVICE_TOTAL = {
 // ELK/SLP use same plan for both services each week.
 const SERVICE_TOTAL_PLANNED = {
   ELK: {
-    '9am':  [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440],
-    '11am': [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440]
+    '9am':  [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350],
+    '11am': [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350]
   },
   LV: {
-    '9am':  [4520, 4520, 4520, 5044, 4190, 4775, 4500, 4149, 4200, 4500, 4500, 4500, 4500, 4766, 4470],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [4520, 4520, 4520, 5044, 4190, 4775, 4500, 4149, 4200, 4500, 4500, 4500, 4500, 4766, 4470, 4464],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620],
-    '11am': [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620]
+    '9am':  [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null],
+    '11am': [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null]
   },
   SLP: {
-    '9am':  [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315],
-    '11am': [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315]
+    '9am':  [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365],
+    '11am': [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365]
   }
 };
 
@@ -235,8 +239,8 @@ const SERVICE_TOTAL_PLANNED = {
 // Excludes moment-flagged weeks and null values.
 // MG/LV plans now phantom-corrected; limitedData flag retained where data points < 8.
 const SERVICE_TOTAL_AVGS = {
-  ELK: { avg9: 303, avg11: 338 },
-  LV:  { avg9: 228, avg11: null, limitedData: true },
+  ELK: { avg9: 327, avg11: 369 },
+  LV:  { avg9: 211, avg11: null, limitedData: true },
   MG:  { avg9: 301, avg11: 220, limitedData: true },
-  SLP: { avg9: 291, avg11: 628 }
+  SLP: { avg9: 294, avg11: 609 }
 };
