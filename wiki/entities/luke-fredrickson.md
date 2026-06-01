@@ -2,34 +2,47 @@
 title: Luke Fredrickson
 type: entity
 created: 2026-05-04
-updated: 2026-05-04
-tags: [external, technology, content-strategy]
-sources: [05-04 Luke Fredrickson_ Content Strategy for Spiritual Impact, Storytelling Team, Systems Integration-transcript.txt]
+updated: 2026-06-01
+tags: [external, technology, content-strategy, website, app]
+sources: [05-04 Luke Fredrickson_ Content Strategy for Spiritual Impact, Storytelling Team, Systems Integration-transcript.txt, Nate AND Luke Gravity Engine Meeting 5.28.26.rtf]
 ---
 
-**TLDR:** External tech entrepreneur and content strategist; met with Matt, JC, and Nate May 4; pitched a spiritually-driven content pipeline and systems integration model; no formal engagement yet.
+**TLDR:** External tech entrepreneur building ECC's next-generation digital platform — the Gravity Engine. Initially exploratory (May 4 consultation); by May 28 he had a live build in beta-ready state. He is now the architect of ECC's new website, app, and content distribution system.
 
 ## Background
 
 - Tech entrepreneur; recent raise of ~$1.5M
-- Works with companies on content strategy, system architecture, and platform building
-- Built an app for his own use; now exploring broader applications
+- Builds apps and platforms for early-stage startups; works in venture studio model
 - Introduced to ECC by JonCarlos; Nate facilitated the connection ("I wanted you connected")
+- Demonstrated the Gravity Engine to Matt and JonCarlos on May 27, 2026; full meeting with Nate on May 28
 
-## Relevance to ECC
+## What He's Building for ECC
 
-- Met with Matt, JC, and Nate on May 4, 2026 for a strategy conversation
-- Core pitch: build a content pipeline that starts from Sunday spiritual moments and flows through the week via social, app, and small groups
-- Interest in building ECC an "operating system" for content management that integrates subsystems (app, small groups, member data)
-- Offered listening sessions with ECC's people via technology
+### The Gravity Engine
+A single-database platform (Supabase + React/Next.js) that:
+- Replaces WordPress for the website
+- Replaces the current app with a unified React/iOS/Android build
+- AI-generates content from Sunday sermon transcripts (small group questions, devotionals, social clips, images)
+- Pushes to website, app, and email from one center of truth
 
-## Status
+See [[gravity-engine]] for the full concept.
 
-- **Exploratory** — no formal agreement or next steps
-- Nate engaged; JC excited; Matt interested in the sustainment/structure side
-- Lunch followed the recorded portion; future conversations likely
+### Philosophy
+"The website and app are utilities. The point is what we start saying through them."
+
+Content must be about *what God is doing in the room* — tethered to this week, not last month. Goal: build momentum gravity that pulls people in and gets Emmanuel into rooms of national influence.
+
+## Status (as of May 28, 2026)
+
+- **Active build** — beta ~1–2 weeks from May 28 meeting
+- **Nate fully engaged** — described the platform publicly to the team; pulled in Zach Anderson for storytelling integration
+- **Regular meeting rhythm** being established (Nate + Luke weekly)
+- **Next step:** Internal staff beta run-through, then staff connect group beta
 
 ## Related Pages
-- [[luke-fredrickson-05-04]] — source: full consultation notes
-- [[social-media-strategy]] — his content philosophy aligns with and extends this
-- [[180-testimony-videos]] — the storytelling team he describes
+- [[luke-fredrickson-05-04]] — source: initial consultation notes (May 4)
+- [[gravity-engine-meeting-05-28]] — source: full May 28 build/pitch meeting
+- [[gravity-engine]] — concept: the full thesis and technology
+- [[zac-anderson]] — storytelling lead; three-tier story framework
+- [[website-strategy]] — this platform supersedes the WordPress/vendor evaluation direction
+- [[social-media-strategy]] — content-first approach reframes the social cadence question

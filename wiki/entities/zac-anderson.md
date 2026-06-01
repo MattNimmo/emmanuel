@@ -2,9 +2,9 @@
 title: Zac Anderson
 type: entity
 created: 2026-04-21
-updated: 2026-04-21
-tags: [person, comms-team, filmmaker, video, production]
-sources: [04-13 Team Meeting_ Capacity Issues, Process Breakdowns, and Social Media Strategy-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt]
+updated: 2026-06-01
+tags: [person, comms-team, filmmaker, video, production, storytelling]
+sources: [04-13 Team Meeting_ Capacity Issues, Process Breakdowns, and Social Media Strategy-transcript.txt, 2026-04-21 09_56_19 Meeting with Nate and JC - Confidential -transcript.txt, Nate AND Luke Gravity Engine Meeting 5.28.26.rtf]
 ---
 
 **TLDR:** Zac Anderson is a filmmaker on the comms team — ECC's second video producer alongside Tanner. He also handles the weekly email. He is principled, quality-driven, and outspoken about process breakdowns. Not to be confused with Zach Brauer (potential social media contractor).
@@ -52,6 +52,26 @@ sources: [04-13 Team Meeting_ Capacity Issues, Process Breakdowns, and Social Me
 ## Not to Confuse With
 
 **Zach Brauer** — a separate person, potential social media contractor being discussed for ELC/youth accounts. Currently runs ELC and youth social; has a reputation for needing multiple follow-up messages to post on time. Sara has reservations about the management overhead if he's contracted to support the comms team.
+
+---
+
+## Storytelling Role (May 2026)
+
+Zach has been independently developing a three-tier story framework for ECC content. Nate pulled him into the Gravity Engine meeting (May 28) mid-session because the work aligned directly with what Luke Fredrickson was building.
+
+**Three-tier story framework:**
+
+| Tier | Format | Production Level |
+|------|--------|-----------------|
+| 1 — Mini-doc | Full shoot, B-roll, multiple interviews (e.g., Easter / Wade story) | High |
+| 2 — Mid-tier | Well-produced for socials/web; doesn't need Sunday stage | Moderate |
+| 3 — Quick social | Camera + mic: "What's God doing in your life?" — grab and post | Low / fast |
+
+First test of Tier 3: Holy Spirit Night, May 31. Zach's plan: grab a camera and mic, capture 10 quick testimonies, aim for one strong enough to post.
+
+The framing he brings: it's not testimonies for testimony's sake. It's testimonies tethered to *this week's* momentum — content that makes people feel like they missed something real and need to show up Sunday.
+
+See [[gravity-engine]] and [[gravity-engine-meeting-05-28]] for full context.
 
 ---
 

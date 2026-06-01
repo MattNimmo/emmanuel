@@ -2,6 +2,57 @@
 
 ---
 
+## [2026-06-01] ingest | Management Training Notes + Gravity Engine Meeting (May 28)
+
+- Audited raw/sources/ against wiki/sources/; identified two un-ingested docs
+- Updated skills/ingest.md with a Pending Queue section (ongoing maintenance)
+- Pages created: [[management-training-notes]], [[gravity-engine-meeting-05-28]], [[gravity-engine]]
+- Pages updated: [[luke-fredrickson]], [[zac-anderson]], [[website-strategy]], [[index]], [[log]]
+- Key findings:
+
+  **Management Training Notes (undated DOCX):**
+  - EOS management training; likely Matt's own notes
+  - Core framework: know your team via story, personality assessments (Working Genius, Predictive Index), work rhythm
+  - Production team challenge named directly: stuck managing tasks instead of leading volunteers; broadcast excellence standards make every small mistake consequential
+  - Connects to [[eos-initiative]], [[emmanuel-production-team]], [[dr-lori-meeting-04-21]], [[creative-team-meeting-05-04]]
+
+  **Gravity Engine Meeting — May 28, 2026 (major):**
+  - Luke Fredrickson presents Gravity Engine to Nate Ruch; Zach Anderson joins mid-meeting
+  - **Thesis:** Emmanuel's brand has national potential; must shift from announcing events to telling what God is doing in the room
+  - **Technology:** Custom Supabase + React/Next.js platform replacing WordPress; unified database for website, app, and email; AI generates content from Sunday sermon transcripts
+  - **Story tiers (Zach):** Tier 1 mini-doc, Tier 2 mid-tier social/web, Tier 3 quick social grab — Tier 3 tested at Holy Spirit Night (May 31)
+  - **Beta:** Internal beta ~1–2 weeks from May 28; staff connect group beta follows
+  - **Status change:** Luke Fredrickson upgraded from exploratory → active build
+  - **Conflict flagged:** Ministry website vendor evaluation (from [[website-overhaul-04-29]]) is superseded by this custom build; [[website-strategy]] updated with a platform direction note
+
+---
+
+## [2026-05-24] lint | Harness migration + discrepancy review
+
+- Migrated ecc-wiki to skills-based architecture: thin-router CLAUDE.md, rewritten OPERATOR.md and RESOLVER.md, root `skills/` folder with 30 skill files
+- Deleted: `.agents/` directory, root `SERVICE-TIMES-INGEST.md`, root `.impeccable.md` (moved to `skills/impeccable.md`)
+- Ran full lint pass; 6 fixes executed in series:
+  1. Broke P0 self-refs: `[[matt-nimmo]]` → `[[matt-nimmo-leadership-profile]]` in eos-meeting-05-20 and ecc-state-may-2026; `[[sparrow-moving]]` removed from OPERATOR.md
+  2. Fixed RESOLVER.md Route E: `comms-weekly-capacity-hours-2026-2027.md` (nonexistent) → `.html`; created markdown wrapper synthesis page
+  3. Created stub pages for missing wikilink targets: `[[dylan-hathcock]]`, `[[tanner-taschuk]]`, `[[mission-52]]`, `[[team-emmanuel-conference]]`
+  4. Backtick-escaped phantom `[[weekend-planning-05-11]]` reference in log.md historical note
+  5. Updated index.md with all new pages
+  6. Updated overview.md to reflect skills migration
+- Pages created: [[dylan-hathcock]], [[tanner-taschuk]], [[mission-52]], [[team-emmanuel-conference]], [[comms-weekly-capacity-hours-2026-2027]]
+- Pages updated: [[eos-meeting-05-20]], [[ecc-state-may-2026]], [[log]], [[index]], [[overview]]
+
+---
+
+## [2026-05-24] synthesis | Location Visit Rubric
+
+- Created rubric for evaluating location alignment during campus visits
+- Pages created: [[location-visit-rubric]]
+- Pages updated: [[index]]
+- 6 domains: Weekend Service Experience, Physical Environment & Brand, Guest Experience, Production & Technology, Communications & Alignment, Team Health
+- Each item labeled Central / Flex / Local; scored ✓ / ~ / ✗
+
+---
+
 ## [2026-05-21] synthesis | ECC State of the Church — May 2026
 
 - Synthesized three May 18–20 sources into a current-state narrative
@@ -189,7 +240,7 @@
 
 - Fixed: director-sync-05-11 TLDR and body — baby dedication governance corrected (October stays centralized; Nathan Grams objected)
 - Fixed: recurring-feedback-patterns Pattern 6 — narrowed resolution claim to match actual decision
-- Fixed: director-sync-05-11 broken wikilink [[weekend-planning-05-11]] → [[weekly-planning-05-11]]
+- Fixed: director-sync-05-11 broken wikilink `[[weekend-planning-05-11]]` → [[weekly-planning-05-11]]
 - Fixed: deleted duplicate wiki/concepts/holy-spirit-night.md (synthesis version is canonical)
 - Fixed: moved guest-speaker-protocol from Synthesis to Concepts in index.md
 - Added: Interactive HTML Tools section to index.md with all 3 HTML files, descriptions, and connected wiki pages

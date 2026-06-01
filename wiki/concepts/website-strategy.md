@@ -2,9 +2,9 @@
 title: ECC Website Strategy
 type: concept
 created: 2026-04-29
-updated: 2026-04-29
-tags: [website, digital, ccb, visitor-experience, design]
-sources: [04-29 Consultation_ Matt Nimmo - Church Website Overhaul-transcript.txt, 04-29 Weekly Meeting_ KB Catalytic & Mother's Day Events, ClickUp Adoption-transcript.txt]
+updated: 2026-06-01
+tags: [website, digital, ccb, visitor-experience, design, app, gravity-engine]
+sources: [04-29 Consultation_ Matt Nimmo - Church Website Overhaul-transcript.txt, 04-29 Weekly Meeting_ KB Catalytic & Mother's Day Events, ClickUp Adoption-transcript.txt, Nate AND Luke Gravity Engine Meeting 5.28.26.rtf]
 ---
 
 **TLDR:** ECC's website (`emmanuelcc.org`) has been stuck in an identity crisis — serving neither new visitors nor members well. Matt's direction: rebuild it as an external-facing front door with a single call to action (plan a visit). Summer 2026 refresh target. Vendor evaluation in progress.
@@ -100,9 +100,34 @@ See [[nate-meeting-05-18]].
 
 ---
 
+## ⚠️ Platform Direction Update (May 28, 2026)
+
+The ministry website vendor evaluation (above) is superseded by a custom build under the [[gravity-engine]] project, being architected and built by [[luke-fredrickson]].
+
+**What changes:**
+- WordPress/Elementor → React / Next.js (custom build)
+- Vendor platform evaluation → paused/moot
+- Website + app → unified single Supabase database
+- Content management → AI-assisted studio interface; no CMS
+
+**What stays the same:**
+- External front-door intent (visitors, not members)
+- CCB as event center of truth
+- Push Pay for giving
+- Ministry ownership model (Jodi, Ashley, etc. still own their sections)
+
+**Beta timeline:** ~June 2026 (internal); phased rollout from there.
+
+See [[gravity-engine]] for full platform architecture and [[gravity-engine-meeting-05-28]] for the May 28 meeting where this was formalized.
+
+---
+
 ## Related Pages
 
-- [[website-overhaul-04-29]] — source call notes
+- [[gravity-engine]] — the platform replacing the WordPress/vendor direction
+- [[gravity-engine-meeting-05-28]] — May 28, 2026 build meeting with Luke + Nate
+- [[luke-fredrickson]] — architect and builder
+- [[website-overhaul-04-29]] — source: original vendor eval call notes
 - [[emmanuel-christian-center]] — org context; 4 campuses
 - [[online-broadcast-strategy]] — live stream is a key website feature
 - [[comms-intake-process]] — website updates have been bypassing intake; refresh is chance to fix

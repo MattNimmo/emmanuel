@@ -62,6 +62,8 @@ updated: 2026-05-21
 - [[weekly-planning-05-18]] — May 18 weekly planning; Bill Johnson (May 24), Holy Spirit Night (May 31), grad honoring added; script channel launched in Teams; camera + monitor tech issues (1 source)
 - [[eos-meeting-05-20]] — May 20 EOS meeting; Nate's organizational restructuring reveal; XP search announced; Andy Ballew leads EOS introduction; named dysfunctions (1 source)
 - [[seven-churches-05-20]] — May 20 creative brainstorm; ancient-present aesthetic; drape columns; lobby backdrop; Turkey B-roll promo; tour poster; post-service social interviews (1 source)
+- [[management-training-notes]] — Undated EOS management training notes; knowing-your-team framework (story/assessments/work rhythm); production volunteer-leadership challenge named explicitly (1 source)
+- [[gravity-engine-meeting-05-28]] — May 28, 2026; Luke Fredrickson pitches Gravity Engine to Nate + Zach Anderson; thesis + technology + story tiers; beta ~1–2 weeks out (1 source)
 
 ## Entities
 - [[emmanuel-christian-center]] — Org overview: 4 campuses, mission, leadership, all ministries/departments (web)
@@ -109,6 +111,8 @@ updated: 2026-05-21
 - [[eos-initiative]] — Emmanuel Operating System initiative; Andy Ballew consulting; XP search for 2027; 6-component framework; VTO in development
 - [[creative-team-l10]] — Proposed EOS L10 meeting format for Creative Team Monday weekly; 90-min fixed agenda; scorecard included; exploratory
 - [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
+- [[location-visit-rubric]] — Structured rubric for location visits; Central / Flex / Local ownership; 6 domains; scoring grid + summary
+- [[gravity-engine]] — Luke Fredrickson's thesis + technology platform; replaces WordPress; Supabase + React; AI content generation from Sunday sermons; beta summer 2026
 
 ## Synthesis
 - [[matt-nimmo-leadership-profile]] — Personal leadership profile: character patterns, worship→creative-director transition, growth edges, JC partnership dynamic (10 sources)
