@@ -64,6 +64,8 @@ updated: 2026-05-21
 - [[seven-churches-05-20]] — May 20 creative brainstorm; ancient-present aesthetic; drape columns; lobby backdrop; Turkey B-roll promo; tour poster; post-service social interviews (1 source)
 - [[management-training-notes]] — Undated EOS management training notes; knowing-your-team framework (story/assessments/work rhythm); production volunteer-leadership challenge named explicitly (1 source)
 - [[gravity-engine-meeting-05-28]] — May 28, 2026; Luke Fredrickson pitches Gravity Engine to Nate + Zach Anderson; thesis + technology + story tiers; beta ~1–2 weeks out (1 source)
+- [[tec-planning-meeting-06-01]] — June 1, 2026; TEC 2026 (Aug 15) kickoff planning; format mirrors 2025; Nathan's Essential Leadership Track new addition; 77 pre-registrants; open items: decor lead, young adult attendance, communication timeline (1 source)
+- [[leadership-levels-playbook]] — Team Emmanuel Playbook; 4-tier volunteer leadership framework (Team Member → Leader → Coach → Coordinator); span of care, training requirements per level; content anchor for TEC 2026 afternoon sessions (1 source)
 
 ## Entities
 - [[emmanuel-christian-center]] — Org overview: 4 campuses, mission, leadership, all ministries/departments (web)
@@ -113,6 +115,8 @@ updated: 2026-05-21
 - [[guest-speaker-protocol]] — Checklist and protocol being built post-May 4 incident; call time, content routing, video review standards
 - [[location-visit-rubric]] — Structured rubric for location visits; Central / Flex / Local ownership; 6 domains; scoring grid + summary
 - [[gravity-engine]] — Luke Fredrickson's thesis + technology platform; replaces WordPress; Supabase + React; AI content generation from Sunday sermons; beta summer 2026
+- [[leadership-pipeline]] — ECC's 4-tier volunteer leadership pipeline; Team Member → Leader → Coach → Coordinator; formal launch at TEC 2026; developed by Nathan Grams
+- [[team-emmanuel-conference]] — Annual all-volunteer conference (TEC); Aug 15, 2026; morning central sessions + afternoon location breakouts; Essential Leadership Track new in 2026
 
 ## Synthesis
 - [[matt-nimmo-leadership-profile]] — Personal leadership profile: character patterns, worship→creative-director transition, growth edges, JC partnership dynamic (10 sources)

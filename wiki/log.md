@@ -867,3 +867,21 @@
   - Team is 4 people × 26 hrs/week; Sunday commitments reduce effective production hours
   - Two blockers before ClickUp build: (1) time estimates per deliverable, (2) priority tiers from Pastor Nate
 - Priority meeting with Pastor Nate Ruch scheduled for Tuesday
+
+
+---
+
+## [2026-06-04] ingest | TEC Planning Meeting + Leadership Levels Playbook
+
+- Ingested two new raw sources: June 1 TEC planning meeting transcript + Team Emmanuel Playbook - Leadership Levels RTF
+- Note: Management Training Notes and Gravity Engine Meeting were already ingested (commit eba47d7); ingest skill queue was stale — updated implicitly
+- Note: Weekend Planning Meeting.docx is a running notes file, content already captured in [[weekend-planning-notes]]
+- Pages created: [[tec-planning-meeting-06-01]], [[leadership-levels-playbook]], [[leadership-pipeline]]
+- Pages updated: [[team-emmanuel-conference]] (expanded from stub to full), [[index]]
+- Key findings:
+  - TEC 2026 (Aug 15) planning kicked off June 1, 12 weeks out; format mirrors 2025 with one major addition
+  - Nathan Grams introducing Essential Leadership Track — 4-tier pipeline (Team Member → Leader → Coach → Coordinator) as TEC afternoon breakout content; first public introduction of this framework
+  - 77 pre-registrants as of June 1; TEC Champions meeting June 2
+  - JC + Matt Nimmo lead worship/production for central sessions; opening worship 10–15 min then Nate speaks
+  - Open gaps: decor lead (Camry floated), young adult attendance (2025 problem — Micah/Josiah to champion), communication timeline still needed
+  - Logistics lessons from 2025 documented: Chick-fil-A 2-week deadline, lunch distribution, directional signage, booklet format
