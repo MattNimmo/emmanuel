@@ -30,7 +30,7 @@ Full definitions, responsibilities, and quotes from the source doc: [[leadership
 
 This framework did not exist publicly prior to 2026. Before TEC, ECC had Growth Track as the on-ramp and informal ministry team structures, but no named tiering system for advancement after that.
 
-Nathan Grams created and named these levels as part of the **Essential Leadership Track** — a follow-up to Growth Track that gives volunteers a visible development ladder. It addresses a real frustration surfaced at TEC 2025: long-tenured volunteers felt sessions were too basic and had no path forward articulated.
+Jodi Ruch and Brandi Hammond authored the framework as part of the **Essential Leadership Track** — a follow-up to Growth Track that gives volunteers a visible development ladder. It addresses a real frustration surfaced at TEC 2025: long-tenured volunteers felt sessions were too basic and had no path forward articulated.
 
 ---
 
@@ -66,6 +66,6 @@ See [[tec-planning-meeting-06-01]] for format details.
 - [[leadership-levels-playbook]] — full source document with definitions and responsibilities
 - [[team-emmanuel-conference]] — first public introduction of this framework (TEC 2026)
 - [[tec-planning-meeting-06-01]] — June 1 planning meeting; Nathan's framing
-- [[nathan-grams]] — framework author; SLP Campus Pastor
-- [[decision-rights-framework]] — parallel Nathan Grams framework for decision authority
+- [[jodi-ruch]] — co-author of the framework
+- [[brandi-hammond]] — co-author; TEC 2026 planning lead
 - [[emmanuel-worship-team]] — worship team already has implicit tiering (Team Member / WL / MD); this formalizes it

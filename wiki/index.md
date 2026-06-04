@@ -90,6 +90,7 @@ updated: 2026-05-21
 - [[caleb-ballew]] — Director of Finance; interim MG worship lead Jan–May 2026; husband of Jess Ballew
 - [[jessica-ballew]] — Director of ELC; interim MG worship lead Jan–May 2026; wife of Caleb Ballew
 - [[andy-ballew]] — Board member 13+ years; EOS consultant; licensed A/G minister; likely Caleb Ballew's parent
+- [[brandi-hammond]] — Co-author (with Jodi Ruch) of Leadership Levels framework; TEC 2026 planning lead; new to TEC role
 
 ## Concepts
 - [[service-times-tracking]] — Weekly campus timing sheets; service structure, mid-service tracking, data quality notes, campus-specific elements

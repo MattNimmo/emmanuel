@@ -13,7 +13,7 @@ sources: [Team Emmanuel Playbook - Leadership Levels.rtf]
 
 ## Overview
 
-- **Author:** Unattributed (consistent with Nathan Grams' frameworks — see [[decision-rights]])
+- **Authors:** Jodi Ruch and Brandi Hammond
 - **Purpose:** Define what leadership advancement means at ECC — both increased responsibility and increased spiritual maturity
 - **First public use:** TEC 2026 afternoon location breakouts (see [[tec-planning-meeting-06-01]])
 
@@ -122,5 +122,5 @@ A fully staffed Coordinator can theoretically oversee 5 Coaches × 5 Leaders × 
 - [[leadership-pipeline]] — timeless concept summary of this framework
 - [[tec-planning-meeting-06-01]] — this document is the content anchor for TEC 2026 afternoon sessions
 - [[team-emmanuel-conference]] — where this framework makes its first public introduction
-- [[nathan-grams]] — likely author; consistent with his systems-thinking frameworks
-- [[decision-rights]] — parallel Nathan Grams framework for decision authority
+- [[jodi-ruch]] — co-author
+- [[brandi-hammond]] — co-author; also TEC 2026 planning lead (see [[tec-planning-meeting-06-01]])

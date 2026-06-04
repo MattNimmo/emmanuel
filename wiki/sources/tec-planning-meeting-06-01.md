@@ -15,7 +15,7 @@ sources: [06-01 Planning the Team Emmanuel Conference-transcript.txt]
 
 - **Date:** June 1, 2026
 - **Runway:** ~12 weeks to TEC (Aug 15)
-- **Planning lead:** Brandi (unnamed in transcript — new to the TEC planning role; was not at 2025 TEC)
+- **Planning lead:** Brandi Hammond (new to the TEC planning role; was not at 2025 TEC)
 - **Present:** Brandi, Matt Nimmo, JC (JonCarlos Velez), Nathan Grams, Dr. Lori, Ashley Olson, Darin Poli, Manny, Chad, Jeff, and others
 - **Reference doc:** 2025 TEC Central Planning Doc shared in Teams during meeting; Brandi's updated version to supersede it
 
@@ -49,7 +49,7 @@ Same structure as 2025 with minor adjustments:
 
 ## New Element: Essential Leadership Track
 
-Nathan Grams is introducing the **Essential Leadership Track** — a structured 4-level leadership pipeline being launched as the content backbone for afternoon location breakouts. The track is a follow-up to Growth Track and defines four levels: **Team Member → Leader → Coach → Coordinator** (see [[leadership-levels-playbook]] for the full framework; concept page at [[leadership-pipeline]]).
+The **Essential Leadership Track** — authored by Jodi Ruch and Brandi Hammond — is being launched as the content backbone for afternoon location breakouts. The track is a follow-up to Growth Track and defines four levels: **Team Member → Leader → Coach → Coordinator** (see [[leadership-levels-playbook]] for the full framework; concept page at [[leadership-pipeline]]). Nathan Grams owns the Group Leadership session and is the primary voice casting the framework's vision in the afternoon breakouts.
 
 **Format being explored for breakouts:**
 - Central breakouts: 30–45 min vision-level teaching (casting the why), then internal breakout into subtopics using a "4 corners" format
