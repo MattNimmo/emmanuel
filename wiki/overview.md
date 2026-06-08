@@ -1,6 +1,6 @@
 ---
 title: Wiki Overview
-updated: 2026-05-21
+updated: 2026-06-08
 ---
 
 # ECC Wiki — Overview
@@ -9,37 +9,35 @@ This wiki tracks [[emmanuel-christian-center]]'s creative, comms, and production
 
 1. **Organizational restructuring** — [[eos-initiative]] (EOS + Executive Pastor search, 2027)
 2. **Comms capacity & ClickUp build** — [[communications-capacity-planning]] / [[clickup-capacity-setup]]
-3. **Service times tracking** — [[service-times-tracking]] (15 weeks of data, live dashboard)
-4. **Summer creative** — [[seven-churches-of-revelation]] (June 7 – late July), [[holy-spirit-night]] (May 31)
+3. **Service times tracking** — [[service-times-tracking]] (17 weeks of data, live dashboard through May 31)
+4. **TEC 2026 build** — [[team-emmanuel-conference]] (Aug 15, 2026; 77 pre-registrants as of June 1)
 
-For the full current-state narrative, see [[ecc-state-may-2026]].
+For the current-state narrative, see [[ecc-state-may-2026]] (through May 21) and [[weekly-review-2026-06-08]] (June 8 update).
 
 ---
 
-## Current Focus (May 21, 2026)
+## Current Focus (June 8, 2026)
 
 ### The organizational moment
-ECC entered a new season on May 20, 2026. Nate Ruch publicly disclosed that he's been carrying both Lead Pastor and Executive Pastor responsibilities since Pastor Ben left — physically unsustainable, and blocking his capacity for vision. A formal restructuring is now underway:
-- **Emmanuel Operating System** (EOS-based) being built with board member Andy Ballew consulting. VTO work begins now. Target: all components operational by ~November 2026.
-- **Executive Pastor search accelerating.** Budget targeting 2027 hire. Looking for an "integrator" — ops-minded, EOS-compatible.
+ECC is mid-restructuring. Nate Ruch is carrying both Lead Pastor and Executive Pastor responsibilities while the EOS build runs with Andy Ballew consulting. VTO + accountability chart in progress; target: all components operational ~November 2026. XP search continues; budget targeting 2027.
 - See [[eos-initiative]] and [[andy-ballew]].
 
 ### Active builds
-- **Seven Churches of Revelation** — Creative direction confirmed: ancient-present aesthetic, white drape columns, lobby photo backdrops, Turkey B-roll promo video, "The Future Is Ancient" subtitle. **Assets due ~June 1; series launches June 7.** See [[seven-churches-of-revelation]].
-- **Holy Spirit Night** (May 31) — logistics finalized; Pastor Nate preaching; grad honoring added. See [[holy-spirit-night]].
-- **EOS vision work** — VTO first draft + accountability chart with Andy Ballew. Cadence TBD.
+- **Team Emmanuel Conference** (Aug 15) — 12 weeks out; 77 pre-registrants; planning kickoff June 1. New structural centerpiece: Essential Leadership Track (Team Member → Leader → Coach → Coordinator), authored by Jodi Ruch + Brandi Hammond. Nathan Grams leads the afternoon breakouts. See [[tec-planning-meeting-06-01]] and [[leadership-pipeline]].
+- **Seven Churches of Revelation** — Launched June 7. Ancient-present aesthetic; white drape columns; lobby photo backdrops; Turkey B-roll promo. Post-launch debrief not yet in wiki. See [[seven-churches-of-revelation]].
+- **Gravity Engine** — Luke Fredrickson's custom Supabase + React/Next.js platform; internal beta ~1–2 weeks from May 28 (i.e., ~this week). Replaces website vendor evaluation. See [[gravity-engine]].
+- **EOS vision work** — VTO first draft + accountability chart with Andy Ballew. Next session not yet calendared.
 - **ClickUp implementation** — Creative team live; comms team (Sara/Tanner) onboarding pending.
-- **Service-times tracking** — 15 weeks of data; MG/LV totals corrected; dashboard current through May 17.
-- **Website overhaul** — Vendor selected, CCB integration confirmed, summer 2026 target.
-- **Production & worship playbook refresh** — June–July build window; target: TEC Aug 16.
+- **Service-times tracking** — 17 weeks of data through May 31. Dashboard current. MG Close Worship structural overrun confirmed and worsening (dataset-worst May 31: +3:50 at 11am). No corrective plan in place.
+- **Production & worship playbook refresh** — June–July build window; target: TEC Aug 15.
 - **180 testimony pipeline** — Kylie assigned 6 for the year; monthly cadence being protected.
 
 ### What just closed
+- **Holy Spirit Night** (May 31) — executed; service times ingested; evening event separate from standard morning service data.
+- **What About? series** — ran through May 31; Seven Churches successor is live.
 - **Priority framework** — Set with Pastor Nate ([[comms-priority-framework]]).
 - **Decision Rights Framework** — Nathan Grams 1–5 scale ratified ([[decision-rights-framework]]).
 - **Mother's Day** (May 10) — delivered; full debrief complete.
-- **One Day to Feed the World** — final offering May 3.
-- **MG Resi/internet** — fixed after 18+ months.
 - **Worship leaders at all 4 campuses** — fully staffed as of May 2026 (Sage Benkin hired at MG). First time all four locations fully staffed simultaneously (per JC).
 
 ---

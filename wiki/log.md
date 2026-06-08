@@ -2,6 +2,29 @@
 
 ---
 
+## [2026-06-08] review | Weekly Review — June 1–8, 2026
+
+- Period: June 1–8, 2026 (7 days)
+- Pages created: [[weekly-review-2026-06-08]]
+- Pages updated: [[overview]], [[log]]
+- Key findings:
+
+  **Seven Churches launched June 7** — No post-launch debrief yet in wiki. Open loop.
+
+  **TEC 2026 is the new primary build** — 12-week runway; 77 pre-registrants; Essential Leadership Track announced at June 1 planning meeting; [[leadership-pipeline]] and [[brandi-hammond]] are new wiki additions.
+
+  **Service times: dataset-worst on May 31** — MG Close Worship 11am hit +3:50 over plan (4:35 vs 0:45). SLP ran +12:59/+14:56. No corrective plan in place for MG. Past-due decision.
+
+  **Gravity Engine approaching beta** (~June 8–11) — Luke Fredrickson confirmed active build; replaces website vendor evaluation. No post-beta update yet.
+
+  **Past-due decisions flagged:**
+  - August series — needed by ~June 1 for Sara's production window; nothing in wiki
+  - MG Close Worship plan revision — data conclusive, no owner named
+
+  **Unprocessed raw sources (P0):** Message Planning Meeting PDF, Message-Creative summary PDF, Weekend Planning Meeting docx (×2), June 1 attendance CSV, MattNimmo/SaraWestcott/TannerTaschuk Predictive Index reports, PI Leadership summary RTF
+
+---
+
 ## [2026-06-01] ingest | Management Training Notes + Gravity Engine Meeting (May 28)
 
 - Audited raw/sources/ against wiki/sources/; identified two un-ingested docs
