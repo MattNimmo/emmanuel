@@ -20,7 +20,7 @@ sources: [Message Planning Meeting_ Holy Spirit Focus, Seven Churches Series, an
 | Duration | ~6–7 weeks through late July 2026 |
 | Primary approach | Historical/contextual → bridge to Twin Cities application |
 | Framing note | "Heavy" — Week 1 intro must set the tone and earn the audience |
-| Proposed subtitle | "The Future Is Ancient" |
+| **Confirmed full title** | **"The Future Is Ancient: Wisdom from the Seven Churches of Revelation"** |
 | Creative direction | Ancient-present aesthetic; drape columns; Turkey B-roll; lobby backdrop |
 | Packaging potential | High-quality series assets for distribution to other churches |
 

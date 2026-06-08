@@ -98,9 +98,9 @@ Speaker 2 has personal site-visit photos and stories from the Seven Churches' ge
 
 **Aug 2 — Dr. Darnell Williams:** President of North Central University (Assemblies of God). Standalone message; topic TBD.
 
-**Aug 9–30 — Four-week series:** Themed around State Fair / back-to-school cultural moment. Specific topic not yet decided.
+**Aug 9–30 — Four-week series:** Themed around State Fair / back-to-school cultural moment. Specific topic not yet decided as of May 4.
 
-**Conclusion:** Decided (topic TBD for Aug 9–30).
+**Conclusion (updated 2026-06-08):** Resolved — August 9–September 6 is **"The Storyteller"** (five weeks, stories Jesus told, campfire/patio aesthetic). Decided at the June 1 Message-Creative meeting. See [[message-creative-mtg-06-01]].
 
 ---
 

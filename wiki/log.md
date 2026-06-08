@@ -2,6 +2,21 @@
 
 ---
 
+## [2026-06-08] ingest | PI Behavioral Reports (Matt/Sara/Tanner) + Message-Creative Meeting June 1
+
+- Sources ingested: MattNimmo_BehavioralReport.pdf, SaraWestcott_BehavioralReport.pdf, TannerTaschuk_BehavioralReport.pdf, Message-Creative_mtg-Summary.pdf (June 1, 2026)
+- Source checked, not duplicated: Message Planning Meeting Summary-2.pdf (already at [[message-planning-meeting-05-04]])
+- Pages created: [[pi-report-matt-nimmo]], [[pi-report-sara-wescott]], [[pi-report-tanner-taschuk]], [[message-creative-mtg-06-01]]
+- Pages updated: [[sara-wescott]] (PI Promoter section), [[tanner-taschuk]] (PI Guardian section), [[matt-nimmo-leadership-profile]] (PI Operator section), [[seven-churches-of-revelation]] (title confirmed), [[message-planning-meeting-05-04]] (August series resolved)
+- Key decisions captured:
+  - "The Future Is Ancient: Wisdom from the Seven Churches of Revelation" — confirmed full series title (was "proposed subtitle")
+  - "The Storyteller" Aug 9–Sept 6 — five-week series, parables from all gospels, campfire/patio aesthetic
+  - Ephesians Sept 13–Oct 18; finalize title July 13
+  - Brian and Nathan departure risk flagged; successors not in the room
+- PI cross-assessment note: Operator (Matt) + Promoter (Sara) = high-tension pairing. Matt (Operator) + Tanner (Guardian) = natural harmony but shared blind spots (neither escalates conflict).
+
+---
+
 ## [2026-06-08] review | Weekly Review — June 1–8, 2026
 
 - Period: June 1–8, 2026 (7 days)

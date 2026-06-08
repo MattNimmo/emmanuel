@@ -130,4 +130,28 @@ The evidence in the transcripts suggests the former. The capability is clearly p
 
 ---
 
-*Filed: 2026-05-11. Drawn from meeting transcripts Apr–May 2026. Personal leadership synthesis; not for organizational distribution.*
+## Predictive Index — Operator (Nov 2025)
+
+Added 2026-06-08. Full report: [[pi-report-matt-nimmo]].
+
+**Profile: Operator** — patient, conscientious, relaxed, cooperative.
+
+| Factor | Score | Label |
+|--------|-------|-------|
+| A — Dominance | -1.05σ | Moderately Collaborative |
+| B — Extraversion | -0.78σ | Moderately Reserved |
+| C — Patience | +1.89σ | **Very Steady** (dominant) |
+| D — Formality | -0.06σ | Situationally Flexible |
+| E — Objectivity | +1.65σ | **Objective** |
+
+**How the PI adds to this profile:** The Operator read is the most structurally consistent assessment across all four frameworks (PI, Working Genius, BigFive, Enneagram). Every instrument is saying the same thing from a different angle:
+
+- **Why he absorbs tension rather than surfacing it** (Pattern 2 above): C (Patience) very high + A (Dominance) low = tolerates friction rather than pushes back. He needs harmony. Conflict resolution for an Operator is *wait it out*, not *name it directly*. This is wired, not just habitual.
+- **Why he presents internally-decided conclusions as exploration** (Pattern 3 above): B (Extraversion) -0.78σ = he processes internally first, reserved with new people; D (Formality) near-zero = he doesn't impose structure on others. The "exploratory presentation" is partly the Moderately Reserved pattern of sharing from behind a layer of social warmth, not decisiveness.
+- **Why he converts vision to mechanism before the room has felt it** (Pattern 4 above): E (Objectivity) +1.65σ = logic-based, data-driven; tends to move from input to structure without sitting in the experience.
+
+**The one PI signal not obvious from transcripts:** The Operator "finds it difficult to change systems" — meaning disruption to established processes is genuinely costly to his productivity, not just an inconvenience. The EOS rollout and potential two-CD structure resolution should be paced with this in mind. He will adapt, but needs runway, research, and a clear picture of the new state before he can function fully in it.
+
+---
+
+*Filed: 2026-05-11. Drawn from meeting transcripts Apr–May 2026. Personal leadership synthesis; not for organizational distribution. PI section added 2026-06-08.*

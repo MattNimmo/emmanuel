@@ -1,6 +1,6 @@
 ---
 title: ECC Wiki Index
-updated: 2026-05-21
+updated: 2026-06-08
 ---
 
 # ECC Wiki — Master Index
@@ -66,6 +66,10 @@ updated: 2026-05-21
 - [[gravity-engine-meeting-05-28]] — May 28, 2026; Luke Fredrickson pitches Gravity Engine to Nate + Zach Anderson; thesis + technology + story tiers; beta ~1–2 weeks out (1 source)
 - [[tec-planning-meeting-06-01]] — June 1, 2026; TEC 2026 (Aug 15) kickoff planning; format mirrors 2025; Nathan's Essential Leadership Track new addition; 77 pre-registrants; open items: decor lead, young adult attendance, communication timeline (1 source)
 - [[leadership-levels-playbook]] — Team Emmanuel Playbook; 4-tier volunteer leadership framework (Team Member → Leader → Coach → Coordinator); span of care, training requirements per level; content anchor for TEC 2026 afternoon sessions (1 source)
+- [[pi-report-matt-nimmo]] — Predictive Index Operator profile; Matt Nimmo; assessed Nov 2025; all 5 factors; cross-assessment consistency check vs. Working Genius/BigFive/Enneagram (1 source)
+- [[pi-report-sara-wescott]] — Predictive Index Promoter profile; Sara Westcott; assessed Aug 2025; all 5 factors; management implications for Operator/Promoter pairing (1 source)
+- [[pi-report-tanner-taschuk]] — Predictive Index Guardian profile; Tanner Taschuk; assessed Aug 2025; all 5 factors; shared blind spots with Matt's Operator profile (1 source)
+- [[message-creative-mtg-06-01]] — June 1, 2026 Message-Creative alignment meeting; "The Future Is Ancient" confirmed full series title; "The Storyteller" Aug 9–Sept 6 decided; Ephesians Sept 13–Oct 18; Brian/Nathan departure risk (1 source)
 
 ## Entities
 - [[emmanuel-christian-center]] — Org overview: 4 campuses, mission, leadership, all ministries/departments (web)
@@ -77,7 +81,7 @@ updated: 2026-05-21
 - [[nate-ruch]] — Senior Pastor; priority decision-maker; Dr. Nate Ruch independent ministry
 - [[jodi-ruch]] — Pastor; primary comms requestor; author of annual Comm Requests doc
 - [[joncarlos-velez]] — Lead Worship Pastor (official title); Creative & Worship Director; JC; vision/direction for all creative and worship
-- [[sara-wescott]] — Graphic Designer on comms team; ECC's sole internal design resource
+- [[sara-wescott]] — Graphic Designer on comms team; ECC's sole internal design resource; PI Promoter (Aug 2025)
 - [[jess-porter]] — Location Coordinator, MG; comms team advocate; testimony pipeline champion
 - [[zac-anderson]] — Filmmaker on comms team; also owns set lists and weekly email; not Zach Brauer
 - [[gabby-velez]] — Worship leader and original songwriter; JC's wife; Mother's Day 2026 music video
@@ -91,6 +95,7 @@ updated: 2026-05-21
 - [[jessica-ballew]] — Director of ELC; interim MG worship lead Jan–May 2026; wife of Caleb Ballew
 - [[andy-ballew]] — Board member 13+ years; EOS consultant; licensed A/G minister; likely Caleb Ballew's parent
 - [[brandi-hammond]] — Co-author (with Jodi Ruch) of Leadership Levels framework; TEC 2026 planning lead; new to TEC role
+- [[tanner-taschuk]] — Filmmaker on comms team; PI Guardian (Aug 2025); effective capacity ~19 hrs/week
 
 ## Concepts
 - [[service-times-tracking]] — Weekly campus timing sheets; service structure, mid-service tracking, data quality notes, campus-specific elements
