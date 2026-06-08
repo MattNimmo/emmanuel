@@ -33,3 +33,11 @@ Darin clarified (May 6, 2026 group chat):
 - [[jess-porter]] — Maple Grove Campus Pastor; reports through Darin
 - [[comms-project-horizon-2026-2027]] — KB Catalytic and Miracle Offering are key dates he owns
 - [[meeting-with-nathan-master-calendar]] — context source
+
+---
+
+## Timeline
+
+### 2026-06-08 — Weekly Planning Meeting
+Confirmed as the preacher for Seven Churches #2 (Smyrna) on June 14. He provided context on the 180 video placement — it plays pre-offering as a generosity celebration, not a giving ask. Said he'd send 2–3 photos to Matt and comms by June 9, and would connect with JC on Wednesday after his notes are done to discuss song/reprise ideas. Also named the Father's Day altar prayer as non-flex: "figure out if we got money for brisket or root beer floats afterwards — can be the flex." He was attending at Lakeville on June 7 and relayed that Nate's mention of sending people to LV "was received in the room easy."
+Source: [[weekly-planning-2026-06-08]]

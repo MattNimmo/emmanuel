@@ -91,3 +91,11 @@ From a May 6 meeting with [[nathan-grams]]: testimonies (180s and giving stories
 - **Worship recording / Sunday:** Long-tier 180s can be featured as bumpers or standalone Sunday segments
 - **Volunteer development:** Location volunteer videographers could be trained to capture quick-tier 180s themselves (see [[jess-porter]])
 - **Podcast pause:** In the Apr 21 Nate/JC/Matt meeting, it was confirmed that capacity freed by pausing the podcast should redirect toward 180s
+
+---
+
+## Deployment Log
+
+### June 14, 2026 — First in-service deployment (Stages family giving story)
+The "Stages" video — an SLP couple, described as "faithful leaders, great amazing servants and givers" — is the first 180-format video to be placed in a Sunday service. It plays **pre-offering**, before the host comes forward for ways to give. Darin Poli's framing: "As we get ready for our giving moment, there are just so many amazing faithful people that are part of our church — let's hear one." Explicitly not a giving ask; it celebrates generosity. Zac sent the video to LPs on June 3.
+Source: [[weekly-planning-2026-06-08]]

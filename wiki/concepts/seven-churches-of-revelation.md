@@ -47,21 +47,27 @@ The guide (Jeremy) gave on-site teachings. Nate has audio recordings. This mater
 
 ---
 
-## Speaker Map (In Progress — May 2026)
+## Speaker Map (Updated June 8, 2026)
 
-| Date | Church | Speaker |
-|------|--------|---------|
-| June 7 | Ephesus (series intro) | TBD |
-| June 14 | Smyrna | Darren or Jeff |
-| June 21 | Pergamum | Likely Nathan Grams |
-| June 28 | Thyatira | [Speaker 1] |
-| July 5 | (Teen Challenge week) | Allie, Donovan, Shai |
-| July 19 | Philadelphia | TBD |
+| Date | Church | Speaker | Status |
+|------|--------|---------|--------|
+| June 7 | Ephesus (series intro) | Nate Ruch | ✓ Done — strong launch |
+| June 14 | Smyrna | Darin Poli | Confirmed |
+| June 21 | Pergamum + Father's Day | Nathan Grams (likely) | Local Sunday |
+| June 28 | Thyatira | TBD | — |
+| July 5 | (Teen Challenge week) | Allie, Donovan, Shai | — |
+| July 19 | Philadelphia | TBD | — |
+| TBD | Sardis | TBD | — |
+| TBD | Laodicea | TBD | — |
 
 **Notes:**
-- July 5 is a Teen Challenge emphasis week; Allie, Donovan, and Shai are identified as young communicators for that slot — may be a partial break in the Seven Churches arc or integrated within it
-- The seven churches are: Ephesus, Smyrna, Pergamum, Thyatira, Sardis, Philadelphia, Laodicea — not all are assigned in the current map
-- Some July dates and Sardis / Laodicea weeks not yet accounted for
+- July 5 is a Teen Challenge emphasis week; young communicators (Allie, Donovan, Shai) assigned — may be a partial break in the arc or integrated within it
+- Thyatira, Sardis, Philadelphia, Laodicea still unassigned
+- August series (after Seven Churches) still TBD — decision needed soon for Sara's production window
+
+### Week 1 Debrief (June 7 — Ephesus, Nate Ruch)
+Strong launch. Room had an "audible whoa" when people realized it was Revelation. Nate's Turkey trip firsthand experience (photos, guide audio, personal context) landed as earned depth, not a travel flex. Congregation was leaning in. Confidence monitor failure in second service (Wi-Fi handoff) caused Nate to preach without picture cues — Ephesus photos were absent from second service; Eric working on fix.
+Source: [[weekly-planning-2026-06-08]]
 
 ---
 

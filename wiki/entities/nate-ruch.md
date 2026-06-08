@@ -88,3 +88,11 @@ See [[eos-initiative]] for full detail on the EOS framework and XP search.
 - [[eos-initiative]] — organizational operating system and XP search he is leading
 - [[eos-meeting-05-20]] — May 2026 restructuring meeting source
 - [[andy-ballew]] — EOS consultant and board member
+
+---
+
+## Timeline
+
+### 2026-06-07 — Seven Churches Week 1 (Ephesus)
+Nate preached the Seven Churches series opener. The room had an "audible whoa" when people realized they were in Revelation — the series landed with weight. Nate's Turkey trip firsthand experience was specifically cited as what made it feel earned and not a flex. Second service: confidence monitor dropped mid-message (Wi-Fi handoff issue); he preached almost the full remainder without his notes or picture cues — the Ephesus photos were absent from second service as a result. Eric is working on a solution.
+Source: [[weekly-planning-2026-06-08]]
