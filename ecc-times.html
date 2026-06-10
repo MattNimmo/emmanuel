@@ -262,7 +262,7 @@
       <div class="loc-name" style="color:var(--elk)">ELK</div>
       <div class="loc-label">Elk River · 9am & 11am</div>
       <div class="loc-stat" id="elk-avg">—</div>
-      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-stat-label">avg mid-service · last 6 wks</div>
       <div class="loc-badges">
         <span class="badge badge-watch">Announcements ↑</span>
         <span class="badge badge-under">Offering ↓</span>
@@ -273,7 +273,7 @@
       <div class="loc-name" style="color:var(--lv)">LV</div>
       <div class="loc-label">Lakeville · 10am only</div>
       <div class="loc-stat" id="lv-avg">—</div>
-      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-stat-label">avg mid-service · last 6 wks</div>
       <div class="loc-badges">
         <span class="badge badge-over">Offering (campaign)</span>
         <span class="badge badge-under">Close Worship ↓</span>
@@ -284,7 +284,7 @@
       <div class="loc-name" style="color:var(--mg)">MG</div>
       <div class="loc-label">Maple Grove · 9am & 11am</div>
       <div class="loc-stat" id="mg-avg">—</div>
-      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-stat-label">avg mid-service · last 6 wks</div>
       <div class="loc-badges">
         <span class="badge badge-over">Close Worship ↑</span>
         <span class="badge badge-over">Hosted Moment ↑</span>
@@ -295,7 +295,7 @@
       <div class="loc-name" style="color:var(--slp)">SLP</div>
       <div class="loc-label">Spring Lake Park · 9am & 11am</div>
       <div class="loc-stat" id="slp-avg">—</div>
-      <div class="loc-stat-label">avg mid-service variance</div>
+      <div class="loc-stat-label">avg mid-service · last 6 wks</div>
       <div class="loc-badges">
         <span class="badge badge-watch">KB Moment ↑</span>
         <span class="badge badge-over">Offering +</span>
@@ -324,6 +324,16 @@
         <span class="toggle-label">Metric:</span>
         <button class="toggle-btn on" id="btn-mid" onclick="setMetric('mid')">Mid-Service</button>
         <button class="toggle-btn" id="btn-total" onclick="setMetric('total')">Total Service</button>
+        <button class="toggle-btn" id="btn-message" onclick="setMetric('message')">Message</button>
+        <button class="toggle-btn" id="btn-worship" onclick="setMetric('worship')">Worship</button>
+      </div>
+      <div class="toggle-row" style="margin-top:-10px">
+        <span class="toggle-label">Period:</span>
+        <button class="toggle-btn on" id="btn-period-6w"  onclick="setWindow(6)">6 wks</button>
+        <button class="toggle-btn" id="btn-period-13w" onclick="setWindow(13)">3 mo</button>
+        <button class="toggle-btn" id="btn-period-26w" onclick="setWindow(26)">6 mo</button>
+        <button class="toggle-btn" id="btn-period-52w" onclick="setWindow(52)">12 mo</button>
+        <button class="toggle-btn" id="btn-period-all" onclick="setWindow(null)">All</button>
       </div>
       <div class="chart-wrap-tall">
         <canvas id="trendChart"></canvas>
@@ -460,6 +470,8 @@
             <th>vs Plan</th>
             <th>11am Total</th>
             <th>vs Plan</th>
+            <th>Message</th>
+            <th>Worship ±</th>
             <th>Notes</th>
           </tr>
         </thead>
@@ -518,6 +530,21 @@ function avg(arr) {
   return valid.reduce((a,b) => a+b, 0) / valid.length;
 }
 
+// ── Recent rolling average (last N weeks, excludes moments + nulls) ──────────
+function computeRecentAvg(loc, n) {
+  const start = Math.max(0, WEEKS.length - n);
+  const vals = [];
+  for (let i = start; i < WEEKS.length; i++) {
+    if (MOMENTS[loc][i]) continue;
+    const v9  = DATA[loc]['9am'][i];
+    const v11 = DATA[loc]['11am'][i];
+    if (v9  !== null) vals.push(v9);
+    if (v11 !== null) vals.push(v11);
+  }
+  if (!vals.length) return null;
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
 // ── Mid-Service Element Cards ─────────────────────────────────
 function buildElementCards() {
   ['ELK','LV','MG','SLP'].forEach(loc => {
@@ -536,7 +563,7 @@ function buildElementCards() {
     document.getElementById('el-' + loc.toLowerCase()).innerHTML =
       `<div class="el-card-title" style="color:${cfg.color}">${cfg.label}</div><div class="el-row">${rows}${mtRow}</div>`;
     const stat = document.getElementById(loc.toLowerCase() + '-avg');
-    if (stat) stat.textContent = secToStr(mt);
+    if (stat) stat.textContent = secToStr(computeRecentAvg(loc, 6));
   });
 }
 
@@ -602,46 +629,78 @@ function buildServiceCards() {
 let trendChart;
 let currentService = 'combined';
 let currentMetric  = 'mid';
+let currentWindow  = 6;
+
+function getWStart() {
+  return currentWindow ? Math.max(0, WEEKS.length - currentWindow) : 0;
+}
 
 function buildTrendData(service, metric) {
-  const source = metric === 'total' ? SERVICE_TOTAL : DATA;
-  return ['ELK','LV','MG','SLP']
-    .map(loc => {
-      const color = COLORS[loc];
-      let vals;
-      if (service === 'combined') {
-        vals = WEEKS.map((_, i) => {
-          const a = source[loc]['9am'][i];
-          const b = source[loc]['11am'][i];
+  const ws = getWStart();
+  const makeDataset = (loc, fullVals) => {
+    const color = COLORS[loc];
+    const vals = fullVals.slice(ws);
+    const moms = MOMENTS[loc].slice(ws);
+    return {
+      label: loc, data: vals,
+      borderColor: color, backgroundColor: color + '22', borderWidth: 2.5,
+      pointRadius: vals.map(v => v !== null ? 5 : 0),
+      pointBackgroundColor: vals.map((v, i) => moms[i] ? 'white' : color),
+      pointBorderColor: color,
+      pointBorderWidth: vals.map((_, i) => moms[i] ? 2 : 0),
+      tension: 0.35, spanGaps: true
+    };
+  };
+
+  if (metric === 'message') {
+    const plannedSec = MSG_DATA.planned * 60;
+    return ['ELK','LV','MG','SLP'].map(loc => {
+      const src = MSG_DATA[loc];
+      let fullVals;
+      if (!src) {
+        fullVals = WEEKS.map(() => null);
+      } else if (service === 'combined') {
+        fullVals = WEEKS.map((_, i) => {
+          const a = src['9am'][i], b = src['11am'] ? src['11am'][i] : null;
           if (a === null && b === null) return null;
-          if (a === null) return b;
-          if (b === null) return a;
-          return (a + b) / 2;
+          const sum = (a !== null ? a : 0) + (b !== null ? b : 0);
+          const cnt = (a !== null ? 1 : 0) + (b !== null ? 1 : 0);
+          return Math.round((sum / cnt) * 60 - plannedSec);
         });
       } else {
-        vals = (source[loc][service] || WEEKS.map(() => null)).slice();
+        const row = src[service] || WEEKS.map(() => null);
+        fullVals = row.map(v => v === null ? null : Math.round(v * 60 - plannedSec));
       }
-      return {
-        label: loc,
-        data: vals,
-        borderColor: color,
-        backgroundColor: color + '22',
-        borderWidth: 2.5,
-        pointRadius: vals.map(v => v !== null ? 5 : 0),
-        pointBackgroundColor: vals.map((v, i) => MOMENTS[loc][i] ? 'white' : color),
-        pointBorderColor: color,
-        pointBorderWidth: vals.map((v, i) => MOMENTS[loc][i] ? 2 : 0),
-        tension: 0.35,
-        spanGaps: true
-      };
+      return makeDataset(loc, fullVals);
     });
+  }
+
+  const source = metric === 'worship' ? WORSHIP_DATA
+               : metric === 'total'   ? SERVICE_TOTAL
+               :                        DATA;
+  return ['ELK','LV','MG','SLP'].map(loc => {
+    let fullVals;
+    if (service === 'combined') {
+      fullVals = WEEKS.map((_, i) => {
+        const a = source[loc]['9am'][i];
+        const b = source[loc]['11am'][i];
+        if (a === null && b === null) return null;
+        if (a === null) return b;
+        if (b === null) return a;
+        return (a + b) / 2;
+      });
+    } else {
+      fullVals = (source[loc][service] || WEEKS.map(() => null)).slice();
+    }
+    return makeDataset(loc, fullVals);
+  });
 }
 
 function initTrendChart() {
   const ctx = document.getElementById('trendChart').getContext('2d');
   trendChart = new Chart(ctx, {
     type: 'line',
-    data: { labels: WEEKS, datasets: buildTrendData('combined', 'mid') },
+    data: { labels: WEEKS.slice(getWStart()), datasets: buildTrendData('combined', 'mid') },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
@@ -689,19 +748,41 @@ function setService(svc) {
   document.getElementById('btn-9am').className      = 'toggle-btn' + (svc==='9am'      ? ' on' : '');
   document.getElementById('btn-11am').className     = 'toggle-btn' + (svc==='11am'     ? ' on' : '');
   document.getElementById('btn-combined').className = 'toggle-btn' + (svc==='combined' ? ' on' : '');
+  trendChart.data.labels   = WEEKS.slice(getWStart());
   trendChart.data.datasets = buildTrendData(svc, currentMetric);
   trendChart.update();
 }
 
 function setMetric(m) {
   currentMetric = m;
-  document.getElementById('btn-mid').className   = 'toggle-btn' + (m==='mid'   ? ' on' : '');
-  document.getElementById('btn-total').className = 'toggle-btn' + (m==='total' ? ' on' : '');
-  document.getElementById('trend-subtitle').textContent = m === 'total'
-    ? 'Seconds over / under planned total service length · averaged per campus per week · moment-flagged weeks shown as hollow points · MG limited to weeks where worship songs aren\'t double-counted'
-    : 'Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points';
+  document.getElementById('btn-mid').className     = 'toggle-btn' + (m==='mid'     ? ' on' : '');
+  document.getElementById('btn-total').className   = 'toggle-btn' + (m==='total'   ? ' on' : '');
+  document.getElementById('btn-message').className = 'toggle-btn' + (m==='message' ? ' on' : '');
+  document.getElementById('btn-worship').className = 'toggle-btn' + (m==='worship' ? ' on' : '');
+  const subtitles = {
+    mid:     'Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points',
+    total:   'Seconds over / under planned total service length · all campuses · moment-flagged weeks shown as hollow points · MG limited to weeks where worship songs aren\'t double-counted',
+    message: 'Message length vs 38:00 plan · seconds over / under · ELK & SLP tracked · MG & LV not tracked · moment-flagged weeks shown as hollow points',
+    worship: 'Worship Bundle vs plan · seconds over / under · all campuses · data from May 24 onward · moment-flagged weeks shown as hollow points'
+  };
+  document.getElementById('trend-subtitle').textContent = subtitles[m] || '';
+  trendChart.data.labels   = WEEKS.slice(getWStart());
   trendChart.data.datasets = buildTrendData(currentService, m);
   trendChart.update();
+}
+
+function setWindow(n) {
+  currentWindow = n;
+  ['6w','13w','26w','52w','all'].forEach(id =>
+    document.getElementById('btn-period-' + id).className = 'toggle-btn'
+  );
+  const activeId = n === null ? 'all' : ({6:'6w',13:'13w',26:'26w',52:'52w'}[n] || 'all');
+  document.getElementById('btn-period-' + activeId).className = 'toggle-btn on';
+  trendChart.data.labels   = WEEKS.slice(getWStart());
+  trendChart.data.datasets = buildTrendData(currentService, currentMetric);
+  trendChart.update();
+  document.getElementById('tableBody').innerHTML = '';
+  buildTable();
 }
 
 // ── Avg Mid-Service Bar Chart ─────────────────────────────────
@@ -843,6 +924,13 @@ function initMsgChart() {
   });
 }
 
+function minToStr(v) {
+  if (v === null || v === undefined) return '—';
+  const m = Math.floor(v);
+  const s = Math.round((v - m) * 60);
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
 function varChip(str) {
   if (str === '—' || str === '') return '<span style="color:#ccc">—</span>';
   const neg = str.startsWith('-') || str.startsWith('−');
@@ -852,11 +940,31 @@ function varChip(str) {
 }
 
 function buildTable() {
+  const visibleDates = new Set(WEEKS.slice(getWStart()));
   const tbody = document.getElementById('tableBody');
-  [...TABLE_DATA].reverse().forEach(row => {
+  [...TABLE_DATA].reverse().filter(row => visibleDates.has(row.date)).forEach(row => {
     const tr = document.createElement('tr');
     if (row.moment) tr.className = 'moment-row';
     const color = COLORS[row.loc];
+
+    // Message actual lengths (decimal min → MM:SS), ELK & SLP only
+    const wi = WEEKS.indexOf(row.date);
+    const msgSrc = MSG_DATA[row.loc];
+    const msg9  = msgSrc && wi >= 0 ? minToStr(msgSrc['9am'][wi])  : '—';
+    const msg11 = msgSrc && wi >= 0 ? minToStr(msgSrc['11am'] ? msgSrc['11am'][wi] : null) : '—';
+    const msgHtml = msg9 === '—' && msg11 === '—'
+      ? '<span style="color:#ccc">—</span>'
+      : msg11 === '—'
+        ? `<span style="color:var(--muted);font-size:12px">${msg9}</span>`
+        : `<span style="color:var(--muted);font-size:12px">${msg9} / ${msg11}</span>`;
+
+    // Worship bundle variance chips
+    const wor9v  = wi >= 0 ? WORSHIP_DATA[row.loc]['9am'][wi]  : null;
+    const wor11v = wi >= 0 ? WORSHIP_DATA[row.loc]['11am'][wi] : null;
+    const wor9c  = wor9v  !== null ? varChip(secToStr(wor9v))  : '<span style="color:#ccc">—</span>';
+    const wor11c = wor11v !== null ? varChip(secToStr(wor11v)) : '';
+    const worHtml = wor11c ? `${wor9c} / ${wor11c}` : wor9c;
+
     tr.innerHTML = `
       <td style="color:var(--muted); font-size:12px">${row.date}</td>
       <td><span class="loc-dot" style="background:${color}"></span><strong>${row.loc}</strong></td>
@@ -868,6 +976,8 @@ function buildTable() {
       <td>${varChip(row.pt9 || '—')}</td>
       <td style="font-size:12px;color:var(--muted)">${row.tot11 || '—'}</td>
       <td>${varChip(row.pt11 || '—')}</td>
+      <td>${msgHtml}</td>
+      <td style="white-space:nowrap">${worHtml}</td>
       <td style="color:var(--muted); font-size:12px">${row.moment ? `<span class="moment-chip">★ Moment</span>` : ''}${row.notes}</td>
     `;
     tbody.appendChild(tr);
