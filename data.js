@@ -267,25 +267,32 @@ const SERVICE_TOTAL_AVGS = {
 
 // Worship Bundle variance in seconds (actual − planned). null = no data for that week.
 // Tracks the pre-message open worship section only — not Close Worship (mid-service) or Worship Response (post-message).
-// Populated from May 24 onward; backfill earlier weeks from source PDFs as needed.
+// Backfilled Feb 1 onward from source PDFs. SLP tracking began Mar 15; ELK/LV/MG indices 0–4 are null (no source files).
 // LV has no 11am service — '11am' is always null. Align to WEEKS index.
+// Mar 15 ELK: 11am only (9:45am = incomplete run-through, excluded). Mar 15 MG: data unusable (timer issues).
+// Mar 22/29 LV: worship tracked per-song, bundle header = 0:02 artifact — null. Apr 19 MG 9am: 0:01 (worship already in progress, timer bleed) — null.
+// ELK May 17 9am: source variance column shows +0:21 (typo); computed from actual (17:21) − plan (16:00) = +1:21 = 81s.
 // On ingest: append one value per campus per service from the Worship Bundle row in the PDF.
 const WORSHIP_DATA = {
   ELK: {
-    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  24,   1, 122],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  -1, -10, 122]
+    //       Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1  Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26  May3  May10  May17  May24  May31  Jun7
+    '9am':  [ null, null,  null,  null,  null,  138,  136,   -59,    60,  183,  161,  null,   186,    43,    94,    28,    24,   55,    17,    81,    24,    1,  122],
+    '11am': [ null, null,  null,  null,  null,   53,   -5,  -176,   148,   61,  188,   -94,    41,  null,    80,    42,    44,    1,    19,    44,    -1,  -10,  122]
   },
   LV: {
-    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, -67, -28,   7],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    //       Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1   Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26   May3  May10  May17  May24  May31  Jun7
+    '9am':  [ null, null,  null,  null,  null,  -80,  -66,    31,    30,  119,  -101,  -135,  null,  null,    -8,   -39,     0,  -186,  -172,    -7,   -67,   -28,    7],
+    '11am': [ null, null,  null,  null,  null, null, null,  null,  null, null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null, null]
   },
   MG: {
-    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  48, -25,  26],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  61,  28,  66]
+    //       Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1  Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26  May3  May10  May17  May24  May31  Jun7
+    '9am':  [ null, null,  null,  null,  null,  115,  -46,    -9,   -14,   92,   79,  null,    36,  -136,   340,  null,    47,  -26,   -87,  -100,    48,   -25,   26],
+    '11am': [ null, null,  null,  null,  null,  104,  -47,  null,   -21, null, null,  null,    21,   -61,    51,    -2,    35, -100,  -122,   -25,    61,    28,   66]
   },
   SLP: {
-    // Dec24: −6/+3; Jan4: +4/−4; Jan11: −60/+181 (Vision Sunday 11am extended); Jan18: +10/+87; Jan25: −161/−14
-    '9am':  [  -6,   4, -60,  10, -161, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, -10, -29, -29],
-    '11am': [   3,  -4, 181,  87,  -14, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,   7,  95, -25]
+    // Dec24: −6/+3; Jan4: +4/−4; Jan11: −60/+181 (Vision Sunday 11am extended); Jan18: +10/+87; Jan25: −161/−14. Tracking began Mar 15.
+    //       Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1  Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26  May3  May10  May17  May24  May31  Jun7
+    '9am':  [   -6,    4,   -60,    10,  -161, null, null,  null,  null, null, null,   -30,    -2,     1,   -16,   -28,    12,   39,    53,   -20,   -10,   -29,  -29],
+    '11am': [    3,   -4,   181,    87,   -14, null, null,  null,  null, null, null,   -15,     7,   -12,   120,    73,    23,   93,    35,   166,     7,    95,  -25]
   }
 };

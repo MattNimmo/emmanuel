@@ -763,7 +763,7 @@ function setMetric(m) {
     mid:     'Seconds over / under planned mid-service time · averaged per campus per week · moment-flagged weeks shown as hollow points',
     total:   'Seconds over / under planned total service length · all campuses · moment-flagged weeks shown as hollow points · MG limited to weeks where worship songs aren\'t double-counted',
     message: 'Message length vs 38:00 plan · seconds over / under · ELK & SLP tracked · MG & LV not tracked · moment-flagged weeks shown as hollow points',
-    worship: 'Worship Bundle vs plan · seconds over / under · all campuses · data from May 24 onward · moment-flagged weeks shown as hollow points'
+    worship: 'Worship Bundle vs plan · seconds over / under · all campuses · ELK/LV/MG from Feb 1, SLP from Dec 24 · moment-flagged weeks shown as hollow points'
   };
   document.getElementById('trend-subtitle').textContent = subtitles[m] || '';
   trendChart.data.labels   = WEEKS.slice(getWStart());
