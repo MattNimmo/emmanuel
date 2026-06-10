@@ -296,3 +296,47 @@ const WORSHIP_DATA = {
     '11am': [    3,   -4,   181,    87,   -14, null, null,  null,  null, null, null,   -15,     7,   -12,   120,    73,    23,   93,    35,   166,     7,    95,  -25]
   }
 };
+
+// Broadcast window — seconds from service start to:
+//   live: bumper video ends → message starts → livestream goes live
+//   off:  message ends → livestream ends
+// null = no data. LV '9am' = 10am single service; '11am' always null.
+// Populated May 3 onward. On ingest: sum all pre-message elements (countdown through bumper)
+// from the source PDF for each campus/service and append here.
+const BROADCAST_DATA = {
+  ELK: {
+    //        Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1  Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26  May3  May10  May17  May24  May31  Jun7
+    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1879, 2039, 2126, 2044, 2048, 2071],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4229, 4001, 4869, 4425, 4829, 4834] },
+    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1873, 2182, 2073, 2141, 2143, 1984],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4185, 4188, 4705, 4580, 4863, 4552] }
+  },
+  LV: {
+    // LV = single 10am service in '9am' slot; '11am' always null
+    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1482, 1869, 2143, 1788, 2118, 1976],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3831, 3886, 4910, 4191, 4888, 4751] },
+    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, null, null,  null,  null,  null, null],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, null, null,  null,  null,  null, null] }
+  },
+  MG: {
+    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1958, 2111, 2231, 2128, 2080, 1933],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4298, 4093, 4975, 4522, 5060, 4683] },
+    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1877, 2099, 2319, 2139, 2222, 2104],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4221, 4095, 4959, 4574, 5163, 4651] }
+  },
+  SLP: {
+    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1709, 2300, 1845, 1838, 1851, 1896],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3809, 4400, 4610, 4220, 4623, 4665] },
+    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1719, 1988, 2017, 1784, 1967, 1900],
+               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3962, 3791, 4703, 4223, 4687, 4466] }
+  }
+};
+
+// Clock start times in seconds past midnight per campus per service slot.
+// LV '9am' slot = 10am service = 36000.
+const SERVICE_START_SEC = {
+  ELK: { '9am': 32400, '11am': 39600 },
+  LV:  { '9am': 36000, '11am': null   },
+  MG:  { '9am': 32400, '11am': 39600 },
+  SLP: { '9am': 32400, '11am': 39600 }
+};

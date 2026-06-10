@@ -236,6 +236,19 @@
     margin-top: 8px; line-height: 1.4;
   }
 
+  /* ── Broadcast Window cards ─────────────────── */
+  .bcast-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+  @media (max-width: 800px) { .bcast-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 480px) { .bcast-grid { grid-template-columns: 1fr; } }
+  .bcast-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+  .bcast-campus { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .bcast-row { padding: 7px 0; border-top: 1px solid #f5f5f5; }
+  .bcast-row:first-of-type { border-top: none; padding-top: 0; }
+  .bcast-svc { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+  .bcast-times { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; }
+  .bcast-arrow { color: #ccc; font-size: 11px; }
+  .bcast-dur { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
   /* ── Footer ──────────────────────────────────── */
   footer {
     text-align: center; font-size: 12px; color: var(--muted);
@@ -453,6 +466,11 @@
 
   </div>
 
+  <!-- Broadcast Window -->
+  <div class="section-title" style="margin-top:4px">Broadcast Window</div>
+  <p style="font-size:13px;color:var(--muted);margin:-10px 0 16px">When the livestream went live and ended · bumper end → message end · data from May 3</p>
+  <div id="bcast-cards" class="bcast-grid"></div>
+
   <!-- Weekly Table -->
   <div class="section-title">Weekly Service Data</div>
   <div class="chart-card" style="margin-bottom:0; padding:0;">
@@ -472,6 +490,8 @@
             <th>vs Plan</th>
             <th>Message</th>
             <th>Worship ±</th>
+            <th>Live</th>
+            <th>Off</th>
             <th>Notes</th>
           </tr>
         </thead>
@@ -924,6 +944,57 @@ function initMsgChart() {
   });
 }
 
+// ── Broadcast helpers ────────────────────────────────────────
+function toClockStr(svcStartSec, offsetSec, withPeriod) {
+  if (offsetSec === null || svcStartSec === null) return null;
+  const total = svcStartSec + offsetSec;
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const h12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+  const str = `${h12}:${m.toString().padStart(2,'0')}`;
+  return withPeriod ? str + (h >= 12 ? 'pm' : 'am') : str;
+}
+
+function buildBroadcastCards() {
+  const locs = ['ELK','LV','MG','SLP'];
+  const fullName = { ELK: 'Elk River', LV: 'Lakeville', MG: 'Maple Grove', SLP: 'Spring Lake Park' };
+  const svcLabels = { ELK: {'9am':'9am','11am':'11am'}, LV: {'9am':'10am'}, MG: {'9am':'9am','11am':'11am'}, SLP: {'9am':'9am','11am':'11am'} };
+
+  function lastIdx(loc, svc) {
+    const arr = BROADCAST_DATA[loc][svc].live;
+    for (let i = arr.length - 1; i >= 0; i--) { if (arr[i] !== null) return i; }
+    return -1;
+  }
+
+  const html = locs.map(loc => {
+    const color = COLORS[loc];
+    const services = Object.keys(svcLabels[loc]);
+    const rows = services.map(svc => {
+      const startSec = SERVICE_START_SEC[loc][svc];
+      const wi = lastIdx(loc, svc);
+      const label = svcLabels[loc][svc];
+      if (wi < 0) return `<div class="bcast-row"><div class="bcast-svc">${label}</div><span style="color:#ccc;font-size:12px">—</span></div>`;
+      const l = BROADCAST_DATA[loc][svc].live[wi];
+      const o = BROADCAST_DATA[loc][svc].off[wi];
+      const lStr = toClockStr(startSec, l, true);
+      const oStr = toClockStr(startSec, o, true);
+      const dur  = (l !== null && o !== null) ? Math.round((o - l) / 60) : null;
+      return `<div class="bcast-row">
+        <div class="bcast-svc">${label} · ${WEEKS[wi]}</div>
+        <div class="bcast-times">
+          <span style="color:${color};font-size:14px">${lStr}</span>
+          <span class="bcast-arrow">→</span>
+          <span>${oStr || '—'}</span>
+        </div>
+        ${dur !== null ? `<div class="bcast-dur">${dur} min broadcast</div>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="bcast-card"><div class="bcast-campus" style="color:${color}">${loc} · ${fullName[loc]}</div>${rows}</div>`;
+  }).join('');
+
+  document.getElementById('bcast-cards').innerHTML = html;
+}
+
 function minToStr(v) {
   if (v === null || v === undefined) return '—';
   const m = Math.floor(v);
@@ -965,6 +1036,41 @@ function buildTable() {
     const wor11c = wor11v !== null ? varChip(secToStr(wor11v)) : '';
     const worHtml = wor11c ? `${wor9c} / ${wor11c}` : wor9c;
 
+    // Broadcast live / off clock times
+    function bcastCell(svc) {
+      const sss = SERVICE_START_SEC[row.loc][svc];
+      if (!sss || wi < 0) return '<span style="color:#ccc">—</span>';
+      const l = BROADCAST_DATA[row.loc][svc].live[wi];
+      const o = BROADCAST_DATA[row.loc][svc].off[wi];
+      if (l === null) return '<span style="color:#ccc">—</span>';
+      const lStr = toClockStr(sss, l, false);
+      const oStr = o !== null ? toClockStr(sss, o, false) : null;
+      if (svc === '11am') return `<span style="font-size:11px;color:var(--muted)">${lStr}${oStr ? ' / ' + oStr : ''}</span>`;
+      return `<span style="font-size:11px">${lStr}${oStr ? ' / ' + oStr : ''}</span>`;
+    }
+    const live9html  = bcastCell('9am');
+    const live11html = (() => {
+      const s = SERVICE_START_SEC[row.loc]['11am'];
+      if (!s || wi < 0) return '';
+      const l = BROADCAST_DATA[row.loc]['11am'].live[wi];
+      if (l === null) return '';
+      return `<br><span style="font-size:11px;color:var(--muted)">${toClockStr(s, l, false)}</span>`;
+    })();
+    const off9html  = bcastCell('9am').replace('font-size:11px', 'font-size:11px'); // reuse
+    // Build combined live and off cells
+    function combinedBcast(field) {
+      const sss9 = SERVICE_START_SEC[row.loc]['9am'];
+      const sss11 = SERVICE_START_SEC[row.loc]['11am'];
+      const b9 = wi >= 0 ? BROADCAST_DATA[row.loc]['9am'][field][wi] : null;
+      const b11 = (sss11 && wi >= 0) ? BROADCAST_DATA[row.loc]['11am'][field][wi] : null;
+      if (b9 === null && b11 === null) return '<span style="color:#ccc">—</span>';
+      const s9  = b9  !== null ? `<span style="font-size:11px">${toClockStr(sss9, b9, false)}</span>`  : '';
+      const s11 = b11 !== null ? `<span style="font-size:11px;color:var(--muted)">${toClockStr(sss11, b11, false)}</span>` : '';
+      return [s9, s11].filter(Boolean).join('<br>');
+    }
+    const liveHtml = combinedBcast('live');
+    const offHtml  = combinedBcast('off');
+
     tr.innerHTML = `
       <td style="color:var(--muted); font-size:12px">${row.date}</td>
       <td><span class="loc-dot" style="background:${color}"></span><strong>${row.loc}</strong></td>
@@ -978,6 +1084,8 @@ function buildTable() {
       <td>${varChip(row.pt11 || '—')}</td>
       <td>${msgHtml}</td>
       <td style="white-space:nowrap">${worHtml}</td>
+      <td style="white-space:nowrap">${liveHtml}</td>
+      <td style="white-space:nowrap">${offHtml}</td>
       <td style="color:var(--muted); font-size:12px">${row.moment ? `<span class="moment-chip">★ Moment</span>` : ''}${row.notes}</td>
     `;
     tbody.appendChild(tr);
@@ -1022,6 +1130,7 @@ initTrendChart();
 initAvgChart();
 initAvgTotalChart();
 initMsgChart();
+buildBroadcastCards();
 buildTable();
 </script>
 
