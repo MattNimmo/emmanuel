@@ -335,8 +335,8 @@ const BROADCAST_DATA = {
 // Clock start times in seconds past midnight per campus per service slot.
 // LV '9am' slot = 10am service = 36000.
 const SERVICE_START_SEC = {
-  ELK: { '9am': 32400, '11am': 39600 },
-  LV:  { '9am': 36000, '11am': null   },
-  MG:  { '9am': 32400, '11am': 39600 },
-  SLP: { '9am': 32400, '11am': 39600 }
+  ELK: { '9am': 32100, '11am': 39300 },
+  LV:  { '9am': 35700, '11am': null   },
+  MG:  { '9am': 32100, '11am': 39300 },
+  SLP: { '9am': 32100, '11am': 39300 }
 };
