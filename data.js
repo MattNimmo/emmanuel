@@ -10,40 +10,43 @@
 //   4. Update EL_AVGS[loc].midTotal and element val fields (seconds, from wiki)
 //   5. Push new TABLE_DATA rows (one per campus per week)
 
-const WEEKS      = ['Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26','May 3','May 10','May 17','May 24','May 31','Jun 7'];
-const WEEKS_FULL = ['2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26','2026-05-03','2026-05-10','2026-05-17','2026-05-24','2026-05-31','2026-06-07'];
+const WEEKS      = ['Dec 24','Jan 4','Jan 11','Jan 18','Jan 25','Feb 1','Feb 8','Feb 15','Feb 22','Mar 1','Mar 8','Mar 15','Mar 22','Mar 29','Apr 12','Apr 19','Apr 26','May 3','May 10','May 17','May 24','May 31','Jun 7'];
+const WEEKS_FULL = ['2025-12-24','2026-01-04','2026-01-11','2026-01-18','2026-01-25','2026-02-01','2026-02-08','2026-02-15','2026-02-22','2026-03-01','2026-03-08','2026-03-15','2026-03-22','2026-03-29','2026-04-12','2026-04-19','2026-04-26','2026-05-03','2026-05-10','2026-05-17','2026-05-24','2026-05-31','2026-06-07'];
 
 // Mid-service variance in seconds per service. null = no data / unusable.
 // [9am, 11am] per week, aligned to WEEKS index.
 const DATA = {
   ELK: {
+    // Dec24–Jan25: SLP-only historical data; ELK/LV/MG null. Feb1+: multi-campus tracking.
     // Feb1: 9am timer bleed → null; 11am clean. Feb8: Super Sunday. Feb15: WB Sunday. Feb22–Mar8: standard/communion.
-    '9am':  [null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41,   82,  125,   -7,   57,  153,   41],
-    '11am': [  95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56,  157,  167,  138,  184,  264,   34]
+    '9am':  [null, null, null, null, null, null,  76,  235,  135,   -2,   13,  null,  -71,   18,  182,  118,   41,   82,  125,   -7,   57,  153,   41],
+    '11am': [null, null, null, null, null,   95, 175,   32,  131,  176,    1,   -71,   78,    6,   57,  101,   56,  157,  167,  138,  184,  264,   34]
   },
   LV: {
-    // Feb1: timer bleed → null. Feb8: Super Sunday unreliable → null. Feb15: timer errors → null. Feb22+: usable.
-    '9am':  [null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193,  -23,  210,  198,  -22,  365,   26],
-    '11am': [null, null, null, null, null, null,  null, null, null, null, null, null, null, null, null, null, null, null]
+    // Dec24–Jan25: SLP-only historical data; ELK/LV/MG null. Feb1: timer bleed → null. Feb8: Super Sunday unreliable → null. Feb15: timer errors → null. Feb22+: usable.
+    '9am':  [null, null, null, null, null, null, null, null,   42,  332,  -15,  -188,  -56,   26,   32,  101,  193,  -23,  210,  198,  -22,  365,   26],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null,  null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    // Feb1: both services usable. Feb8: 9am moment, 11am timer error. Feb15: 9am moment, 11am unusable. Feb22+.
-    '9am':  [  88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25,  215,  147,   27,  229,  188,   69],
-    '11am': [ 146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54,  212,   74,   58,  261,  295,  105]
+    // Dec24–Jan25: SLP-only historical data; ELK/LV/MG null. Feb1: both services usable. Feb8: 9am moment, 11am timer error. Feb15: 9am moment, 11am unusable. Feb22+.
+    '9am':  [null, null, null, null, null,   88,  52,  163,  271,  142,  143,  null,  -69,   51,  107,  227,  -25,  215,  147,   27,  229,  188,   69],
+    '11am': [null, null, null, null, null,  146, null, null,  372, null, null,  null,   52,  -21,   47,  205,   54,  212,   74,   58,  261,  295,  105]
   },
   SLP: {
-    '9am':  [ 51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9,   17,   44,   73,   84,   68,   74],
-    '11am': [ 43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50,   36,   65,  141,  132,   89,   41]
+    // Dec24: Christmas Eve (3pm/5pm); Jan4: New Year; Jan11: Vision Sunday; Jan18: MLK Weekend; Jan25: Nate Address.
+    '9am':  [  67,  42,  46,  81,  118,  51,  202,  153,  113,   52,   58,   42,   24,   26,    3,   64,   -9,   17,   44,   73,   84,   68,   74],
+    '11am': [ 183,  72,  63, 127,  161,  43,  206,  170,  168,  146,   73,   42,   42,   46,   27,   86,   50,   36,   65,  141,  132,   89,   41]
   }
 };
 
 // Moment flags — true = calendar moment (Category A/B) or data too unreliable to trend.
 // Moment weeks shown as hollow points in the trend chart; excluded from averages.
 const MOMENTS = {
-  ELK: [false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false, false, false, false],
-  LV:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false, false],
-  MG:  [false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false, false],
-  SLP: [false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false, false, false, false]
+  // Dec24=Christmas Eve(A), Jan4=standard, Jan11=Vision Sunday(B), Jan18=MLK Weekend(B), Jan25=Nate Address(B)
+  ELK: [ true, false,  true,  true,  true, false,  true,  true, false,  true, false,  false,  true,  true,  true, false, false,  true,  true, false, false, false, false],
+  LV:  [ true, false,  true,  true,  true, false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false, false],
+  MG:  [ true, false,  true,  true,  true, false,  true,  true, false,  true, false,  false, false,  true,  true, false, false,  true,  true, false, false, false, false],
+  SLP: [ true, false,  true,  true,  true, false,  true,  true, false,  true, false,   true, false,  true,  true, false, false,  true,  true, false, false, false, false]
 };
 
 // Per-element averages (seconds). Update midTotal and element val fields each ingest.
@@ -101,14 +104,16 @@ const EL_AVGS = {
 // On ingest: append one value to each array; update series type.
 const MSG_DATA = {
   planned: 38,
-  series:  ['Std', '',   'Std', 'Std', 'Std', 'Std', '',    'Std', '',    'Std', 'Q&A', 'Q&A', 'Std', '',    'Q&A', 'Q&A', 'Q&A', 'Std'],
+  // Dec24: Christmas Eve (short message); Jan4: series launch; Jan11: Vision Sunday; Jan18: MLK embedded; Jan25: Paul Hurkman guest
+  series:  ['',    'Std', 'Std', 'Std', 'Std', 'Std', '',   'Std', 'Std', 'Std', 'Std', '',    'Std', '',    'Std', 'Q&A', 'Q&A', 'Std', '',    'Q&A', 'Q&A', 'Q&A', 'Std'],
   ELK: {
-    '9am':  [40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, 32.70, 45.72, 39.68, 46.35, 46.05],
-    '11am': [42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, 33.43, 43.87, 40.65, 45.33, 42.80]
+    '9am':  [null, null, null, null, null, 40.77, null, 39.80, 43.87, 44.87, 40.25, null,  42.37, null,  41.07, 38.67, 39.75, 39.17, 32.70, 45.72, 39.68, 46.35, 46.05],
+    '11am': [null, null, null, null, null, 42.48, null, 39.43, 43.78, 47.83, 43.15, 48.63, 47.08, null,  42.23, 38.65, 44.33, 38.53, 33.43, 43.87, 40.65, 45.33, 42.80]
   },
   SLP: {
-    '9am':  [35.07, null, null,  null,  47.65, null,  48.90, null,  35.92, 42.58, 38.65, 40.15, 35.05, 27.25, 46.08, 39.70, 46.20, 46.15],
-    '11am': [36.47, null, null,  null,  null,  null,  47.55, null,  37.27, 45.58, 42.00, 41.58, 37.38, 30.05, 44.77, 40.65, 45.33, 42.77]
+    // Dec24: 9:46/13:14; Jan4: 42:40/45:20; Jan11: 41:31/45:54; Jan18: 57:03/58:09 (MLK embedded); Jan25: 32:41/38:43
+    '9am':  [ 9.77, 42.67, 41.52, 57.05, 32.68, 35.07, null, null,  null,  47.65, null,  48.90, null,  35.92, 42.58, 38.65, 40.15, 35.05, 27.25, 46.08, 39.70, 46.20, 46.15],
+    '11am': [13.23, 45.33, 45.90, 58.15, 38.72, 36.47, null, null,  null,  null,  null,  47.55, null,  37.27, 45.58, 42.00, 41.58, 37.38, 30.05, 44.77, 40.65, 45.33, 42.77]
   }
 };
 
@@ -119,6 +124,11 @@ const MSG_DATA = {
 // MG tot/pt: now unlocked where phantom-corrected plans are available.
 // LV tot9: now unlocked on all weeks; phantom songs subtracted from planned totals.
 const TABLE_DATA = [
+  { date:'Dec 24', loc:'SLP', m9:'7:27',  p9:'+1:07', m11:'9:23',  p11:'+3:03', tot9:'60:20', pt9:'−0:30',  tot11:'70:40', pt11:'+9:50',  notes:'Christmas Eve (3pm/5pm); Story Time message 9:46/13:14; total variance: 3pm on plan, 5pm +9:50 (★)', moment:true },
+  { date:'Jan 4',  loc:'SLP', m9:'15:12', p9:'+0:42', m11:'15:42', p11:'+1:12', tot9:'78:53', pt9:'+6:53',  tot11:'81:28', pt11:'+9:28',  notes:'Anything Is Possible launch; Communion + new song (I Need Your Presence) in mid; message 42:40/45:20 (+4:40/+7:20)', moment:false },
+  { date:'Jan 11', loc:'SLP', m9:'5:36',  p9:'+0:46', m11:'5:53',  p11:'+1:03', tot9:'75:46', pt9:'+4:26',  tot11:'85:23', pt11:'+14:03', notes:'Vision Sunday; 11am worship extended (22:01 vs 19:00 plan, +3:01); message +3:31/+7:54; service total 14:03 over at 11am (★)', moment:true },
+  { date:'Jan 18', loc:'SLP', m9:'6:11',  p9:'+1:21', m11:'6:57',  p11:'+2:07', tot9:'87:41', pt9:'+16:21', tot11:'88:04', pt11:'+16:44', notes:'MLK Weekend; MLK Moment+KB Video (2:30) embedded in message (+17:03/+18:09); Offering +1:21/+1:41 over plan (★)', moment:true },
+  { date:'Jan 25', loc:'SLP', m9:'15:03', p9:'+1:58', m11:'15:46', p11:'+2:41', tot9:'81:42', pt9:'+9:52',  tot11:'83:52', pt11:'+12:02', notes:'Nate Address (10:34/12:40) in mid-service; Offering moved post-disconnect; 9am Prayer Moment +1:47 unplanned; Paul Hurkman 32:41/38:43 (M)', moment:true },
   { date:'Feb 1',  loc:'ELK', m9:'—',     p9:'—',     m11:'11:04',p11:'+1:35', tot9:'83:11', pt9:'+9:42',  tot11:'80:15', pt11:'+6:46',  notes:'KB Launch Video; 9am timer bleed excluded', moment:false },
   { date:'Feb 1',  loc:'LV',  m9:'—',     p9:'—',     m11:'—',    p11:'—',     tot9:'77:31', pt9:'+2:11',  tot11:'—',     pt11:'—',      notes:'10am mid-service timer bleed — mid excluded; total valid', moment:false },
   { date:'Feb 1',  loc:'MG',  m9:'11:03', p9:'+1:28', m11:'12:01',p11:'+2:26', tot9:'86:49', pt9:'+3:25',  tot11:'81:38', pt11:'−1:46',  notes:'KB Launch Video in plan; Close Worship over', moment:false },
@@ -205,20 +215,21 @@ const TABLE_DATA = [
 // Index-aligned to WEEKS.
 const SERVICE_TOTAL = {
   ELK: {
-    '9am':  [ 582, -262,  533, -165, null, -140, null,  858,  449,  452,  276,  573,  -22,  -95,  693,  469,  802,  730],
-    '11am': [ 406,   -2,  236, -123, null,  -23,  157,  573,  244,  433,  419,  626,  308,   34,  725,  583,  848,  677]
+    '9am':  [null, null, null, null, null,  582, -262,  533, -165, null, -140, null,  858,  449,  452,  276,  573,  -22,  -95,  693,  469,  802,  730],
+    '11am': [null, null, null, null, null,  406,   -2,  236, -123, null,  -23,  157,  573,  244,  433,  419,  626,  308,   34,  725,  583,  848,  677]
   },
   LV: {
-    '9am':  [ 131,  -60,  -87,  -60, 1125,  171,   36,  464,   24,  118,  301,  374, -155, -522,  410,   79,  542,  611],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [null, null, null, null, null,  131,  -60,  -87,  -60, 1125,  171,   36,  464,   24,  118,  301,  374, -155, -522,  410,   79,  542,  611],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [ 205,   82,  172,  249,  507,  260, null,  339, null,  769, null,  520,   54, -105,  231, null, null, null],
-    '11am': [-106, null, null,   87, null, null, null, null, null,  394,  345,  575,  -16, null,  198, null, null, null]
+    '9am':  [null, null, null, null, null,  205,   82,  172,  249,  507,  260, null,  339, null,  769, null,  520,   54, -105,  231, null, null, null],
+    '11am': [null, null, null, null, null, -106, null, null,   87, null, null, null, null, null,  394,  345,  575,  -16, null,  198, null, null, null]
   },
   SLP: {
-    '9am':  [ 375,   77,  380,  486,  543,  442,  508,  130,   74,  313,  170,  240,  390,  -48,  194,  314,  779,  651],
-    '11am': [1037,  308,  493,  752,  792,  497,  539,  373,  252,  671,  514,  463,  465,  237,  763,  474,  896,  675]
+    // Dec24: −0:30/+9:50; Jan4: +6:53/+9:28; Jan11: +4:26/+14:03; Jan18: +16:21/+16:44; Jan25: +9:52/+12:02
+    '9am':  [  -30,  413,  266,  981,  592,  375,   77,  380,  486,  543,  442,  508,  130,   74,  313,  170,  240,  390,  -48,  194,  314,  779,  651],
+    '11am': [  590,  568,  843, 1004,  722, 1037,  308,  493,  752,  792,  497,  539,  373,  252,  671,  514,  463,  465,  237,  763,  474,  896,  675]
   }
 };
 
@@ -226,20 +237,21 @@ const SERVICE_TOTAL = {
 // ELK/SLP use same plan for both services each week.
 const SERVICE_TOTAL_PLANNED = {
   ELK: {
-    '9am':  [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350, 4260, 4280],
-    '11am': [4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350, 4260, 4280]
+    '9am':  [null, null, null, null, null, 4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350, 4260, 4280],
+    '11am': [null, null, null, null, null, 4409, 5151, 4280, 5164, null, 4848, 4482, 4260, 4260, 4260, 4312, 4370, 4607, 4440, 4440, 4350, 4260, 4280]
   },
   LV: {
-    '9am':  [4520, 4520, 4520, 5044, 4190, 4775, 4500, 4149, 4200, 4500, 4500, 4500, 4500, 4766, 4470, 4464, 4305, 4305],
-    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    '9am':  [null, null, null, null, null, 4520, 4520, 4520, 5044, 4190, 4775, 4500, 4149, 4200, 4500, 4500, 4500, 4500, 4766, 4470, 4464, 4305, 4305],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   },
   MG: {
-    '9am':  [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null, null, null],
-    '11am': [5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null, null, null]
+    '9am':  [null, null, null, null, null, 5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null, null, null],
+    '11am': [null, null, null, null, null, 5004, 4445, 4290, 4650, 4395, 4530, 4276, 4350, 4350, 4050, 4350, 4410, 4500, 4590, 4620, null, null, null]
   },
   SLP: {
-    '9am':  [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365, 4335, 4305],
-    '11am': [4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365, 4335, 4305]
+    // Dec24: plan 60:50 (3650s); Jan4: 72:00 (4320); Jan11: 71:20 (4280); Jan18: 71:20 (4280); Jan25: 71:50 (4310)
+    '9am':  [3650, 4320, 4280, 4280, 4310, 4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365, 4335, 4305],
+    '11am': [3650, 4320, 4280, 4280, 4310, 4165, 4634, 4280, 4355, 4325, 4280, 4277, 4305, 4306, 4245, 4380, 4555, 4305, 4476, 4315, 4365, 4335, 4305]
   }
 };
 
@@ -251,4 +263,29 @@ const SERVICE_TOTAL_AVGS = {
   LV:  { avg9: 278, avg11: null, limitedData: true },
   MG:  { avg9: 301, avg11: 220, limitedData: true },
   SLP: { avg9: 378, avg11: 644 }
+};
+
+// Worship Bundle variance in seconds (actual − planned). null = no data for that week.
+// Tracks the pre-message open worship section only — not Close Worship (mid-service) or Worship Response (post-message).
+// Populated from May 24 onward; backfill earlier weeks from source PDFs as needed.
+// LV has no 11am service — '11am' is always null. Align to WEEKS index.
+// On ingest: append one value per campus per service from the Worship Bundle row in the PDF.
+const WORSHIP_DATA = {
+  ELK: {
+    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  24,   1, 122],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  -1, -10, 122]
+  },
+  LV: {
+    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, -67, -28,   7],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+  },
+  MG: {
+    '9am':  [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  48, -25,  26],
+    '11am': [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,  61,  28,  66]
+  },
+  SLP: {
+    // Dec24: −6/+3; Jan4: +4/−4; Jan11: −60/+181 (Vision Sunday 11am extended); Jan18: +10/+87; Jan25: −161/−14
+    '9am':  [  -6,   4, -60,  10, -161, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, -10, -29, -29],
+    '11am': [   3,  -4, 181,  87,  -14, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,   7,  95, -25]
+  }
 };
