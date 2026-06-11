@@ -297,38 +297,43 @@ const WORSHIP_DATA = {
   }
 };
 
-// Broadcast window — seconds from service start to:
+// Broadcast window — seconds from service start (countdown begins, 5 min before the hour) to:
 //   live: bumper video ends → message starts → livestream goes live
 //   off:  message ends → livestream ends
-// null = no data. LV '9am' = 10am single service; '11am' always null.
-// Populated May 3 onward. On ingest: sum all pre-message elements (countdown through bumper)
-// from the source PDF for each campus/service and append here.
+// null = no data or unusable (timer bleed, combined Message/Bumper row, service not held).
+// LV '9am' = 10am single service; '11am' always null.
+// LV pre-May3: Planning Center combined Bumper+Message into one row — live not separable; null.
+// ELK/MG/SLP backfilled to Feb 1; SLP null Feb1–Mar1 (data in slp-service-times-historical).
 const BROADCAST_DATA = {
   ELK: {
-    //        Dec24  Jan4  Jan11  Jan18  Jan25  Feb1  Feb8  Feb15  Feb22  Mar1  Mar8  Mar15  Mar22  Mar29  Apr12  Apr19  Apr26  May3  May10  May17  May24  May31  Jun7
-    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1879, 2039, 2126, 2044, 2048, 2071],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4229, 4001, 4869, 4425, 4829, 4834] },
-    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1873, 2182, 2073, 2141, 2143, 1984],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4185, 4188, 4705, 4580, 4863, 4552] }
+    //        Dec24  Jan4   Jan11  Jan18  Jan25   Feb1   Feb8   Feb15  Feb22   Mar1   Mar8  Mar15   Mar22   Mar29   Apr12   Apr19   Apr26   May3  May10  May17  May24  May31   Jun7
+    '9am':  { live: [null,  null,  null,  null,  null,  2457,  2028,  2059,  1776,  1766,  1985,  null,  1823,  1933,  2149,  2051,  2066,  1879, 2039, 2126, 2044, 2048, 2071],
+               off:  [null,  null,  null,  null,  null,  4903,  4033,  4447,  4408,  4458,  4400,  null,  4365,  4346,  4613,  4371,  4451,  4229, 4001, 4869, 4425, 4829, 4834] },
+    '11am': { live: [null,  null,  null,  null,  null,  2200,  1915,  1771,  1862,  2112,  2072,  1652,  1967,  1808,  2026,  2069,  2092,  1873, 2182, 2073, 2141, 2143, 1984],
+               off:  [null,  null,  null,  null,  null,  4749,  4266,  4137,  4489,  4982,  4661,  4570,  4792,  4041,  4560,  4388,  4752,  4185, 4188, 4705, 4580, 4863, 4552] }
   },
   LV: {
-    // LV = single 10am service in '9am' slot; '11am' always null
-    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1482, 1869, 2143, 1788, 2118, 1976],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3831, 3886, 4910, 4191, 4888, 4751] },
-    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, null, null,  null,  null,  null, null],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, null, null,  null,  null,  null, null] }
+    // LV = single 10am service in '9am' slot; '11am' always null.
+    // Pre-May3 LV used a combined Message/Bumper row — broadcast live not separable; all null.
+    '9am':  { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  1482, 1869, 2143, 1788, 2118, 1976],
+               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  3831, 3886, 4910, 4191, 4888, 4751] },
+    '11am': { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null, null, null, null, null, null],
+               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  null, null, null, null, null, null] }
   },
   MG: {
-    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1958, 2111, 2231, 2128, 2080, 1933],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4298, 4093, 4975, 4522, 5060, 4683] },
-    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1877, 2099, 2319, 2139, 2222, 2104],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 4221, 4095, 4959, 4574, 5163, 4651] }
+    // Mar8: bumper timer bleed (6:23). Mar15: DATA UNUSABLE. Apr19 9am: countdown bleed makes derivation uncertain.
+    '9am':  { live: [null,  null,  null,  null,  null,  2288,  2834,  1998,  2115,  2259,  null,  null,  1972,  1843,  2100,  null,  2032,  1958, 2111, 2231, 2128, 2080, 1933],
+               off:  [null,  null,  null,  null,  null,  4392,  4821,  4395,  4735,  5118,  null,  null,  4548,  4393,  4636,  null,  4923,  4298, 4093, 4975, 4522, 5060, 4683] },
+    // Feb8 11am: critical Offering timer error. Feb15 11am: 3-hour Salvation Response bleed. Mar1 11am: all zeros.
+    '11am': { live: [null,  null,  null,  null,  null,  2353,  null,  null,  2150,  null,  null,  null,  null,  null,  1696,  2121,  2150,  1877, 2099, 2319, 2139, 2222, 2104],
+               off:  [null,  null,  null,  null,  null,  4541,  null,  null,  4832,  null,  null,  null,  null,  null,  4254,  4442,  4990,  4221, 4095, 4959, 4574, 5163, 4651] }
   },
   SLP: {
-    '9am':  { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1709, 2300, 1845, 1838, 1851, 1896],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3809, 4400, 4610, 4220, 4623, 4665] },
-    '11am': { live: [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 1719, 1988, 2017, 1784, 1967, 1900],
-               off:  [null, null,  null,  null,  null, null, null,  null,  null, null, null,  null,  null,  null,  null,  null,  null, 3962, 3791, 4703, 4223, 4687, 4466] }
+    // Feb1–Mar1 SLP data is in slp-service-times-historical (not in weekly source pages).
+    '9am':  { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  1688,  1973,  1776,  1792,  1560,  1893,  1860,  1709, 2300, 1845, 1838, 1851, 1896],
+               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  4156,  4907,  4325,  3947,  4115,  4212,  4269,  3809, 4400, 4610, 4220, 4623, 4665] },
+    '11am': { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  1854,  1905,  1820,  1826,  1936,  2018,  1914,  1719, 1988, 2017, 1784, 1967, 1900],
+               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  4458,  4758,  4731,  4062,  4671,  4538,  4409,  3962, 3791, 4703, 4223, 4687, 4466] }
   }
 };
 
