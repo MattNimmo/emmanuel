@@ -329,11 +329,12 @@ const BROADCAST_DATA = {
                off:  [null,  null,  null,  null,  null,  4541,  null,  null,  4832,  null,  null,  null,  null,  null,  4254,  4442,  4990,  4221, 4095, 4959, 4574, 5163, 4651] }
   },
   SLP: {
-    // Feb1–Mar1 SLP data is in slp-service-times-historical (not in weekly source pages).
-    '9am':  { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  1688,  1973,  1776,  1792,  1560,  1893,  1860,  1709, 2300, 1845, 1838, 1851, 1896],
-               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  4156,  4907,  4325,  3947,  4115,  4212,  4269,  3809, 4400, 4610, 4220, 4623, 4665] },
-    '11am': { live: [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  1854,  1905,  1820,  1826,  1936,  2018,  1914,  1719, 1988, 2017, 1784, 1967, 1900],
-               off:  [null,  null,  null,  null,  null,  null,  null,  null,  null,  null,  4458,  4758,  4731,  4062,  4671,  4538,  4409,  3962, 3791, 4703, 4223, 4687, 4466] }
+    // Dec24: Christmas Eve (3pm/5pm, Story Time format — not comparable). Feb8: Super Sunday (non-standard broadcast structure).
+    // Jan4–Mar1 derived from slp-service-times-historical: 300s countdown + worship bundle + extras + mid-service + 30s bumper.
+    '9am':  { live: [null,  1846,  1746,  1731,  1912,  1858,  null,  1885,  1936,  1826,  1688,  1973,  1776,  1792,  1560,  1893,  1860,  1709, 2300, 1845, 1838, 1851, 1896],
+               off:  [null,  4406,  4237,  5154,  3873,  4312,  null,  4258,  4600,  4518,  4156,  4907,  4325,  3947,  4115,  4212,  4269,  3809, 4400, 4610, 4220, 4623, 4665] },
+    '11am': { live: [null,  1868,  2004,  1854,  2102,  1846,  null,  1943,  2080,  1982,  1854,  1905,  1820,  1826,  1936,  2018,  1914,  1719, 1988, 2017, 1784, 1967, 1900],
+               off:  [null,  4588,  4758,  5343,  4425,  4367,  null,  4526,  4752,  4850,  4458,  4758,  4731,  4062,  4671,  4538,  4409,  3962, 3791, 4703, 4223, 4687, 4466] }
   }
 };
 
