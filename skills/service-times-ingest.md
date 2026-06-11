@@ -44,6 +44,12 @@ Two-sided update — wiki content side AND the `ecc-times.html` dashboard side (
   - **Timer bleed (operator didn't click next):** If a preceding timer (e.g. bumper) is much larger than planned AND the message timer shows ≈ 0:00, the operator missed advancing the timer. Derive the actual message length: `actual_message = overrun_timer_actual − overrun_timer_planned`. Verify with a combined check: `overrun_timer_actual + message_timer_actual ≈ overrun_timer_planned + message_timer_planned`. Record the derived value in decimal minutes and note the derivation in the source page.
   - Use `null` only if the service was not held or the message timer itself was clearly never started and cannot be derived (e.g. the combined check fails or surrounding context is missing).
 - [ ] `WORSHIP_DATA[loc]['9am']` and `['11am']` — append Worship Bundle variance in seconds (`actual − planned`) for all four campuses. The Worship Bundle is the **pre-message open worship section** — not Close Worship (mid-service) or Worship Response (post-message). Use this week's planned time from the PDF (varies by campus and week). LV `'11am'` is always `null`. Use `null` if the worship bundle timer is clearly unreliable (bleed, all-zeros, or run-through contamination).
+- [ ] `BROADCAST_DATA[loc]['9am'].live` and `.off` — append for all four campuses. SLP is the primary broadcast origin; ELK/LV/MG run the same stream.
+  - **live** = sum of all actual element durations from Countdown Video through Bumper (inclusive), in seconds. This is the offset from `SERVICE_START_SEC` (countdown starts 5 min before the service hour, so `SERVICE_START_SEC` is already set to 8:55/9:55/10:55am).
+  - **off** = live + Message actual duration in seconds.
+  - Use `null` if the service was not held, data is unusable, or bumper timer clearly bled into the message timer.
+  - LV `'11am'` is always `null`.
+  - The dashboard `buildBroadcastAvgs()` recomputes SLP 6-week / 3-month / 6-month averages automatically — no manual recalculation needed.
 - [ ] `TABLE_DATA` — push 4 rows (one per campus): `m9`/`m11` as `'M:SS'` or `'—'`; `p9`/`p11` as `'+M:SS'`/`'−M:SS'` or `'—'`; `tot9`/`tot11` as `'MM:SS'` or `'—'`; `pt9`/`pt11` as `'+M:SS'`/`'−M:SS'` or `'—'`; `moment: true/false`; note `(★)` for Cat A, `(M)` for Cat B.
 - [ ] Copy `data.js` to `emmanuel/data.js` and push to GitHub.
 - [ ] Reload preview — confirm trend lines extend and table shows new week.
@@ -88,5 +94,5 @@ Full decision tree: [[service-times-tracking]] → Data Inclusion & Exclusion Ru
 - Every campus accounted for, even if `null` (no service held / unusable).
 - Moment flags applied **before** variance math, not after.
 - Source page cross-references the calendar entry that triggered any Category A/B flag.
-- `data.js` index alignment preserved across `WEEKS`, `WEEKS_FULL`, `DATA`, `MOMENTS`, `SERVICE_TOTAL`, `SERVICE_TOTAL_PLANNED`, `MSG_DATA.series`, `MSG_DATA.ELK`, `MSG_DATA.SLP`, and `WORSHIP_DATA` (all per-campus arrays).
+- `data.js` index alignment preserved across `WEEKS`, `WEEKS_FULL`, `DATA`, `MOMENTS`, `SERVICE_TOTAL`, `SERVICE_TOTAL_PLANNED`, `MSG_DATA.series`, `MSG_DATA.ELK`, `MSG_DATA.SLP`, `WORSHIP_DATA`, and `BROADCAST_DATA` (all per-campus `.live` / `.off` arrays).
 - The only push is `emmanuel/data.js` (and the HTML if changed). Wiki content stays local.
